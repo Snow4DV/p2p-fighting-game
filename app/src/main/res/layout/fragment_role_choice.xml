@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:livebutton="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        livebutton:layout_constraintBaseline_toTopOf="parent"
+        livebutton:layout_constraintStart_toStartOf="parent"
+        livebutton:layout_constraintEnd_toEndOf="parent"
+        android:text="Перед началом игры нужно выбрать роль устройства:" />
+
+    <!--Button realization doesn't work fine. TODO: fix flat buttons-->
+    <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+        android:id="@+id/clientButton"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+
+        android:paddingTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        livebutton:shadowEnabled="true"
+        android:text=" Клиент "
+        android:textColor="#ffffff"
+        android:textSize="40sp"
+        android:textStyle="bold"
+
+        livebutton:layout_constraintBottom_toBottomOf="parent"
+        livebutton:layout_constraintEnd_toEndOf="parent"
+
+        livebutton:layout_constraintStart_toStartOf="parent"
+        livebutton:layout_constraintTop_toTopOf="parent"
+         />
+
+    <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+        android:id="@+id/serverButton"
+
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:layout_marginTop="10dp"
+
+        android:gravity="center"
+
+        android:paddingTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        livebutton:shadowEnabled="true"
+        android:text=" Сервер "
+        android:textColor="#ffffff"
+        android:textSize="40sp"
+        android:textStyle="bold"
+
+        livebutton:layout_constraintTop_toBottomOf="@id/clientButton"
+        livebutton:layout_constraintStart_toStartOf="parent"
+        livebutton:layout_constraintEnd_toEndOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
