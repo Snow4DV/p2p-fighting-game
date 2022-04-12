@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/serverIpAddress"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:layout_height="match_parent"
+        android:text="192.168.0.254:8088"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
