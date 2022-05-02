@@ -1,83 +1,35 @@
 package itacademy.snowadv.fightinggamep2p.Classes;
 
-import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.PointF;
-import android.graphics.Rect;
 
-public class BattleCharacter implements CanvasDrawable {
+public class BattleCharacter extends Sprite{
+    private int health = 100;
+    private int stamina = 100;
 
-    private BattleCharacterAnimation characterAnimation;
-    private final Point location = new Point(); // Point of sprite's center
-    private float scale = 1.0f; // Bitmap scale multiplier - from 0 to 1.0f
-
-    public BattleCharacter(BattleCharacterAnimation characterAnimation, Point locationCenter) {
-        this.characterAnimation = characterAnimation;
+    private BattleCharacter(SpritePainter spritePainter, Point location, SnapLocation snapLocation,
+                            int width) {
+        super(spritePainter, location, snapLocation);
+        setScaleByWidth(width);
     }
 
-    @Override
-    public void drawFrame(Canvas canvas) {
-        if(characterAnimation == null) return;
-        characterAnimation.drawNextFrame(canvas, getDestinationRectByCenter());
+    public int getHealth() {
+        return health;
     }
 
-    public float getScale() {
-        return scale;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
-    public void setScale(float scale) {
-        this.scale = scale;
+    public int getStamina() {
+        return stamina;
     }
 
-    public Point getLocation() {
-        return location;
+    public void setStamina(int stamina) {
+        this.stamina = stamina;
     }
 
-    public void setLocation(int x, int y) {
-        location.set(x, y);
+    public static BattleCharacter getAttachedToField(Field field, SpritePainter painter) {
+        return new BattleCharacter(painter, field.getBottomLeftPoint(), SnapLocation.BOTTOM_LEFT,
+                field.getWidth());
     }
-
-    public int getX() {
-        return location.x;
-    }
-
-    public int getY() {
-        return location.y;
-    }
-
-    public BattleCharacterAnimation getCharacterAnimation() {
-        return characterAnimation;
-    }
-
-    public void setCharacterAnimation(BattleCharacterAnimation characterAnimation) {
-        this.characterAnimation = characterAnimation;
-    }
-
-    /**
-     * Returns bitmap destination rectangle
-     */
-    private Rect getDestinationRectByCenter() {
-        // TODO: frame width can be not divisible by 2. Should be fixed probably?
-        int leftTopPositionX = (int) (location.x - characterAnimation.getFrameWidth() * scale /2);
-        int leftTopPositionY = (int) (location.y - characterAnimation.getFrameHeight() * scale/2);
-        int rightBottomPositionX = (int) (location.x + characterAnimation.getFrameWidth() * scale/2);
-        int rightBottomPositionY = (int) (location.y + characterAnimation.getFrameHeight() * scale/2);
-        return new Rect(leftTopPositionX, leftTopPositionY,
-                rightBottomPositionX, rightBottomPositionY);
-    }
-
-    /**
-     * Returns bitmap destination rectangle
-     * @param locationTopLeft Point of top left corner
-     * @param scale Bitmap scale multiplier - from 0 to 1.0f
-     */
-    public Rect getDestinationRectByTopLeft(Point locationTopLeft, float scale) {
-        int leftTopPositionX = locationTopLeft.x;
-        int leftTopPositionY = locationTopLeft.y;
-        int rightBottomPositionX = (int) (locationTopLeft.x + characterAnimation.getFrameWidth() * scale);
-        int rightBottomPositionY = (int) (locationTopLeft.y + characterAnimation.getFrameHeight() * scale);
-        return new Rect(leftTopPositionX, leftTopPositionY,
-                rightBottomPositionX, rightBottomPositionY);
-    }
-
 }

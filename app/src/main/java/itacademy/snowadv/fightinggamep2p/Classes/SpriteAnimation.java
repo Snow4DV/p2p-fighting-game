@@ -5,9 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.location.Location;
 
 import androidx.annotation.Nullable;
 
@@ -16,12 +14,20 @@ import itacademy.snowadv.fightinggamep2p.R;
 /**
  * Animation class handles the canvas drawing process
  */
-public class BattleCharacterAnimation {
+public class SpriteAnimation implements SpritePainter {
 
     public enum CharacterAnimation {
-        SCHOOLBOY_TALKING, SCHOOLBOY_THROWING_PAPER, SCHOOLBOY_IDLE
+        SCHOOLBOY_TALKING, SCHOOLBOY_THROWING_PAPER, SCHOOLBOY_IDLE, FIELD_IDLE
     }
-
+    /**
+     *
+     * @param animation Animation enum
+     * @param context Context to get the resources
+     * @return Animation object that can be drawn by character object
+     */
+    public static SpriteAnimation getAnimation(CharacterAnimation animation, Context context) {
+        return getAnimation(animation, context, null, null);
+    }
     /**
      *
      * @param animation Animation enum
@@ -30,29 +36,34 @@ public class BattleCharacterAnimation {
      * @param animationRangeEnd No of last frame for cycling
      * @return Animation object that can be drawn by character object
      */
-    public static BattleCharacterAnimation getAnimation(CharacterAnimation animation, Context
+    public static SpriteAnimation getAnimation(CharacterAnimation animation, Context
             context, @Nullable Integer animationRangeStart,
-                                                        @Nullable Integer animationRangeEnd) {
+                                               @Nullable Integer animationRangeEnd) {
         switch(animation) {
             case SCHOOLBOY_TALKING:
-                return new BattleCharacterAnimation(2, 1,
+                return new SpriteAnimation(2, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_schoolboy_talking), animationRangeStart,
                         animationRangeEnd);
             case SCHOOLBOY_IDLE:
-                return new BattleCharacterAnimation(1, 1,
+                return new SpriteAnimation(1, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.schoolboy), animationRangeStart,
                         animationRangeEnd);
             case SCHOOLBOY_THROWING_PAPER:
-                return new BattleCharacterAnimation(5, 1,
+                return new SpriteAnimation(5, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_schoolboy_throwing_paper), animationRangeStart,
                         animationRangeEnd);
+            case FIELD_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(), R.drawable.field),
+                        animationRangeStart, animationRangeEnd);
         }
         throw new IllegalArgumentException("Incorrect animation has been passed to the " +
                 "animations factory.");
     }
+
 
     private static final Paint paint = new Paint();
     private int spriteSheetColumns;
@@ -62,11 +73,11 @@ public class BattleCharacterAnimation {
     private int animationRangeStart;
     private int animationRangeEnd;
     private int currentFrame;
-    private boolean isPlaying = false;
+    private boolean isPlaying = true;
 
 
-    private BattleCharacterAnimation(int spriteSheetColumns, int spriteSheetLines,
-                                     Bitmap spriteSheet, Integer
+    private SpriteAnimation(int spriteSheetColumns, int spriteSheetLines,
+                            Bitmap spriteSheet, Integer
                                              animationRangeStart, Integer animationRangeEnd) {
         if(spriteSheetColumns < 1 || spriteSheetLines < 1) {
             throw new IllegalArgumentException("Bad spriteSheetColumns or spriteSheetLines " +
@@ -98,9 +109,10 @@ public class BattleCharacterAnimation {
     }
 
     public void updateAnimationRange(int animationRangeStart, int animationRangeEnd) {
-        if(animationRangeStart > spriteSheetColumns || animationRangeEnd > spriteSheetLines) {
-            throw new IllegalArgumentException("There is no frame on [" + spriteSheetLines +
-                    ',' + spriteSheetColumns + ']');
+        if(animationRangeStart > spriteSheetColumns * spriteSheetLines - 1 || animationRangeEnd
+                < animationRangeStart) {
+            throw new IllegalArgumentException("Incorrect range is passed to " +
+                    "updateAnimationRange: from " + animationRangeStart + " to " + animationRangeEnd);
         }
 
         this.animationRangeStart = animationRangeStart;
@@ -142,7 +154,7 @@ public class BattleCharacterAnimation {
     final void drawSingleFrame(Canvas canvas, int frameColumn, int frameLine, Rect destination){
         if(!isPlaying) return;
 
-        if(frameColumn > spriteSheetColumns || frameLine > spriteSheetLines) {
+        if(frameColumn > spriteSheetColumns - 1|| frameLine > spriteSheetLines - 1) {
             throw new IllegalArgumentException("There is no frame on [" + spriteSheetLines +
                     ',' + spriteSheetColumns + ']');
         }
