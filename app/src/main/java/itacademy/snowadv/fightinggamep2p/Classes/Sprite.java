@@ -47,6 +47,11 @@ public class Sprite implements CanvasDrawable {
         spritePainter.drawNextFrame(canvas, getDestinationRect());
     }
 
+    @Override
+    public void clear() {
+        Log.d(TAG, "clear: " + "Sprite " + this + " removed.");
+    }
+
     public void setScaleByWidth(int width) {
         scale = (float)width/(float)spritePainter.getFrameWidth();
     }

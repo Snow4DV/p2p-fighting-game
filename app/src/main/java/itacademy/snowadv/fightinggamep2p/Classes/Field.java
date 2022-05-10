@@ -20,6 +20,13 @@ public class Field extends Sprite {
         super(spritePainter, location, snapLocation);
     }
 
+    @Override
+    public void clear() {
+        super.clear();
+        fieldsTop.remove(this);
+        fieldsBottom.remove(this);
+    }
+
     /**
      * This method spawns the fields and copies them to the drawables list
      * @param topCount Amount of fields on the top

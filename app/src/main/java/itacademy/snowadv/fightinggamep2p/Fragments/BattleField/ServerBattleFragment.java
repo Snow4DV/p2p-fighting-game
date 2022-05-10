@@ -3,14 +3,13 @@ package itacademy.snowadv.fightinggamep2p.Fragments.BattleField;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,12 +19,17 @@ import itacademy.snowadv.fightinggamep2p.R;
 
 public class ServerBattleFragment extends Fragment {
     private BattleFieldSurfaceView battleFieldSurfaceView;
+    private ConstraintLayout layout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         battleFieldSurfaceView = new BattleFieldSurfaceView(getContext());
-        return battleFieldSurfaceView;
+        View fragmentView = inflater.inflate(R.layout.fragment_battlefield, container, false);
+        layout = fragmentView.findViewById(R.id.battlefield_constraint_layout);
+        layout.addView(battleFieldSurfaceView);
+        battleFieldSurfaceView.setElevation(-1f);
+        return fragmentView;
     }
 
     public class ServerEntityAdapter extends RecyclerView.Adapter<ServerEntityAdapter.ServerEntityAdapterViewHolder> {
@@ -60,7 +64,7 @@ public class ServerBattleFragment extends Fragment {
 
             ServerEntityAdapterViewHolder(View view) {
                 super(view);
-                ipAddress = view.findViewById(R.id.serverIpAddress);
+                ipAddress = view.findViewById(R.id.server_ip_address);
             }
         }
     }

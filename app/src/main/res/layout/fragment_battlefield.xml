@@ -2,9 +2,85 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/battlefield_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="3dp"
+        android:paddingEnd="20dp"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:text="KinTeam vs BBPlayers"
+        android:elevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+   <FrameLayout
+       android:background="@drawable/textbox_nine_patch"
+       app:layout_constraintBottom_toBottomOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       android:layout_width="0dp"
+
+       android:layout_margin="20dp"
+       app:layout_constraintWidth_percent=".17"
+       app:layout_constraintHeight_percent=".4"
+       android:layout_height="0dp">
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_margin="8dp"
+           android:fontFamily="@font/gouranga_pixel_font"
+           android:text="Ben is dead\nLife is over\nRoses are red\nViolets are blue"
+           android:layout_height="match_parent"/>
+   </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:background="@drawable/frame_border"
+        android:layout_margin="20dp"
+        app:layout_constraintWidth_percent=".2 "
+        app:layout_constraintHeight_percent=".05"
+        android:layout_height="0dp">
+        <ImageView
+            android:id="@+id/evil_bar"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@color/red"
+            app:layout_constraintEnd_toStartOf="@+id/kind_bar"
+            app:layout_constraintWidth_percent="0.5"/>
+        <ImageView
+            android:id="@+id/kind_bar"
+            android:layout_width="0dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:paddingEnd="3dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintWidth_percent="0.3"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="HP"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="100sp"
+            android:autoSizeMinTextSize="10sp"
+            android:textAlignment="center"
+            android:fontFamily="@font/gouranga_pixel_font"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/white"
+
+            android:paddingStart="7dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

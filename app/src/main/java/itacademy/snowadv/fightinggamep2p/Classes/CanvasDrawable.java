@@ -7,4 +7,5 @@ import android.graphics.Canvas;
  */
 public interface CanvasDrawable {
     void drawFrame(Canvas canvas);
+    void clear();
 }

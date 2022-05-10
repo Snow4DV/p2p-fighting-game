@@ -9,6 +9,6 @@
     <androidx.fragment.app.FragmentContainerView android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/roleChoiceFragment"
-        android:name="itacademy.snowadv.fightinggamep2p.Fragments.BattleField.ServerBattleFragment"/>
+        android:name="itacademy.snowadv.fightinggamep2p.Fragments.ServerList.ServerListFragment"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
