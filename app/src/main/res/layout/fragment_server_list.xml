@@ -2,12 +2,42 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/green_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:livebutton="http://schemas.android.com/tools">
 <androidx.recyclerview.widget.RecyclerView android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/serverRecyclerView"
+    android:background="@drawable/textbox_nine_patch"
+    android:padding="15dp"
+    android:layout_margin="10dp"
+    android:id="@+id/server_recycler_view"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintLeft_toLeftOf="parent"/>
+    <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+        android:id="@+id/refresh_server_list_button"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+
+        android:paddingTop="5dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginBottom="30dp"
+        livebutton:shadowEnabled="true"
+        android:text=" Обновить "
+        android:textColor="#ffffff"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        livebutton:buttonColor="@color/fbutton_color_peter_river"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

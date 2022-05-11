@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/green_background"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gouranga_pixel_font"
         android:textAlignment="center"
@@ -37,6 +39,7 @@
         android:textSize="40sp"
         android:textStyle="bold"
 
+        livebutton:buttonColor="@color/fbutton_color_peter_river"
         livebutton:layout_constraintBottom_toBottomOf="parent"
         livebutton:layout_constraintEnd_toEndOf="parent"
 

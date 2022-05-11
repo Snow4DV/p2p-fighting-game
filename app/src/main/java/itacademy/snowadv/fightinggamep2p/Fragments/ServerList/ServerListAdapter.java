@@ -1,5 +1,6 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.ServerList;
 
+import android.net.InetAddresses;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,10 +19,10 @@ import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.UI.FlatButton;
 
 public class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.ServerViewHolder> {
-    private ArrayList<WifiP2pDevice> serverItemList = new ArrayList<>();
+    private List<InetAddress> serverItemList = new ArrayList<>();
 
-    public void setDevicesList(Collection<WifiP2pDevice> devices) {
-        serverItemList.addAll(devices);
+    public void setDevicesList(List<InetAddress> devices) {
+        serverItemList = devices;
     }
 
     @NonNull
@@ -51,8 +53,8 @@ public class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.Se
             joinButton = itemView.findViewById(R.id.join_button);
         }
 
-        public void bind(WifiP2pDevice device) {
-            serverIP.setText(device.deviceName + ";" + device.deviceAddress);
+        public void bind(InetAddress device) {
+            serverIP.setText(device.getHostAddress());
         }
     }
 }

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:livebutton="http://schemas.android.com/tools"
+    android:background="@drawable/green_background"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/textbox_nine_patch"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/player_choice_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:text="Выберите персонажа"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:fontFamily="@font/gouranga_pixel_font"/>
+        <ImageView
+            android:id="@+id/player_preview"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginVertical="10dp"
+
+            android:src="@drawable/schoolboy_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/player_choice_title_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+            android:id="@+id/next_player_button"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:gravity="center"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginBottom="30dp"
+            livebutton:shadowEnabled="true"
+            android:text=">"
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            livebutton:buttonColor="@color/fbutton_color_peter_river"
+            app:layout_constraintTop_toBottomOf="@+id/player_preview"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+        <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+            android:id="@+id/previous_player_button"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:gravity="center"
+
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginBottom="30dp"
+            livebutton:shadowEnabled="true"
+            android:text="<"
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            livebutton:buttonColor="@color/fbutton_color_peter_river"
+            app:layout_constraintTop_toBottomOf="@+id/player_preview"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+            android:id="@+id/accept_player_button"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:gravity="center"
+
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginBottom="30dp"
+            livebutton:shadowEnabled="true"
+            android:text=" Начать "
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            livebutton:buttonColor="@color/fbutton_color_peter_river"
+            app:layout_constraintTop_toBottomOf="@+id/previous_player_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <Space
+            android:id="@+id/space_below_buttons_player_choice"
+            app:layout_constraintTop_toBottomOf="@+id/accept_player_button"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_margin="15dp"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:text="Хост: Уст-во 358\nИгроки: 104, 108, 254"
+            android:layout_height="match_parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
