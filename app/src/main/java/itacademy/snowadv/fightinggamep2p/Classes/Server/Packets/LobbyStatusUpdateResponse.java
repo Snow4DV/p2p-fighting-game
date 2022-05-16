@@ -12,4 +12,7 @@ public class LobbyStatusUpdateResponse {
         this.players = players;
         this.host = host;
     }
+
+    public LobbyStatusUpdateResponse() {
+    }
 }

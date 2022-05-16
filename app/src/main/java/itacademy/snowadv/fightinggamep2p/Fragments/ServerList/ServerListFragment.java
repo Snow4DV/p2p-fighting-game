@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
+import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentServerListBinding;
 
@@ -36,14 +39,20 @@ public class ServerListFragment extends Fragment {
 
     private FragmentServerListBinding viewBinding;
     private Client client;
-    private ServerListAdapter adapter = new ServerListAdapter();
+    private ServerListAdapter adapter;
     private static final int FIXED_PORT = 54777;
+    private BattlePlayer player;
+
+    public ServerListFragment(BattlePlayer player) {
+        this.player = player;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBinding = FragmentServerListBinding.inflate(inflater);
         client = new Client();
+        adapter = new ServerListAdapter(this::connectToServer);
         viewBinding.serverRecyclerView.setAdapter(adapter);
         discoverPeers();
         viewBinding.refreshServerListButton.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +64,13 @@ public class ServerListFragment extends Fragment {
         return viewBinding.getRoot();
     }
 
-
+    private void connectToServer(String ip) {
+        Toast.makeText(getActivity(), "Подключение к " + ip, Toast.LENGTH_SHORT).show();
+        if(getActivity() instanceof NotifiableActivity) {
+            ((NotifiableActivity)getActivity()).notifyWithObject(
+                    new GameConnectionPacket((String) ip, player));
+        }
+    }
 
     private void discoverPeers() {
         ServerListThread.discoverPeers(client, FIXED_PORT, new Callback<List<InetAddress>>() {
@@ -63,6 +78,7 @@ public class ServerListFragment extends Fragment {
             public void evaluate(List<InetAddress> devices) {
                 try {
                     devices.add(InetAddress.getByName("127.0.0.1"));
+                    devices.add(InetAddress.getByName("192.168.0.150"));
                     devices.add(InetAddress.getByName("8.8.8.8"));
                 } catch(Exception ex) {
                     Log.d("debug", "evaluate: bug"); // TODO: REMOVE

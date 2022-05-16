@@ -26,9 +26,17 @@ public class BattlePlayer {
     }
 
 
+    public BattlePlayer(BattlePlayerName player, String name) {
+        this.player = player;
+        this.name = name;
+    }
+
+    public BattlePlayer() {
+    }
+
     public BattlePlayerName player;
     public String name;
     public String ipAddress;
-    public Connection connection;
+    public int connectionID;
 
 }

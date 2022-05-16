@@ -2,12 +2,15 @@ package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
 
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 
-public class ServerConnectionRequest {
+public class ChatMessage {
     public BattlePlayer player;
+    public String text;
 
-
-    public ServerConnectionRequest(BattlePlayer player) {
+    public ChatMessage(BattlePlayer player, String text) {
         this.player = player;
+        this.text = text;
     }
-    public ServerConnectionRequest() {}
+
+    public ChatMessage() {
+    }
 }

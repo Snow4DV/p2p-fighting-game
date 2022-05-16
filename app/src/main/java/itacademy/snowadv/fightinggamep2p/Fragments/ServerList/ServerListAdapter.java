@@ -24,6 +24,11 @@ public class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.Se
     public void setDevicesList(List<InetAddress> devices) {
         serverItemList = devices;
     }
+    private Callback<String> connectToServerCallback;
+
+    public ServerListAdapter(Callback<String> connectToServerCallback) {
+        this.connectToServerCallback = connectToServerCallback;
+    }
 
     @NonNull
     @Override
@@ -51,6 +56,10 @@ public class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.Se
             super(itemView);
             serverIP = itemView.findViewById(R.id.server_ip_address);
             joinButton = itemView.findViewById(R.id.join_button);
+            joinButton.setOnClickListener(v -> {
+                connectToServerCallback.evaluate(serverIP.getText().toString());
+
+            });
         }
 
         public void bind(InetAddress device) {
