@@ -18,8 +18,10 @@ import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
+import itacademy.snowadv.fightinggamep2p.Fragments.GameController.GameControllerFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
-import itacademy.snowadv.fightinggamep2p.Fragments.PlayerAndRoleChoiceFragment;
+import itacademy.snowadv.fightinggamep2p.Fragments.PlayerChoiceFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.ServerListFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.StartGameFragment;
 import itacademy.snowadv.fightinggamep2p.databinding.ActivityMainBinding;
@@ -107,14 +109,13 @@ public class MainActivity extends FragmentActivity implements NotifiableActivity
     @Override
     public void notifyFragmentIsDone(Fragment fragment) {
         Log.d(TAG, "Done fragment notified the main activity: " + fragment.toString());
-        if(fragment instanceof StartGameFragment) {
-            runThePlayerAndRoleChoiceFragment();
-        }
     }
+
+
 
     @Override
     public void notifyWithObject(Object object) {
-        if(object instanceof GameConnectionPacket) { // then it's IP address
+        if(object instanceof GameConnectionPacket) {
             transitToNewFragment(new LobbyFragment(((GameConnectionPacket) object).ip,
                     ((GameConnectionPacket) object).player));
         } else if(object instanceof GameClientServer) { // Save client-server object if provided
@@ -124,26 +125,33 @@ public class MainActivity extends FragmentActivity implements NotifiableActivity
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context, "Отключен от сервера", Toast.LENGTH_SHORT).show();
+                    if(((DisconnectedEvent) object).showToast) {
+                        Toast.makeText(context, "Отключен от сервера",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
             fallbackToTheStartGameScreen();
+        } else if(object instanceof PlayerChoiceFragment.RoleChoiceCallbackResult) {
+            switch((PlayerChoiceFragment.RoleChoiceCallbackResult) object) {
+                case CLIENT:
+                    runThePlayerChoiceFragment();
+                    break;
+                case SERVER:
+                    transitToNewFragment(new LobbyFragment());
+                    break;
+            }
+        } else if(object instanceof StartTheGameRequest) {
+            transitToNewFragment(new GameControllerFragment(getClient()));
         }
     }
 
-    private void runThePlayerAndRoleChoiceFragment() {
-        transitToNewFragment(new PlayerAndRoleChoiceFragment((battlePlayer,
-                                                              roleChoiceCallbackResult) -> {
-            switch(roleChoiceCallbackResult) {
-                case CLIENT:
-                    transitToNewFragment(new ServerListFragment(battlePlayer));
-                    break;
-                case SERVER:
-                    transitToNewFragment(new LobbyFragment(battlePlayer));
-                    break;
-            }
-        }));
+    private void runThePlayerChoiceFragment() {
+        transitToNewFragment(new PlayerChoiceFragment((battlePlayer,
+                                                       roleChoiceCallbackResult) ->
+                transitToNewFragment(new ServerListFragment(battlePlayer))));
+        // TODO: Get rid of role cb
     }
 
     private @Nullable

@@ -16,7 +16,7 @@ import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback2;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentPlayerChoiceBinding;
 import itacademy.snowadv.fightinggamep2p.R;
 
-public class PlayerAndRoleChoiceFragment extends Fragment {
+public class PlayerChoiceFragment extends Fragment {
 
 
     public enum RoleChoiceCallbackResult {CLIENT, SERVER}
@@ -26,7 +26,7 @@ public class PlayerAndRoleChoiceFragment extends Fragment {
 
     private Callback2<BattlePlayer, RoleChoiceCallbackResult> callbackAfterChoosingAPlayer;
 
-    public PlayerAndRoleChoiceFragment(Callback2<BattlePlayer, RoleChoiceCallbackResult> callbackAfterChoosingAPlayer) {
+    public PlayerChoiceFragment(Callback2<BattlePlayer, RoleChoiceCallbackResult> callbackAfterChoosingAPlayer) {
         this.callbackAfterChoosingAPlayer = callbackAfterChoosingAPlayer;
     }
 
@@ -44,7 +44,6 @@ public class PlayerAndRoleChoiceFragment extends Fragment {
                     case R.id.previous_player_button:
                         viewBinding.playerPreview.setImageDrawable(ResourcesCompat.getDrawable(getResources(), getPrevPlayerAndGetDrawableId(), null));
                         break;
-                    case R.id.start_server_button:
                     case R.id.search_for_a_game_button:
                         if(viewBinding.nameEditText.length() == 0) {
                             Toast.makeText(getActivity(), "Имя не должно быть пустым",
@@ -53,13 +52,10 @@ public class PlayerAndRoleChoiceFragment extends Fragment {
                         }
                         callbackAfterChoosingAPlayer.evaluate(new BattlePlayer(playerName,
                                 viewBinding.nameEditText.getText().toString()),
-                                v.getId() == R.id.start_server_button ?
-                                        RoleChoiceCallbackResult.SERVER :
                                         RoleChoiceCallbackResult.CLIENT);
                 }
             }
         };
-        viewBinding.startServerButton.setOnClickListener(buttonsClickListener);
         viewBinding.searchForAGameButton.setOnClickListener(buttonsClickListener);
 
         return viewBinding.getRoot();

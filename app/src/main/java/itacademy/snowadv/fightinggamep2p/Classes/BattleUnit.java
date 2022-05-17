@@ -2,12 +2,12 @@ package itacademy.snowadv.fightinggamep2p.Classes;
 
 import android.graphics.Point;
 
-public class BattleCharacter extends Sprite{
+public class BattleUnit extends Sprite{
     private int health = 100;
     private int stamina = 100;
 
-    private BattleCharacter(SpritePainter spritePainter, Point location, SnapLocation snapLocation,
-                            int width) {
+    private BattleUnit(SpritePainter spritePainter, Point location, SnapLocation snapLocation,
+                       int width) {
         super(spritePainter, location, snapLocation);
         setScaleByWidth(width);
     }
@@ -28,8 +28,8 @@ public class BattleCharacter extends Sprite{
         this.stamina = stamina;
     }
 
-    public static BattleCharacter getAttachedToField(Field field, SpritePainter painter) {
-        return new BattleCharacter(painter, field.getBottomLeftPoint(), SnapLocation.BOTTOM_LEFT,
+    public static BattleUnit getAttachedToField(Field field, SpritePainter painter) {
+        return new BattleUnit(painter, field.getBottomLeftPoint(), SnapLocation.BOTTOM_LEFT,
                 field.getWidth());
     }
 }

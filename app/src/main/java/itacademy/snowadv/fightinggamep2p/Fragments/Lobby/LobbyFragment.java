@@ -1,6 +1,5 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.Lobby;
 
-import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Html;
@@ -8,14 +7,10 @@ import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
@@ -23,8 +18,7 @@ import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
-import itacademy.snowadv.fightinggamep2p.Fragments.PlayerAndRoleChoiceFragment;
-import itacademy.snowadv.fightinggamep2p.Fragments.StartGameFragment;
+import itacademy.snowadv.fightinggamep2p.Fragments.PlayerChoiceFragment;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentLobbyBinding;
 
 import static android.content.Context.WIFI_SERVICE;
@@ -33,7 +27,7 @@ public class LobbyFragment extends Fragment {
 
 
     private FragmentLobbyBinding viewBinding;
-    private PlayerAndRoleChoiceFragment.RoleChoiceCallbackResult role;
+    private PlayerChoiceFragment.RoleChoiceCallbackResult role;
 
     private GameClientServer clientServer;
     private boolean isServer = false;
@@ -48,18 +42,16 @@ public class LobbyFragment extends Fragment {
      */
     public LobbyFragment(String ip,
                          BattlePlayer player) {
-        this.role = PlayerAndRoleChoiceFragment.RoleChoiceCallbackResult.CLIENT;
+        this.role = PlayerChoiceFragment.RoleChoiceCallbackResult.CLIENT;
         this.ip = ip;
         this.player = player;
     }
 
     /**
      * Server constructor
-     * @param player Created battleplayer
      */
-    public LobbyFragment(BattlePlayer player) {
-        this.role = PlayerAndRoleChoiceFragment.RoleChoiceCallbackResult.SERVER;
-        this.player = player;
+    public LobbyFragment() {
+        this.role = PlayerChoiceFragment.RoleChoiceCallbackResult.SERVER;
         isServer = true;
     }
 
@@ -80,15 +72,18 @@ public class LobbyFragment extends Fragment {
             clientServer.sendChatMessage(new ChatMessage(player,
                     viewBinding.chatEditText.getText().toString()));
         });
+        viewBinding.lobbyStartServerButton.setOnClickListener(v -> {
+           getServer().startGame();
+        });
         return viewBinding.getRoot();
     }
 
 
     public void updateLobbyStatus(LobbyStatusUpdateResponse response) {
-        StringBuilder roomText = new StringBuilder("Хост: <u>" + response.host.name +
+        StringBuilder roomText = new StringBuilder("Хост: <u>" + response.getHostIP() +
                 "</u><br>Игроки (" + response.players.size() + "/6):");
         for(BattlePlayer player: response.players) {
-            roomText.append("<u>").append(player.name).append("</u>").append("<br>");
+            roomText.append("<u>").append(player.getName()).append("</u>").append("<br>");
         }
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -101,7 +96,7 @@ public class LobbyFragment extends Fragment {
 
     public void addChatMessage(ChatMessage chatMessage) {
         String chatText = viewBinding.chatText.getText().toString() + '\n'
-                + chatMessage.player.name + ':' + ' ' + chatMessage.text;
+                + chatMessage.player.getName() + ':' + ' ' + chatMessage.text;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -124,7 +119,7 @@ public class LobbyFragment extends Fragment {
     }
 
     private void doServerJob() {
-        clientServer = GameServer.startServer(this, player);
+        clientServer = GameServer.startServer(this);
         // TODO: go to the controller fragment on start
     }
     private void doClientJob() {

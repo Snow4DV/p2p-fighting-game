@@ -1,5 +1,6 @@
 package itacademy.snowadv.fightinggamep2p.Classes.Server;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,9 +15,11 @@ import java.io.IOException;
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ErrorMessagePacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnectionRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
 import itacademy.snowadv.fightinggamep2p.MainActivity;
@@ -31,6 +34,7 @@ public class GameClient implements GameClientServer {
     private BattlePlayer player;
     private final LobbyFragment lobbyFragment;
     private Context activity;
+    private Toast toast;
 
     private GameClient(String ip, BattlePlayer player, LobbyFragment lobbyFragment, Context activity) {
         this.player = player;
@@ -71,7 +75,8 @@ public class GameClient implements GameClientServer {
     private void disconnected(Connection connection) {
         // TODO: do something when player disconnects
         if(activity instanceof NotifiableActivity) {
-            ((NotifiableActivity) activity).notifyWithObject(new DisconnectedEvent());
+            ((NotifiableActivity) activity).notifyWithObject(new DisconnectedEvent(
+                    toast != null && toast.getView().isShown()));
         }
     }
 
@@ -108,7 +113,7 @@ public class GameClient implements GameClientServer {
             }
 
             Log.d(TAG, "connected: " + connection.toString());
-            player.connectionID = connection.getID();
+            player.setConnectionID(connection.getID());
             connection.sendTCP(new ServerConnectionRequest(player));
             askForLobbyUpdate();
         }
@@ -116,6 +121,7 @@ public class GameClient implements GameClientServer {
         @Override
         public void disconnected(Connection connection) {
             Log.d(TAG, "disconnected: " + connection.toString());
+
             GameClient.this.disconnected(connection);
         }
 
@@ -126,6 +132,26 @@ public class GameClient implements GameClientServer {
                 updateLobbyStatus((LobbyStatusUpdateResponse) object);
             } else if(object instanceof ChatMessage) {
                 lobbyFragment.addChatMessage((ChatMessage) object);
+            } else if(object instanceof ErrorMessagePacket) {
+                ErrorMessagePacket error = (ErrorMessagePacket) object;
+                ((Activity) activity).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(error.disconnected) {
+                            toast = Toast.makeText(activity, "Сервер отключил вас! Причина: " +
+                                    error.errorText, Toast.LENGTH_LONG);
+                            toast.show();
+                        } else {
+                            Toast.makeText(activity, "Ошибка на стороне сервера! Содержание: " +
+                                    error.errorText, Toast.LENGTH_LONG).show();
+                            toast.show();
+                        }
+                    }
+                });
+
+            } else if(object instanceof StartTheGameRequest && activity instanceof NotifiableActivity) {
+                ((NotifiableActivity) activity).notifyWithObject(
+                        (StartTheGameRequest) object);
             }
         }
     }

@@ -26,15 +26,23 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.start_button:
+            case R.id.start_server_button:
+                // Notify the activity about starting a server
+                if(getActivity() instanceof NotifiableActivity) {
+                    ((NotifiableActivity) getActivity())
+                            .notifyWithObject(PlayerChoiceFragment
+                                    .RoleChoiceCallbackResult.SERVER);
+                }
+                break;
+            case R.id.search_for_a_game_button:
                 // Notify the activity about fragment's death
                 if(getActivity() instanceof NotifiableActivity) {
-                    ((NotifiableActivity) getActivity()).notifyFragmentIsDone(this);
+                    ((NotifiableActivity) getActivity()).notifyWithObject(
+                            PlayerChoiceFragment.RoleChoiceCallbackResult.CLIENT);
                 }
+                break;
         }
     }
-
-
 
 
     public StartGameFragment() {}
@@ -43,7 +51,7 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBinding = FragmentStartGameBinding.inflate(inflater, container, false);
-        viewBinding.startButton.setOnClickListener(this);
+        viewBinding.searchForAGameButton.setOnClickListener(this);
         return viewBinding.getRoot();
     }
 

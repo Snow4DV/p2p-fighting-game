@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:livebutton="http://schemas.android.com/tools"
     android:background="@drawable/green_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:layout_marginTop="20dp"
@@ -15,30 +19,79 @@
         android:textSize="40sp"
         android:textColor="@color/black"
         android:textAlignment="center"
-        android:text="Комната"
+        android:text="YourName"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/gouranga_pixel_font"/>
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/players_box"
         android:background="@drawable/textbox_nine_patch"
         app:layout_constraintTop_toBottomOf="@id/room_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
-
+        android:padding="10dp"
         android:layout_margin="20dp"
-        android:layout_height="wrap_content">
+        android:layout_height="170dp">
+        <ImageView
+            android:id="@+id/player_preview"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintWidth_percent="0.4"
+            android:src="@drawable/schoolboy_preview"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
-            android:id="@+id/players_text"
+            android:id="@+id/hp_text"
             android:layout_width="match_parent"
-            android:layout_margin="15dp"
             android:textSize="25sp"
             android:fontFamily="@font/gouranga_pixel_font"
-            android:text="Хост: Загрузка\nИгроки (0/6): "
-            android:layout_height="match_parent"/>
-    </FrameLayout>
+            android:text="Здоровье:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:id="@+id/hp_bar_frame"
+            android:layout_width="130dp"
+            android:layout_height="7dp"
+            android:layout_margin="5dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/hp_text"
+            app:layout_constraintStart_toStartOf="parent">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:id="@+id/hp_bar"
+            android:src="@color/red"
+            />
+        </FrameLayout>
+        <TextView
+            android:id="@+id/stamina_text"
+            android:layout_width="match_parent"
+            android:textSize="25sp"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:text="Сила:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hp_bar_frame"
+            android:layout_height="wrap_content" />
+        <FrameLayout
+            android:layout_width="130dp"
+            android:layout_height="7dp"
+            android:layout_margin="5dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/stamina_text"
+            app:layout_constraintStart_toStartOf="parent">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/stamina_bar"
+                android:src="@color/purple_700"
+                />
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chat_box"
         android:background="@drawable/textbox_nine_patch"
@@ -58,15 +111,15 @@
             android:layout_width="match_parent"
             app:layout_constraintHeight_percent="0.5"
             android:layout_height="0dp">
-        <TextView
-            android:id="@+id/chat_text"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/chat_text"
+                android:layout_width="match_parent"
 
-            android:textSize="25sp"
-            android:fontFamily="@font/gouranga_pixel_font"
-            android:text="СЕРВЕР: Добро пожаловать в чат!"
+                android:textSize="25sp"
+                android:fontFamily="@font/gouranga_pixel_font"
+                android:text="СЕРВЕР: Добро пожаловать в чат!"
 
-            android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" />
         </ScrollView>
 
         <EditText
@@ -105,8 +158,9 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:id="@+id/server_box"
+        android:padding="10dp"
         android:background="@drawable/textbox_nine_patch"
         app:layout_constraintTop_toBottomOf="@id/chat_box"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,60 +169,76 @@
 
         android:layout_margin="20dp"
         android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content">
         <itacademy.snowadv.fightinggamep2p.UI.FlatButton
-            android:id="@+id/lobby_start_server_button"
+            android:id="@+id/light_kick_button"
             android:fontFamily="@font/gouranga_pixel_font"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
 
             android:gravity="center"
 
-            android:layout_marginStart="30dp"
             android:layout_marginVertical="15dp"
             livebutton:shadowEnabled="true"
-            android:text= " Начать "
+            android:text= " Слабый удар "
             android:textColor="#ffffff"
             android:textSize="40sp"
             android:textStyle="bold"
             livebutton:buttonColor="@color/fbutton_color_peter_river"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
         <itacademy.snowadv.fightinggamep2p.UI.FlatButton
-            android:id="@+id/kick_player_button"
+            android:id="@+id/hard_kick_button"
             android:fontFamily="@font/gouranga_pixel_font"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
 
             android:gravity="center"
-            android:visibility="gone"
-            android:layout_marginStart="30dp"
+
             android:layout_marginVertical="15dp"
             livebutton:shadowEnabled="true"
-            android:text= " Выгнать "
+            android:text= " Сильный удар "
             android:textColor="#ffffff"
             android:textSize="40sp"
             android:textStyle="bold"
             livebutton:buttonColor="@color/fbutton_color_peter_river"
-            app:layout_constraintStart_toEndOf="@id/lobby_start_server_button"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/light_kick_button"
+            app:layout_constraintEnd_toEndOf="parent"
             />
+        <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+            android:id="@+id/ability_button"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+
+            android:gravity="center"
+
+            android:layout_marginVertical="15dp"
+            livebutton:shadowEnabled="true"
+            android:text= " Способность "
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            livebutton:buttonColor="@color/fbutton_color_peter_river"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hard_kick_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <TextView
-        android:layout_marginTop="20dp"
-        android:id="@+id/ip_address_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:text="IP: [загрузка]"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:fontFamily="@font/gouranga_pixel_font"/>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gouranga_pixel_font"
-        android:text="Very name such cool"
+        android:text="Fighting Game"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:shadowRadius="5"
         android:shadowDx="3"
         android:textSize="50sp"
@@ -25,7 +25,7 @@
         livebutton:layout_constraintStart_toStartOf="parent"/>
 
     <itacademy.snowadv.fightinggamep2p.UI.FlatButton
-        android:id="@+id/start_button"
+        android:id="@+id/search_for_a_game_button"
         android:fontFamily="@font/gouranga_pixel_font"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         livebutton:shadowEnabled="true"
-        android:text=" Начать "
+        android:text=" Найти игру "
         android:textColor="#ffffff"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -49,6 +49,32 @@
         livebutton:layout_constraintStart_toStartOf="parent"
         livebutton:layout_constraintTop_toTopOf="parent"
          />
+
+    <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+        android:id="@+id/start_server_button"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+
+        android:layout_marginTop="30dp"
+        android:paddingTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        livebutton:shadowEnabled="true"
+        android:text=" Создать сервер "
+        android:textColor="#ffffff"
+        android:textSize="40sp"
+        android:textStyle="bold"
+
+        livebutton:buttonColor="@color/fbutton_color_peter_river"
+        livebutton:layout_constraintEnd_toEndOf="parent"
+
+        livebutton:layout_constraintStart_toStartOf="parent"
+        livebutton:layout_constraintTop_toBottomOf="@+id/search_for_a_game_button"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
