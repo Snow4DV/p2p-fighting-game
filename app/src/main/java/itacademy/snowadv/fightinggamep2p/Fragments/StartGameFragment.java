@@ -1,6 +1,7 @@
 package itacademy.snowadv.fightinggamep2p.Fragments;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;

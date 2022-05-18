@@ -13,11 +13,14 @@ import itacademy.snowadv.fightinggamep2p.R;
 
 public class BattlePlayer {
     public enum BattlePlayerName {
-        SCHOOLBOY(R.drawable.schoolboy_preview, true);
+        SCHOOLBOY(R.drawable.schoolboy_preview, true),
+        CRIMINAL(R.drawable.criminal_preview, false),
+        CRIMINAL_BOSS(R.drawable.criminal_boss_preview, false),
+        POLICEMAN(R.drawable.policeman_preview, true);
 
         public final int drawableId;
         private final boolean isKind;
-        private static BattlePlayerName[] vals = values();
+        private static final BattlePlayerName[] vals = values();
         public BattlePlayerName next()
         {
             return vals[(this.ordinal()+1) % vals.length];

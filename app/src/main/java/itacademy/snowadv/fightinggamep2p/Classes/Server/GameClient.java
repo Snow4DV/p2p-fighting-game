@@ -45,14 +45,15 @@ public class GameClient implements GameClientServer {
         this.activity = activity;
         listener = new GameClientListener();
         client = new Client();
-        GameClientServer.registerClasses(client.getKryo());
-        client.addListener(listener);
-
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+
+                    GameClientServer.registerClasses(client.getKryo());
+                    client.addListener(listener);
+
                     client.start();
                     client.connect(1000, ip, FIXED_PORT_TCP, FIXED_PORT_UDP);
                 } catch(IOException ex) {

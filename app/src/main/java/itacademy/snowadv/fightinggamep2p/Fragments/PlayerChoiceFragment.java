@@ -30,6 +30,9 @@ public class PlayerChoiceFragment extends Fragment {
         this.callbackAfterChoosingAPlayer = callbackAfterChoosingAPlayer;
     }
 
+    public PlayerChoiceFragment() {
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

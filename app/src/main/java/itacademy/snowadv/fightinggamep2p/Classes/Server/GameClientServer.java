@@ -31,6 +31,7 @@ public interface GameClientServer {
         kryo.register(BattleUnit.class);
         kryo.register(GameActionRequest.class);
         kryo.register(BattlePlayer.BattlePlayerAction.class);
+        kryo.register(GameStatsPacket.GamePhase.class);
     }
     void sendChatMessage(ChatMessage chatMessage);
 }

@@ -35,19 +35,16 @@
 
         android:gravity="center"
 
-        android:paddingTop="5dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:layout_marginBottom="30dp"
+
+        android:layout_marginBottom="10dp"
         livebutton:shadowEnabled="true"
         android:text=" Обновить "
         android:textColor="#ffffff"
         android:textSize="40sp"
         android:textStyle="bold"
         livebutton:buttonColor="@color/fbutton_color_peter_river"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="30dp"
-
+        app:layout_constraintBottom_toTopOf="@id/join_server_by_ip_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         />
     <itacademy.snowadv.fightinggamep2p.UI.FlatButton
@@ -59,9 +56,7 @@
 
         android:gravity="center"
 
-        android:paddingTop="5dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+
         android:layout_marginBottom="30dp"
         livebutton:shadowEnabled="true"
         android:text=" Войти с IP "
@@ -70,8 +65,7 @@
         android:textStyle="bold"
         livebutton:buttonColor="@color/fbutton_color_peter_river"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="30dp"
-
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

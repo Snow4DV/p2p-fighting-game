@@ -34,7 +34,7 @@ public class GameServer implements GameClientServer{
     private static final int FIXED_PORT_UDP = 54777;
     private static final int FIXED_PORT_TCP = 54555;
     private static String HOST_IP = "[ОШИБКА]";
-    private static final int EACH_SIDE_MAX_PLAYERS_COUNT = 0;
+    private static final int EACH_SIDE_MAX_PLAYERS_COUNT = 3;
 
     private LobbyFragment lobbyFragment;
     private Context activity;

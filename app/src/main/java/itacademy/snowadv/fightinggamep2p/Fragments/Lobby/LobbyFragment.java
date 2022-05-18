@@ -93,8 +93,9 @@ public class LobbyFragment extends Fragment {
     public void updateLobbyStatus(LobbyStatusUpdateResponse response) {
         StringBuilder roomText = new StringBuilder("Хост: <u>" + response.getHostIP() +
                 "</u><br>Игроки (" + response.players.size() + "/6):");
-        for(BattlePlayer player: response.players) {
-            roomText.append("<u>").append(player.getName()).append("</u>").append("<br>");
+        for(int i = 0; i < response.players.size(); i++) {
+            roomText.append((i == 0) ? "" : ", ").append("<u>")
+                    .append(response.players.get(i).getName()).append("</u>");
         }
         getActivity().runOnUiThread(new Runnable() {
             @Override
