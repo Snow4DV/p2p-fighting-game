@@ -5,6 +5,9 @@ import android.content.Context;
 import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.BattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.Criminal;
+import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.CriminalBoss;
+import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.Policeman;
 import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.Schoolboy;
 import itacademy.snowadv.fightinggamep2p.Classes.DrawablesContainer;
 import itacademy.snowadv.fightinggamep2p.Classes.Field;
@@ -28,7 +31,9 @@ public class BattlePlayer {
 
         public BattlePlayerName prev()
         {
-            return vals[(this.ordinal()-1) % vals.length];
+            int id = (this.ordinal()-1);
+            if(id == -1) id = vals.length - 1;
+            return vals[id];
         }
 
         public boolean isKind() {
@@ -110,15 +115,24 @@ public class BattlePlayer {
         int assignedEvils = 0;
         for (BattlePlayer player :
                 playersList) {
+            Field field;
+            if(player.player.isKind()) {
+                field = Field.getBottomField(assignedKinds++);
+            } else {
+                field = Field.getTopField(assignedEvils++);
+            }
             switch (player.getPlayer()) {
                 case SCHOOLBOY:
-                    Field field;
-                    if(player.player.isKind()) {
-                        field = Field.getBottomField(assignedKinds++);
-                    } else {
-                        field = Field.getTopField(assignedEvils++);
-                    }
                     player.assignBattleUnit(Schoolboy.getAttachedToField(field, context));
+                    break;
+                case POLICEMAN:
+                    player.assignBattleUnit(Policeman.getAttachedToField(field, context));
+                    break;
+                case CRIMINAL:
+                    player.assignBattleUnit(Criminal.getAttachedToField(field, context));
+                    break;
+                case CRIMINAL_BOSS:
+                    player.assignBattleUnit(CriminalBoss.getAttachedToField(field, context));
                     break;
             }
         }

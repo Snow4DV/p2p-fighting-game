@@ -60,7 +60,8 @@ public class PlayerChoiceFragment extends Fragment {
             }
         };
         viewBinding.searchForAGameButton.setOnClickListener(buttonsClickListener);
-
+        viewBinding.nextPlayerButton.setOnClickListener(buttonsClickListener);
+        viewBinding.previousPlayerButton.setOnClickListener(buttonsClickListener);
         return viewBinding.getRoot();
     }
 

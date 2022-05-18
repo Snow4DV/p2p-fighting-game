@@ -112,23 +112,20 @@ public class ServerListFragment extends Fragment {
             @Override
             public void evaluate(List<InetAddress> devices) {
                 try {
-                    devices.add(InetAddress.getByName("127.0.0.1"));
                     devices.add(InetAddress.getByName("192.168.0.150"));
-                    devices.add(InetAddress.getByName("8.8.8.8"));
                 } catch(Exception ex) {
                     Log.d("debug", "evaluate: bug"); // TODO: REMOVE
                 }
                 adapter.setDevicesList(devices);
-                if(devices.size() > 0) {
-                    viewBinding.serverListPlaceholderText.setText("");
-                } else {
-                    viewBinding.serverListPlaceholderText.setText(R.string.no_servers);
-                }
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if(devices.size() > 0) {
+                            viewBinding.serverListPlaceholderText.setText("");
+                        } else {
+                            viewBinding.serverListPlaceholderText.setText(R.string.no_servers);
+                        }
                         adapter.notifyDataSetChanged();
-
                     }
                 });
             }

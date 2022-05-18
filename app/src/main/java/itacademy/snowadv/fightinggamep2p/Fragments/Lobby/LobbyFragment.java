@@ -25,6 +25,7 @@ import itacademy.snowadv.fightinggamep2p.Fragments.PlayerChoiceFragment;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentLobbyBinding;
 
 import static android.content.Context.WIFI_SERVICE;
+import static android.view.View.GONE;
 
 public class LobbyFragment extends Fragment {
 
@@ -80,6 +81,10 @@ public class LobbyFragment extends Fragment {
         });
         // Lock orientation
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+        // Hide start server box for clients
+        if(getServer() == null) {
+            viewBinding.serverBox.setVisibility(GONE);
+        }
         return viewBinding.getRoot();
     }
 
@@ -108,19 +113,21 @@ public class LobbyFragment extends Fragment {
 
     public void addChatMessage(ChatMessage chatMessage) {
         BattlePlayer sender = chatMessage.player;
-        String chatText = viewBinding.chatText.getText().toString() + '\n'
-                + ((sender == null) ? "СЕРВЕР" : sender.getName()) + ':' + ' ' + chatMessage.text;
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                String chatText = viewBinding.chatText.getText().toString() + '\n'
+                        + ((sender == null) ? "СЕРВЕР" : sender.getName()) + ':' + ' ' + chatMessage.text;
                 viewBinding.chatText.setText(chatText);
+                // Scroll to the bottom
+                viewBinding.chatScrollView.scrollTo(0,viewBinding.chatScrollView.getWidth()*2);
+                // Clear the chat edit text
+                viewBinding.chatEditText.setText("");
             }
         });
 
-        // Scroll to the bottom
-        viewBinding.chatScrollView.scrollTo(0,viewBinding.chatScrollView.getWidth()*2);
-        // Clear the chat edit text
-        viewBinding.chatEditText.setText("");
+
     }
 
 

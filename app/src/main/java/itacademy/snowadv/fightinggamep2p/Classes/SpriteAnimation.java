@@ -18,7 +18,10 @@ import itacademy.snowadv.fightinggamep2p.R;
 public class SpriteAnimation implements SpritePainter {
     public enum CharacterAnimation {
         SCHOOLBOY_TALKING, SCHOOLBOY_THROWING_PAPER, SCHOOLBOY_IDLE, FIELD_IDLE,
-        SCHOOLBOY_HACKING
+        SCHOOLBOY_HACKING, POLICEMAN_REPORTING, POLICEMAN_THROWING_GRENADE,
+        POLICEMAN_SHOOTING, CRIMINAL_THROWING_MOLOTOV, CRIMINAL_SHOOTING,
+        CRIMINAL_HEALING, CRIMINAL_BOSS_THROWING_GRENADE, CRIMINAL_BOSS_SHOOTING,
+        CRIMINAL_BOSS_COORDINATING, POLICEMAN_IDLE, CRIMINAL_IDLE, CRIMINAL_BOSS_IDLE
     }
 
 
@@ -68,6 +71,68 @@ public class SpriteAnimation implements SpritePainter {
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_schoolboy_hacking), animationRangeStart,
                         animationRangeEnd);
+            case POLICEMAN_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_idle), animationRangeStart,
+                        animationRangeEnd);
+            case POLICEMAN_REPORTING:
+                return new SpriteAnimation(12, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_reporting), animationRangeStart,
+                        animationRangeEnd);
+            case POLICEMAN_SHOOTING:
+                return new SpriteAnimation(12, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_shooting), animationRangeStart,
+                        animationRangeEnd);
+            case POLICEMAN_THROWING_GRENADE:
+                return new SpriteAnimation(13, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_reporting), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_HEALING:
+                return new SpriteAnimation(10, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_heal), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_idle), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_SHOOTING:
+                return new SpriteAnimation(10, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_shooting), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_THROWING_MOLOTOV:
+                return new SpriteAnimation(9, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_throwing_molotov), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_BOSS_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_idle), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_BOSS_SHOOTING:
+                return new SpriteAnimation(10, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_shooting), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_BOSS_THROWING_GRENADE:
+                return new SpriteAnimation(14, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_grenade), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_BOSS_COORDINATING:
+                return new SpriteAnimation(13, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_coordinate), animationRangeStart,
+                        animationRangeEnd);
+
+
         }
         throw new IllegalArgumentException("Incorrect animation has been passed to the " +
                 "animations factory.");
@@ -110,6 +175,66 @@ public class SpriteAnimation implements SpritePainter {
                 return new SpriteAnimation(12, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_schoolboy_hacking), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case POLICEMAN_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_idle), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case POLICEMAN_REPORTING:
+                return new SpriteAnimation(12, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_reporting), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case POLICEMAN_SHOOTING:
+                return new SpriteAnimation(12, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_shooting), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case POLICEMAN_THROWING_GRENADE:
+                return new SpriteAnimation(13, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_reporting), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_HEALING:
+                return new SpriteAnimation(10, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_heal), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_idle), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_SHOOTING:
+                return new SpriteAnimation(10, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_shooting), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_THROWING_MOLOTOV:
+                return new SpriteAnimation(9, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_throwing_molotov), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_BOSS_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_idle), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_BOSS_SHOOTING:
+                return new SpriteAnimation(10, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_shooting), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_BOSS_THROWING_GRENADE:
+                return new SpriteAnimation(14, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_grenade), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_BOSS_COORDINATING:
+                return new SpriteAnimation(13, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_coordinate), animationRangeStart,
                         animationRangeEnd, playCounts, onFinish);
         }
 
