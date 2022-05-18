@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -13,7 +12,7 @@ import com.esotericsoftware.kryonet.Listener;
 import java.io.IOException;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
-import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
+import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ErrorMessagePacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameActionRequest;
@@ -37,9 +36,10 @@ public class GameClient implements GameClientServer {
     private final LobbyFragment lobbyFragment;
     private Context activity;
     private Toast toast;
+    private GameStatsPacket gameStatsPacket;
 
     private GameClient(String ip, BattlePlayer player, LobbyFragment lobbyFragment, Context activity) {
-        this.player = player;
+        this.player = player; // TODO: redurant. remove
         this.lobbyFragment = lobbyFragment;
         // this.activity = lobbyFragment.getActivity();
         this.activity = activity;
@@ -58,8 +58,8 @@ public class GameClient implements GameClientServer {
                     client.connect(1000, ip, FIXED_PORT_TCP, FIXED_PORT_UDP);
                 } catch(IOException ex) {
                     Log.e(TAG, "GameClient failed to connect  to " + ip, ex);
-                    if(activity instanceof NotifiableActivity) {
-                        ((NotifiableActivity)activity).notifyWithObject(new DisconnectedEvent(true));
+                    if(activity instanceof Notifiable) {
+                        ((Notifiable)activity).notifyWithObject(new DisconnectedEvent(true));
                     }
                 }
             }
@@ -80,8 +80,8 @@ public class GameClient implements GameClientServer {
 
     private void disconnected(Connection connection) {
         // TODO: do something when player disconnects
-        if(activity instanceof NotifiableActivity) {
-            ((NotifiableActivity) activity).notifyWithObject(new DisconnectedEvent(
+        if(activity instanceof Notifiable) {
+            ((Notifiable) activity).notifyWithObject(new DisconnectedEvent(
                     toast != null && toast.getView().isShown()));
         }
     }
@@ -99,12 +99,7 @@ public class GameClient implements GameClientServer {
 
     @Override
     public void sendChatMessage(ChatMessage chatMessage) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                client.sendTCP(chatMessage);
-            }
-        }).start();
+        sendObjectAsync(chatMessage);
 
     }
 
@@ -155,22 +150,44 @@ public class GameClient implements GameClientServer {
                     }
                 });
 
-            } else if(object instanceof StartTheGameRequest && activity instanceof NotifiableActivity) {
-                ((NotifiableActivity) activity).notifyWithObject(
+            } else if(object instanceof StartTheGameRequest && activity instanceof Notifiable) {
+                ((Notifiable) activity).notifyWithObject(
                         (StartTheGameRequest) object);
-            } else if(object instanceof GameStatsPacket && activity instanceof NotifiableActivity){
-                ((NotifiableActivity) activity).notifyWithObject((GameStatsPacket)object);
+                gameStatsPacket = ((StartTheGameRequest)object).gameStatsPacket;
+            } else if(object instanceof GameStatsPacket && activity instanceof Notifiable){
+                ((Notifiable) activity).notifyWithObject((GameStatsPacket)object);
+                gameStatsPacket = ((GameStatsPacket)object);
             }
         }
     }
 
     public BattlePlayer getMyBattlePlayer() {
-        return player;
+        if(gameStatsPacket == null) {
+            return player; // Return unassigned BattlePlayer
+        }
+        for (BattlePlayer player:
+                gameStatsPacket.getPlayersList()) {
+            if(player.getConnectionID() == client.getID()) {
+                return player;
+            }
+        }
+        Log.e(TAG, "getMyBattlePlayer: player with such connection id not found:" +
+                client.getID());
+        return null;
     }
 
+    private void sendObjectAsync(Object object) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                client.sendTCP(object);
+            }
+        }).start();
+    }
 
-    public void sendPlayerActionToServer(BattlePlayer.BattlePlayerAction action) {
-        client.sendTCP(new GameActionRequest(player, action));
+    public void sendPlayerActionToServer(BattlePlayer.BattlePlayerAction action, BattlePlayer
+            affectedPlayer) {
+        sendObjectAsync(new GameActionRequest(getMyBattlePlayer(), action, affectedPlayer));
     }
 
 

@@ -1,12 +1,10 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.Lobby;
 
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.format.Formatter;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
+import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
@@ -68,8 +66,8 @@ public class LobbyFragment extends Fragment {
         } else {
             doClientJob();
         }
-        if(getActivity() instanceof NotifiableActivity) {
-            ((NotifiableActivity)getActivity()).notifyWithObject(clientServer);
+        if(getActivity() instanceof Notifiable) {
+            ((Notifiable)getActivity()).notifyWithObject(clientServer);
         }
         updateIpAddress();
         viewBinding.sendMessageButton.setOnClickListener(v -> {
@@ -96,6 +94,9 @@ public class LobbyFragment extends Fragment {
     }
 
     public void updateLobbyStatus(LobbyStatusUpdateResponse response) {
+        if(getActivity() == null){
+            return;
+        }
         StringBuilder roomText = new StringBuilder("Хост: <u>" + response.getHostIP() +
                 "</u><br>Игроки (" + response.players.size() + "/6):");
         for(int i = 0; i < response.players.size(); i++) {
@@ -113,7 +114,9 @@ public class LobbyFragment extends Fragment {
 
     public void addChatMessage(ChatMessage chatMessage) {
         BattlePlayer sender = chatMessage.player;
-
+        if(getActivity() == null){
+            return;
+        }
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

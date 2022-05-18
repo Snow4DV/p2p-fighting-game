@@ -13,7 +13,7 @@
 
     <TextView
         android:layout_marginTop="20dp"
-        android:id="@+id/room_text"
+        android:id="@+id/player_name_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="40sp"
@@ -27,7 +27,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/players_box"
         android:background="@drawable/textbox_nine_patch"
-        app:layout_constraintTop_toBottomOf="@id/room_text"
+        app:layout_constraintTop_toBottomOf="@id/player_name_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="match_parent"
@@ -94,6 +94,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/chat_box"
+        android:visibility="gone"
         android:background="@drawable/textbox_nine_patch"
         app:layout_constraintTop_toBottomOf="@id/players_box"
         app:layout_constraintStart_toStartOf="parent"
@@ -189,7 +190,7 @@
             livebutton:shadowEnabled="true"
             android:text= " Слабый удар "
             android:textColor="#ffffff"
-            android:textSize="40sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             livebutton:buttonColor="@color/fbutton_color_peter_river"
             app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +210,7 @@
             livebutton:shadowEnabled="true"
             android:text= " Сильный удар "
             android:textColor="#ffffff"
-            android:textSize="40sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             livebutton:buttonColor="@color/fbutton_color_peter_river"
             app:layout_constraintStart_toStartOf="parent"
@@ -229,7 +230,7 @@
             livebutton:shadowEnabled="true"
             android:text= " Способность "
             android:textColor="#ffffff"
-            android:textSize="40sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             livebutton:buttonColor="@color/fbutton_color_peter_river"
             app:layout_constraintStart_toStartOf="parent"

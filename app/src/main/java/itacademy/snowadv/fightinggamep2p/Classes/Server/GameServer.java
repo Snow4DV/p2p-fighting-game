@@ -6,7 +6,6 @@ import android.text.format.Formatter;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -17,7 +16,7 @@ import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.Events.GameStartedEvent;
-import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
+import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ErrorMessagePacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
@@ -27,6 +26,7 @@ import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnection
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
+import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
 import static android.content.Context.WIFI_SERVICE;
 
@@ -37,16 +37,23 @@ public class GameServer implements GameClientServer{
     private static final int EACH_SIDE_MAX_PLAYERS_COUNT = 3;
 
     private LobbyFragment lobbyFragment;
+
     private Context activity;
     private GameStatsPacket gameStatsPacket;
     private final Server server = new Server();
     private final GameServerListener listener = new GameServerListener();
+
+    private Callback<Object> callbackForBattleSurfaceView;
 
     List<BattlePlayer> players = new ArrayList<>();
 
     private GameServer(LobbyFragment lobbyFragment) {
         this.lobbyFragment = lobbyFragment;
         activity = lobbyFragment.getActivity();
+    }
+
+    public void setCallbackForBattleSurfaceView(Callback<Object> callbackForBattleSurfaceView) {
+        this.callbackForBattleSurfaceView = callbackForBattleSurfaceView;
     }
 
     public static GameServer startServer(LobbyFragment lobbyFragment) {
@@ -60,8 +67,8 @@ public class GameServer implements GameClientServer{
             Toast.makeText(gameServer.activity, "Ошибка при запуске сервера." +
                             " Скорее всего, нужные порты заняты. Перезагрузите устройство."
                     , Toast.LENGTH_SHORT).show();
-            if(lobbyFragment.getActivity() instanceof NotifiableActivity) {
-                ((NotifiableActivity) lobbyFragment.getActivity())
+            if(lobbyFragment.getActivity() instanceof Notifiable) {
+                ((Notifiable) lobbyFragment.getActivity())
                         .notifyFragmentIsDone(lobbyFragment);
             }
         }
@@ -135,6 +142,11 @@ public class GameServer implements GameClientServer{
     }
 
 
+    public void sendUpdatedGameStatsToEveryone() {
+        sendObjectToEveryone(gameStatsPacket);
+    }
+
+
     private Connection getConnectionByID(int id) {
         for(Connection connection: server.getConnections()) {
             if(connection.getID() == id) {
@@ -174,10 +186,13 @@ public class GameServer implements GameClientServer{
 
     public void startGame() {
         gameStatsPacket = new GameStatsPacket(players, GameStatsPacket.GamePhase.KIND_MOVE);
-        sendObjectToEveryone(new StartTheGameRequest(gameStatsPacket));
-        if(activity instanceof NotifiableActivity) {
-            ((NotifiableActivity)activity).notifyWithObject(new GameStartedEvent());
+        if(activity instanceof Notifiable) {
+            ((Notifiable)activity).notifyWithObject(new GameStartedEvent());
         }
+    }
+
+    public void sendStartEventToEveryone() {
+        sendObjectToEveryone(new StartTheGameRequest(gameStatsPacket));
     }
 
     private String getIpAddress() {
@@ -205,8 +220,8 @@ public class GameServer implements GameClientServer{
                 sendObjectToEveryone(new ErrorMessagePacket(
                         "Один из игроков отключился от сервера", true));
                 stopServer();
-                if(activity instanceof NotifiableActivity) {
-                    ((NotifiableActivity) activity).notifyWithObject(new DisconnectedEvent(false));
+                if(activity instanceof Notifiable) {
+                    ((Notifiable) activity).notifyWithObject(new DisconnectedEvent(false));
                 }
             }
         }
@@ -219,8 +234,19 @@ public class GameServer implements GameClientServer{
             } else if(object instanceof GetLobbyStatusRequest) {
                 connection.sendTCP(new LobbyStatusUpdateResponse(players, getIpAddress()));
             } else if(object instanceof ChatMessage) {
-                lobbyFragment.addChatMessage((ChatMessage) object);
+                if(lobbyFragment.isVisible()) {
+                    lobbyFragment.addChatMessage((ChatMessage) object);
+                }
+                if(activity instanceof Notifiable) {
+                    ((Notifiable) activity).notifyWithObject(object);
+                }
                 sendObjectToEveryone(object);
+            } /*else if(object instanceof BattlePlayer.BattlePlayerAction) {
+                Log.d(TAG, "received: " + object.toString());
+            } */else { // Send rest of objects to the callback to battlefieldSurfaceView
+                if(callbackForBattleSurfaceView != null) {
+                    callbackForBattleSurfaceView.evaluate(object);
+                }
             }
         }
 

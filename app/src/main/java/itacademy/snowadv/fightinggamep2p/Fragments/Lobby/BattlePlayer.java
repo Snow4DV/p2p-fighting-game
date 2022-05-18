@@ -1,20 +1,22 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.Lobby;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.BattleUnit;
-import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.Criminal;
-import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.CriminalBoss;
-import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.Policeman;
-import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.Schoolboy;
+import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableBattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.BattleUnitContainer;
+import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableCriminal;
+import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableCriminalBoss;
+import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawablePoliceman;
+import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableSchoolboy;
 import itacademy.snowadv.fightinggamep2p.Classes.DrawablesContainer;
 import itacademy.snowadv.fightinggamep2p.Classes.Field;
-import itacademy.snowadv.fightinggamep2p.Classes.SpriteAnimation;
 import itacademy.snowadv.fightinggamep2p.R;
 
 public class BattlePlayer {
+    private static final String TAG = "BattlePlayer";
     public enum BattlePlayerName {
         SCHOOLBOY(R.drawable.schoolboy_preview, true),
         CRIMINAL(R.drawable.criminal_preview, false),
@@ -23,6 +25,7 @@ public class BattlePlayer {
 
         public final int drawableId;
         private final boolean isKind;
+        private final boolean abilityForWholeTeam = false;
         private static final BattlePlayerName[] vals = values();
         public BattlePlayerName next()
         {
@@ -65,7 +68,25 @@ public class BattlePlayer {
     private String name;
     private String ipAddress;
     private int connectionID;
-    private BattleUnit assignedBattleUnit;
+    private Integer battleUnitID = null;
+
+    private int health = 100;
+    private int stamina = 100;
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getStamina() {
+        return stamina;
+    }
+
+    public void setStamina(int stamina) {
+        this.stamina = stamina;
+    }
 
 
     public BattlePlayerName getPlayer() {
@@ -91,6 +112,35 @@ public class BattlePlayer {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+    public void decreaseHp(int health) {
+        this.health -=health;
+        if(this.health < 0) {
+            this.health = 0;
+        }
+    }
+    public void decreaseStamina(int stamina) {
+        this.stamina -=stamina;
+        if(this.stamina < 0) {
+            this.stamina = 0;
+        }
+    }
+    public void increaseHp(int health) {
+        this.health +=health;
+        if(this.health > 100) {
+            this.health = 100;
+        }
+    }
+    public void increaseStamina(int stamina) {
+        this.stamina +=stamina;
+        if(this.stamina > 100) {
+            this.stamina = 100;
+        }
+    }
+
 
     public int getConnectionID() {
         return connectionID;
@@ -100,14 +150,20 @@ public class BattlePlayer {
         this.connectionID = connectionID;
     }
 
-    public BattleUnit getAssignedBattleUnit() {
-        return assignedBattleUnit;
+    public DrawableBattleUnit getAssignedBattleUnit() {
+        if(battleUnitID == null) {
+            return null;
+        }
+        Log.d(TAG, "Trying to receive: " + battleUnitID + ". data now:\n"
+                + BattleUnitContainer.getListAsString());
+        return BattleUnitContainer.getBattleUnitByID(battleUnitID);
     }
 
 
 
-    public void assignBattleUnit(BattleUnit assignedBattleUnit) {
-        this.assignedBattleUnit = assignedBattleUnit;
+    public void assignBattleUnit(DrawableBattleUnit assignedDrawableBattleUnit) {
+        battleUnitID = BattleUnitContainer.storeBattleUnitAndGetID(assignedDrawableBattleUnit);
+        Log.d(TAG, "assignBattleUnit stored: " + battleUnitID + ". data now:\n" + BattleUnitContainer.getListAsString());
     }
 
     public static void assignAllBattleUnitsToFields(List<BattlePlayer> playersList, Context context) {
@@ -123,16 +179,16 @@ public class BattlePlayer {
             }
             switch (player.getPlayer()) {
                 case SCHOOLBOY:
-                    player.assignBattleUnit(Schoolboy.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawableSchoolboy.getAttachedToField(field, context));
                     break;
                 case POLICEMAN:
-                    player.assignBattleUnit(Policeman.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawablePoliceman.getAttachedToField(field, context));
                     break;
                 case CRIMINAL:
-                    player.assignBattleUnit(Criminal.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawableCriminal.getAttachedToField(field, context));
                     break;
                 case CRIMINAL_BOSS:
-                    player.assignBattleUnit(CriminalBoss.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawableCriminalBoss.getAttachedToField(field, context));
                     break;
             }
         }

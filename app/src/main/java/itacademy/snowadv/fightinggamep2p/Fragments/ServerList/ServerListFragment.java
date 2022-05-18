@@ -20,12 +20,10 @@ import androidx.fragment.app.Fragment;
 
 import com.esotericsoftware.kryonet.Client;
 
-import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
+import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.R;
@@ -85,7 +83,7 @@ public class ServerListFragment extends Fragment {
                         .setNegativeButton("Отмена", null)
                         .create();
                 dialog.show();
-                TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+                TextView textView = dialog.findViewById(android.R.id.message);
                 Typeface face= ResourcesCompat.getFont(getActivity(), R.font.gouranga_pixel_font);
                 Button btn1 = dialog.findViewById(android.R.id.button1);
                 Button btn2 = dialog.findViewById(android.R.id.button2);
@@ -100,8 +98,8 @@ public class ServerListFragment extends Fragment {
 
     private void connectToServer(String ip) {
         Toast.makeText(getActivity(), "Подключение к " + ip, Toast.LENGTH_SHORT).show();
-        if(getActivity() instanceof NotifiableActivity) {
-            ((NotifiableActivity)getActivity()).notifyWithObject(
+        if(getActivity() instanceof Notifiable) {
+            ((Notifiable)getActivity()).notifyWithObject(
                     new GameConnectionPacket((String) ip, player));
         }
     }

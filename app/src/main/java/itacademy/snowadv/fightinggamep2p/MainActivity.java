@@ -14,10 +14,11 @@ import android.widget.Toast;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.Events.GameStartedEvent;
-import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
+import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
@@ -29,7 +30,7 @@ import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.ServerListFragment
 import itacademy.snowadv.fightinggamep2p.Fragments.StartGameFragment;
 import itacademy.snowadv.fightinggamep2p.databinding.ActivityMainBinding;
 
-public class MainActivity extends FragmentActivity implements NotifiableActivity {
+public class MainActivity extends FragmentActivity implements Notifiable {
 
     /* Variable for double pressing back button to leave */
     private boolean doubleBackToExitPressedOnce = false;

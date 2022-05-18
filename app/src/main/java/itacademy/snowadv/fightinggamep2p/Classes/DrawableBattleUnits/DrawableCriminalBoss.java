@@ -1,7 +1,9 @@
-package itacademy.snowadv.fightinggamep2p.Classes.BattleUnits;
+package itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits;
 
 import android.content.Context;
 import android.graphics.Point;
+
+import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Field;
 import itacademy.snowadv.fightinggamep2p.Classes.SpriteAnimation;
@@ -9,36 +11,42 @@ import itacademy.snowadv.fightinggamep2p.Classes.SpritePainter;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
-public class Criminal extends BattleUnit{
+public class DrawableCriminalBoss extends DrawableBattleUnit {
 
-    private static final String ABILITY = "Вылечить бойцов";
+    private static final String ABILITY = "Скоординировать бойцов";
     private static final String LIGHT_KICK = "Выстрелить";
-    private static final String HARD_KICK = "Бросить Молотов";
+    private static final String HARD_KICK = "Выстрелить подствольную гранату";
 
-    public Criminal(SpritePainter spritePainter, Point location, SnapLocation snapLocation, int width) {
+    public DrawableCriminalBoss(SpritePainter spritePainter, Point location, SnapLocation snapLocation, int width) {
         super(spritePainter, location, snapLocation, width);
     }
 
 
 
-    public static BattleUnit getAttachedToField(Field field, Context context) {
+    public static DrawableBattleUnit getAttachedToField(Field field, Context context) {
         SpritePainter painter = SpriteAnimation.getAnimation(
-                SpriteAnimation.CharacterAnimation.CRIMINAL_IDLE, context);
-        return new Criminal(painter, field.getBottomLeftPoint(), SnapLocation.BOTTOM_LEFT,
+                SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_IDLE, context);
+        return new DrawableCriminalBoss(painter, field.getBottomLeftPoint(), SnapLocation.BOTTOM_LEFT,
                 field.getWidth());
 
     }
 
     @Override
-    public void ability(Context context, BattlePlayer player) {
+    public void ability(BattlePlayer myBattlePlayer, Context context, List<BattlePlayer> playersList) {
         setSpritePainter(SpriteAnimation.getAnimation(
-                SpriteAnimation.CharacterAnimation.CRIMINAL_HEALING, context, null,
+                SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_COORDINATING, context, null,
                 null, 1, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
                         idle(context);
                     }
                 }));
+        for (BattlePlayer player :
+                playersList) {
+            if (!player.getPlayer().isKind()) {
+                player.increaseStamina(30);
+            }
+        }
     }
 
     @Override
@@ -59,32 +67,37 @@ public class Criminal extends BattleUnit{
     @Override
     public void idle(Context context) {
         setSpritePainter(SpriteAnimation.getAnimation(
-                SpriteAnimation.CharacterAnimation.CRIMINAL_IDLE, context));
+                SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_IDLE, context));
     }
 
 
     @Override
-    public void lightKick(Context context, BattlePlayer attackedPlayer) {
+    public void lightKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         setSpritePainter(SpriteAnimation.getAnimation(
-                SpriteAnimation.CharacterAnimation.CRIMINAL_SHOOTING, context, null,
+                SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_SHOOTING, context, null,
                 null, 1, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
                         idle(context);
                     }
                 }));
+        attackedPlayer.decreaseHp(5);
+        myBattlePlayer.decreaseStamina(15);
     }
 
 
     @Override
-    public void hardKick(Context context, BattlePlayer attackedPlayer) {
+    public void hardKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         setSpritePainter(SpriteAnimation.getAnimation(
-                SpriteAnimation.CharacterAnimation.CRIMINAL_THROWING_MOLOTOV, context, null,
+                SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_THROWING_GRENADE, context, null,
                 null, 1, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
                         idle(context);
                     }
                 }));
+        attackedPlayer.decreaseHp(20);
+        myBattlePlayer.decreaseStamina(25);
     }
+
 }

@@ -1,7 +1,6 @@
 package itacademy.snowadv.fightinggamep2p.Fragments;
 
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
+import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentStartGameBinding;
 
@@ -30,16 +28,16 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
         switch(view.getId()){
             case R.id.start_server_button:
                 // Notify the activity about starting a server
-                if(getActivity() instanceof NotifiableActivity) {
-                    ((NotifiableActivity) getActivity())
+                if(getActivity() instanceof Notifiable) {
+                    ((Notifiable) getActivity())
                             .notifyWithObject(PlayerChoiceFragment
                                     .RoleChoiceCallbackResult.SERVER);
                 }
                 break;
             case R.id.search_for_a_game_button:
                 // Notify the activity about fragment's death
-                if(getActivity() instanceof NotifiableActivity) {
-                    ((NotifiableActivity) getActivity()).notifyWithObject(
+                if(getActivity() instanceof Notifiable) {
+                    ((Notifiable) getActivity()).notifyWithObject(
                             PlayerChoiceFragment.RoleChoiceCallbackResult.CLIENT);
                 }
                 break;
