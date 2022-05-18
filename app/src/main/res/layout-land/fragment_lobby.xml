@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:livebutton="http://schemas.android.com/tools"
+    android:background="@drawable/green_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/room_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:text="Комната"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:fontFamily="@font/gouranga_pixel_font"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/players_box"
+        android:background="@drawable/textbox_nine_patch"
+        app:layout_constraintTop_toBottomOf="@id/room_text"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintHeight_percent="0.5"
+        android:layout_margin="20dp"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/players_text"
+            android:layout_width="match_parent"
+            android:layout_margin="15dp"
+            android:textSize="25sp"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:text="Хост: Загрузка\nИгроки (0/6): "
+            android:layout_height="match_parent"/>
+        <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+            android:id="@+id/lobby_start_server_button"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+
+            android:gravity="center"
+
+            android:layout_marginEnd="30dp"
+            android:layout_marginVertical="15dp"
+            livebutton:shadowEnabled="true"
+            android:text= " Начать "
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            livebutton:buttonColor="@color/fbutton_color_peter_river"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/chat_box"
+        android:background="@drawable/textbox_nine_patch"
+        app:layout_constraintTop_toBottomOf="@id/room_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.45"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        app:layout_constraintHeight_percent="0.5"
+        android:layout_height="0dp">
+        <ScrollView
+            android:id="@+id/chat_scroll_view"
+            android:layout_margin="15dp"
+            android:layout_weight="80"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/chat_text"
+                android:layout_width="match_parent"
+
+                android:textSize="25sp"
+                android:fontFamily="@font/gouranga_pixel_font"
+                android:text="СЕРВЕР: Добро пожаловать в чат!"
+
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:paddingHorizontal="20dp"
+            android:layout_weight="16"
+            android:layout_height="10dp">
+            <EditText
+                android:id="@+id/chat_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="90"
+                android:fontFamily="@font/gouranga_pixel_font"/>
+            <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+                android:id="@+id/send_message_button"
+                android:fontFamily="@font/gouranga_pixel_font"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="10"
+                android:gravity="center"
+                livebutton:shadowEnabled="true"
+                android:text="^"
+                android:textColor="#ffffff"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                livebutton:buttonColor="@color/fbutton_color_peter_river"
+                />
+        </LinearLayout>
+
+        <Space
+            app:layout_constraintTop_toBottomOf="@id/chat_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/server_box"
+        android:background="@drawable/textbox_nine_patch"
+        app:layout_constraintTop_toBottomOf="@id/chat_box"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+
+        android:layout_margin="20dp"
+        android:layout_height="wrap_content">
+
+        <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+            android:id="@+id/kick_player_button"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_marginStart="30dp"
+            android:layout_marginVertical="15dp"
+            livebutton:shadowEnabled="true"
+            android:text= " Выгнать "
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            livebutton:buttonColor="@color/fbutton_color_peter_river"
+            app:layout_constraintStart_toEndOf="@id/lobby_start_server_button"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/ip_address_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:text="IP: [загрузка]"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:fontFamily="@font/gouranga_pixel_font"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

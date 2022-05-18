@@ -13,12 +13,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
+import itacademy.snowadv.fightinggamep2p.Classes.Events.GameStartedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
+import itacademy.snowadv.fightinggamep2p.Fragments.BattleField.ServerBattleFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.GameController.GameControllerFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.PlayerChoiceFragment;
@@ -109,6 +112,7 @@ public class MainActivity extends FragmentActivity implements NotifiableActivity
     @Override
     public void notifyFragmentIsDone(Fragment fragment) {
         Log.d(TAG, "Done fragment notified the main activity: " + fragment.toString());
+        fallbackToTheStartGameScreen();
     }
 
 
@@ -143,7 +147,13 @@ public class MainActivity extends FragmentActivity implements NotifiableActivity
                     break;
             }
         } else if(object instanceof StartTheGameRequest) {
-            transitToNewFragment(new GameControllerFragment(getClient()));
+            transitToNewFragment(new GameControllerFragment(
+                    getClient(), ((StartTheGameRequest)object).gameStatsPacket));
+        } else if(object instanceof GameStatsPacket
+                && currentFragment instanceof GameControllerFragment) {
+            ((GameControllerFragment)currentFragment).updateGameStatsPacket((GameStatsPacket) object);
+        } else if(object instanceof GameStartedEvent) {
+            transitToNewFragment(new ServerBattleFragment(getServer()));
         }
     }
 

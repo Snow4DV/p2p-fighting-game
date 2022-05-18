@@ -1,5 +1,6 @@
 package itacademy.snowadv.fightinggamep2p.Classes;
 
+import android.graphics.Canvas;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,5 +12,11 @@ public class DrawablesContainer extends ArrayList<CanvasDrawable> {
             drawable.clear();
         }
         super.clear();
+    }
+
+    public void drawAllDrawablesOnCanvas(Canvas canvas) {
+        for(CanvasDrawable drawable : this) {
+            drawable.drawFrame(canvas);
+        }
     }
 }

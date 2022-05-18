@@ -16,6 +16,8 @@ import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ErrorMessagePacket;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameActionRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnectionRequest;
@@ -39,8 +41,8 @@ public class GameClient implements GameClientServer {
     private GameClient(String ip, BattlePlayer player, LobbyFragment lobbyFragment, Context activity) {
         this.player = player;
         this.lobbyFragment = lobbyFragment;
-        this.activity = lobbyFragment.getActivity();
-
+        // this.activity = lobbyFragment.getActivity();
+        this.activity = activity;
         listener = new GameClientListener();
         client = new Client();
         GameClientServer.registerClasses(client.getKryo());
@@ -52,9 +54,12 @@ public class GameClient implements GameClientServer {
             public void run() {
                 try {
                     client.start();
-                    client.connect(5000, ip, FIXED_PORT_TCP, FIXED_PORT_UDP);
+                    client.connect(1000, ip, FIXED_PORT_TCP, FIXED_PORT_UDP);
                 } catch(IOException ex) {
                     Log.e(TAG, "GameClient failed to connect  to " + ip, ex);
+                    if(activity instanceof NotifiableActivity) {
+                        ((NotifiableActivity)activity).notifyWithObject(new DisconnectedEvent(true));
+                    }
                 }
             }
         }).start();
@@ -152,8 +157,19 @@ public class GameClient implements GameClientServer {
             } else if(object instanceof StartTheGameRequest && activity instanceof NotifiableActivity) {
                 ((NotifiableActivity) activity).notifyWithObject(
                         (StartTheGameRequest) object);
+            } else if(object instanceof GameStatsPacket && activity instanceof NotifiableActivity){
+                ((NotifiableActivity) activity).notifyWithObject((GameStatsPacket)object);
             }
         }
+    }
+
+    public BattlePlayer getMyBattlePlayer() {
+        return player;
+    }
+
+
+    public void sendPlayerActionToServer(BattlePlayer.BattlePlayerAction action) {
+        client.sendTCP(new GameActionRequest(player, action));
     }
 
 

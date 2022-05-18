@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="3dp"
@@ -18,6 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
    <FrameLayout
+       android:id="@+id/game_log_box"
        android:background="@drawable/textbox_nine_patch"
        app:layout_constraintBottom_toBottomOf="parent"
        app:layout_constraintStart_toStartOf="parent"
@@ -28,14 +30,16 @@
        app:layout_constraintHeight_percent=".4"
        android:layout_height="0dp">
        <TextView
+           android:id="@+id/game_log_text"
            android:layout_width="match_parent"
            android:layout_margin="8dp"
            android:fontFamily="@font/gouranga_pixel_font"
-           android:text="Ben is dead\nLife is over\nRoses are red\nViolets are blue"
+           android:text="СЕРВЕР: Игра началась! :)"
            android:layout_height="match_parent"/>
    </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hp_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
@@ -72,7 +76,7 @@
             android:text="HP"
             android:autoSizeTextType="uniform"
             android:autoSizeMaxTextSize="100sp"
-            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMinTextSize="8sp"
             android:textAlignment="center"
             android:fontFamily="@font/gouranga_pixel_font"
             app:layout_constraintStart_toStartOf="parent"

@@ -9,16 +9,20 @@ import android.graphics.Rect;
 
 import androidx.annotation.Nullable;
 
+import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 import itacademy.snowadv.fightinggamep2p.R;
 
 /**
  * Animation class handles the canvas drawing process
  */
 public class SpriteAnimation implements SpritePainter {
-
     public enum CharacterAnimation {
-        SCHOOLBOY_TALKING, SCHOOLBOY_THROWING_PAPER, SCHOOLBOY_IDLE, FIELD_IDLE
+        SCHOOLBOY_TALKING, SCHOOLBOY_THROWING_PAPER, SCHOOLBOY_IDLE, FIELD_IDLE,
+        SCHOOLBOY_HACKING
     }
+
+
+
     /**
      *
      * @param animation Animation enum
@@ -59,11 +63,59 @@ public class SpriteAnimation implements SpritePainter {
                 return new SpriteAnimation(1, 1,
                         BitmapFactory.decodeResource(context.getResources(), R.drawable.field),
                         animationRangeStart, animationRangeEnd);
+            case SCHOOLBOY_HACKING:
+                return new SpriteAnimation(12, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_schoolboy_hacking), animationRangeStart,
+                        animationRangeEnd);
         }
         throw new IllegalArgumentException("Incorrect animation has been passed to the " +
                 "animations factory.");
     }
 
+
+    /**
+     *
+     * @param animation Animation enum
+     * @param context Context to get the resources
+     * @param animationRangeStart No of first frame for cycling
+     * @param animationRangeEnd No of last frame for cycling
+     * @param playCounts Defines
+     * @return Animation object that can be drawn by character object [With limited cycles]
+     */
+    public static SpriteAnimation getAnimation(CharacterAnimation animation, Context
+            context, @Nullable Integer animationRangeStart, @Nullable Integer animationRangeEnd,
+                                               int playCounts, Callback<String> onFinish) {
+        switch(animation) {
+            case SCHOOLBOY_TALKING:
+                return new SpriteAnimation(2, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_schoolboy_talking), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case SCHOOLBOY_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.schoolboy), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case SCHOOLBOY_THROWING_PAPER:
+                return new SpriteAnimation(5, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_schoolboy_throwing_paper), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case FIELD_IDLE:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(), R.drawable.field),
+                        animationRangeStart, animationRangeEnd, playCounts, onFinish);
+            case SCHOOLBOY_HACKING:
+                return new SpriteAnimation(12, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_schoolboy_hacking), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+        }
+
+        throw new IllegalArgumentException("Incorrect animation has been passed to the " +
+                "animations factory.");
+    }
 
     private static final Paint paint = new Paint();
     private int spriteSheetColumns;
@@ -74,6 +126,10 @@ public class SpriteAnimation implements SpritePainter {
     private int animationRangeEnd;
     private int currentFrame;
     private boolean isPlaying = true;
+
+    private int cyclesCount = 0;
+    private boolean limitedCycles = false;
+    private Callback<String> onFinish;
 
 
     private SpriteAnimation(int spriteSheetColumns, int spriteSheetLines,
@@ -90,6 +146,26 @@ public class SpriteAnimation implements SpritePainter {
         this.animationRangeStart = animationRangeStart == null ? 0 : animationRangeStart;
         this.animationRangeEnd = animationRangeEnd == null ?
                 spriteSheetLines * spriteSheetColumns - 1 : animationRangeEnd;
+    }
+
+    private SpriteAnimation(int spriteSheetColumns, int spriteSheetLines,
+                           Bitmap spriteSheet, Integer animationRangeStart,
+                            Integer animationRangeEnd, int limitedCyclesCount,
+                            Callback<String> onFinish) {
+        if(spriteSheetColumns < 1 || spriteSheetLines < 1) {
+            throw new IllegalArgumentException("Bad spriteSheetColumns or spriteSheetLines " +
+                    "argument: should be 1 or larger");
+        }
+
+        this.spriteSheetColumns = spriteSheetColumns;
+        this.spriteSheetLines = spriteSheetLines;
+        this.spriteSheet = spriteSheet;
+        this.animationRangeStart = animationRangeStart == null ? 0 : animationRangeStart;
+        this.animationRangeEnd = animationRangeEnd == null ?
+                spriteSheetLines * spriteSheetColumns - 1 : animationRangeEnd;
+        this.limitedCycles = true;
+        this.cyclesCount = limitedCyclesCount;
+        this.onFinish = onFinish;
     }
 
     public void startAnimation(){
@@ -122,8 +198,10 @@ public class SpriteAnimation implements SpritePainter {
     public void drawNextFrame(Canvas canvas, Rect destination){
         if(!isPlaying) return;
         drawSingleFrame(canvas, currentFrame, destination);
-        if(++currentFrame > animationRangeEnd) {
+        if(++currentFrame > animationRangeEnd && (!limitedCycles || (--cyclesCount > 0))) {
             currentFrame = animationRangeStart;
+        } else if(currentFrame > animationRangeEnd) {
+            onFinish.evaluate("finish");
         }
     }
 

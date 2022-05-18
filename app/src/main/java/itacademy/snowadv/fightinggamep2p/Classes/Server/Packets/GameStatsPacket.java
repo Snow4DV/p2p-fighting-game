@@ -33,4 +33,27 @@ public class GameStatsPacket {
         return phase;
     }
 
+
+    public int getKindPlayersAmount() {
+        int count = 0;
+        for (BattlePlayer player :
+                playersList) {
+            if (player.getPlayer().isKind()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getEvilPlayersAmount() {
+        int count = 0;
+        for (BattlePlayer player :
+                playersList) {
+            if (!player.getPlayer().isKind()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 }

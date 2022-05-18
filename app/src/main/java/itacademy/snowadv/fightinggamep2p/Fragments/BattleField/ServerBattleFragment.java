@@ -15,70 +15,65 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
 import itacademy.snowadv.fightinggamep2p.R;
+import itacademy.snowadv.fightinggamep2p.databinding.FragmentBattlefieldBinding;
+
+import static android.view.View.VISIBLE;
 
 public class ServerBattleFragment extends Fragment {
     private BattleFieldSurfaceView battleFieldSurfaceView;
-    private ConstraintLayout layout;
+    private FragmentBattlefieldBinding viewBinding;
+
+
+    private GameServer gameServer;
+
+    public ServerBattleFragment(GameServer gameServer) {
+        this.gameServer = gameServer;
+    }
+
+    public ServerBattleFragment() {
+        // Non-arg constructor
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        battleFieldSurfaceView = new BattleFieldSurfaceView(getContext());
-        View fragmentView = inflater.inflate(R.layout.fragment_battlefield, container, false);
-        layout = fragmentView.findViewById(R.id.battlefield_constraint_layout);
-        layout.addView(battleFieldSurfaceView);
+        battleFieldSurfaceView = new BattleFieldSurfaceView(getContext(), gameServer, this);
+        viewBinding = FragmentBattlefieldBinding.inflate(inflater, container, false);
+        viewBinding.battlefieldConstraintLayout.addView(battleFieldSurfaceView);
         battleFieldSurfaceView.setElevation(-1f);
-        return fragmentView;
+        return viewBinding.getRoot();
     }
 
-    public class ServerEntityAdapter extends RecyclerView.Adapter<ServerEntityAdapter.ServerEntityAdapterViewHolder> {
-        private final LayoutInflater inflater;
-        private final List<ServerEntity> entities;
 
-        public ServerEntityAdapter(Context context, List<ServerEntity> entities) {
-            this.inflater = LayoutInflater.from(context);
-            this.entities = entities;
-        }
+    /**
+     * Sets visibility of the hud on UI thread
+     * @param visibility Pass GONE or VISIBLE
+     */
+    public void changeHUDVisibility(int visibility) {
+        getActivity().runOnUiThread(() -> {
+            viewBinding.gameLogBox.setVisibility(VISIBLE);
+            viewBinding.hpBox.setVisibility(visibility);
+        });
 
-        @NonNull
-        @Override
-        public ServerEntityAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.fragment_server_list, parent, false);
-            return new ServerEntityAdapterViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull ServerEntityAdapterViewHolder holder, int position) {
-            ServerEntity server = entities.get(position);
-            holder.ipAddress.setText(server.getIp());
-        }
-
-        @Override
-        public int getItemCount() {
-            return entities.size();
-        }
-
-        private class ServerEntityAdapterViewHolder extends RecyclerView.ViewHolder {
-            final TextView ipAddress;
-
-            ServerEntityAdapterViewHolder(View view) {
-                super(view);
-                ipAddress = view.findViewById(R.id.server_ip_address);
-            }
-        }
     }
 
-    private class ServerEntity {
-        private String ip;
 
-        public String getIp() {
-            return ip;
-        }
-
-        public void setIp(String ip) {
-            this.ip = ip;
-        }
+    public void addStringToLog(String playerName, String action) {
+        String logText = viewBinding.gameLogText.getText().toString() + '\n' + playerName + ": "
+                + action;
+        viewBinding.gameLogText.setText(logText);
     }
+
+
+    public void setBalanceHpBar(int evilHP, int kindHP) {
+
+    }
+
+
+
+
 
 }

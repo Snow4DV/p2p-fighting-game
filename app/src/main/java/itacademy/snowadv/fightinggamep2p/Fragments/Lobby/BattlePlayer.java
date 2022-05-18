@@ -1,8 +1,14 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.Lobby;
 
-import com.esotericsoftware.kryonet.Connection;
+import android.content.Context;
 
-import itacademy.snowadv.fightinggamep2p.Classes.BattleUnit;
+import java.util.List;
+
+import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.BattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.Schoolboy;
+import itacademy.snowadv.fightinggamep2p.Classes.DrawablesContainer;
+import itacademy.snowadv.fightinggamep2p.Classes.Field;
+import itacademy.snowadv.fightinggamep2p.Classes.SpriteAnimation;
 import itacademy.snowadv.fightinggamep2p.R;
 
 public class BattlePlayer {
@@ -10,7 +16,7 @@ public class BattlePlayer {
         SCHOOLBOY(R.drawable.schoolboy_preview, true);
 
         public final int drawableId;
-        public boolean isKind = false;
+        private final boolean isKind;
         private static BattlePlayerName[] vals = values();
         public BattlePlayerName next()
         {
@@ -29,6 +35,10 @@ public class BattlePlayer {
             this.drawableId = drawableId;
             this.isKind = isKind;
         }
+    }
+
+    public enum BattlePlayerAction {
+        LIGHT_KICK, HARD_KICK, ABILITY
     }
 
 
@@ -86,7 +96,37 @@ public class BattlePlayer {
         return assignedBattleUnit;
     }
 
+
+
     public void assignBattleUnit(BattleUnit assignedBattleUnit) {
         this.assignedBattleUnit = assignedBattleUnit;
     }
+
+    public static void assignAllBattleUnitsToFields(List<BattlePlayer> playersList, Context context) {
+        int assignedKinds = 0;
+        int assignedEvils = 0;
+        for (BattlePlayer player :
+                playersList) {
+            switch (player.getPlayer()) {
+                case SCHOOLBOY:
+                    Field field;
+                    if(player.player.isKind()) {
+                        field = Field.getBottomField(assignedKinds++);
+                    } else {
+                        field = Field.getTopField(assignedEvils++);
+                    }
+                    player.assignBattleUnit(Schoolboy.getAttachedToField(field, context));
+                    break;
+            }
+        }
+    }
+
+    public static void addAllBattleUnitsToDrawables(List<BattlePlayer> playersList, DrawablesContainer drawables) {
+        for (BattlePlayer player :
+                playersList) {
+            drawables.add(player.getAssignedBattleUnit());
+        }
+    }
+
+
 }

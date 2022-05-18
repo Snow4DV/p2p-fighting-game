@@ -1,12 +1,5 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.ServerList;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.net.wifi.p2p.WifiP2pDevice;
-import android.net.wifi.p2p.WifiP2pDeviceList;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,16 +9,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.esotericsoftware.kryonet.Client;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
@@ -58,6 +46,7 @@ public class ServerListFragment extends Fragment {
         viewBinding.refreshServerListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewBinding.serverListPlaceholderText.setText(R.string.discovering_servers);
                 discoverPeers();
             }
         });
@@ -73,6 +62,7 @@ public class ServerListFragment extends Fragment {
     }
 
     private void discoverPeers() {
+        adapter.clearDeviceList();
         ServerListThread.discoverPeers(client, FIXED_PORT, new Callback<List<InetAddress>>() {
             @Override
             public void evaluate(List<InetAddress> devices) {
@@ -84,10 +74,16 @@ public class ServerListFragment extends Fragment {
                     Log.d("debug", "evaluate: bug"); // TODO: REMOVE
                 }
                 adapter.setDevicesList(devices);
+                if(devices.size() > 0) {
+                    viewBinding.serverListPlaceholderText.setText("");
+                } else {
+                    viewBinding.serverListPlaceholderText.setText(R.string.no_servers);
+                }
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         adapter.notifyDataSetChanged();
+
                     }
                 });
             }

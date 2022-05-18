@@ -48,6 +48,11 @@ public class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.Se
         return serverItemList.size();
     }
 
+    public void clearDeviceList() {
+        serverItemList.clear();
+        notifyDataSetChanged();
+    }
+
     class ServerViewHolder extends RecyclerView.ViewHolder {
 
         private TextView serverIP;

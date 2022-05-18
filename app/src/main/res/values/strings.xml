@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FightingGameP2P</string>
+    <string name="no_servers">Сервера не найдены. Попробуйте подключиться вручную с использованием IP-адреса с помощью соответствующей кнопки.</string>
+    <string name="discovering_servers">Поиск серверов...</string>
 </resources>

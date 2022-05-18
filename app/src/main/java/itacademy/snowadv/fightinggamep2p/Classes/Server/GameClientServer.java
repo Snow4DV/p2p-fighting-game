@@ -4,8 +4,9 @@ import com.esotericsoftware.kryo.Kryo;
 
 import java.net.Inet4Address;
 
-import itacademy.snowadv.fightinggamep2p.Classes.BattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.BattleUnits.BattleUnit;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameActionRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
@@ -28,6 +29,8 @@ public interface GameClientServer {
         kryo.register(GameStatsPacket.class);
         kryo.register(StartTheGameRequest.class);
         kryo.register(BattleUnit.class);
+        kryo.register(GameActionRequest.class);
+        kryo.register(BattlePlayer.BattlePlayerAction.class);
     }
     void sendChatMessage(ChatMessage chatMessage);
 }

@@ -1,9 +1,12 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.Lobby;
 
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.format.Formatter;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,9 +78,17 @@ public class LobbyFragment extends Fragment {
         viewBinding.lobbyStartServerButton.setOnClickListener(v -> {
            getServer().startGame();
         });
+        // Lock orientation
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
         return viewBinding.getRoot();
     }
 
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    }
 
     public void updateLobbyStatus(LobbyStatusUpdateResponse response) {
         StringBuilder roomText = new StringBuilder("Хост: <u>" + response.getHostIP() +
@@ -95,8 +106,9 @@ public class LobbyFragment extends Fragment {
     }
 
     public void addChatMessage(ChatMessage chatMessage) {
+        BattlePlayer sender = chatMessage.player;
         String chatText = viewBinding.chatText.getText().toString() + '\n'
-                + chatMessage.player.getName() + ':' + ' ' + chatMessage.text;
+                + ((sender == null) ? "СЕРВЕР" : sender.getName()) + ':' + ' ' + chatMessage.text;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -139,6 +151,7 @@ public class LobbyFragment extends Fragment {
         }
         return null;
     }
+
 
 
 

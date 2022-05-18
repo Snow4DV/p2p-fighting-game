@@ -52,6 +52,7 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBinding = FragmentStartGameBinding.inflate(inflater, container, false);
         viewBinding.searchForAGameButton.setOnClickListener(this);
+        viewBinding.startServerButton.setOnClickListener(this);
         return viewBinding.getRoot();
     }
 

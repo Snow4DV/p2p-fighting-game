@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
+import itacademy.snowadv.fightinggamep2p.Classes.Events.GameStartedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.NotifiableActivity;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ErrorMessagePacket;
@@ -59,6 +60,10 @@ public class GameServer implements GameClientServer{
             Toast.makeText(gameServer.activity, "Ошибка при запуске сервера." +
                             " Скорее всего, нужные порты заняты. Перезагрузите устройство."
                     , Toast.LENGTH_SHORT).show();
+            if(lobbyFragment.getActivity() instanceof NotifiableActivity) {
+                ((NotifiableActivity) lobbyFragment.getActivity())
+                        .notifyFragmentIsDone(lobbyFragment);
+            }
         }
         gameServer.updateLobbyInFragment();
 
@@ -157,6 +162,9 @@ public class GameServer implements GameClientServer{
 
 
 
+    public GameStatsPacket getGameStatsPacket() {
+        return gameStatsPacket;
+    }
 
     @Override
     public void sendChatMessage(ChatMessage chatMessage) {
@@ -167,7 +175,9 @@ public class GameServer implements GameClientServer{
     public void startGame() {
         gameStatsPacket = new GameStatsPacket(players, GameStatsPacket.GamePhase.KIND_MOVE);
         sendObjectToEveryone(new StartTheGameRequest(gameStatsPacket));
-
+        if(activity instanceof NotifiableActivity) {
+            ((NotifiableActivity)activity).notifyWithObject(new GameStartedEvent());
+        }
     }
 
     private String getIpAddress() {
