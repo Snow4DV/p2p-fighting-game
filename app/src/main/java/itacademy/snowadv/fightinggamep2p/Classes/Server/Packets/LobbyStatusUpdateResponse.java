@@ -2,7 +2,7 @@ package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 
 public class LobbyStatusUpdateResponse {
     public List<BattlePlayer> players;

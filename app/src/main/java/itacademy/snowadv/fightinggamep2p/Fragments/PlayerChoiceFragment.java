@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback2;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentPlayerChoiceBinding;
 import itacademy.snowadv.fightinggamep2p.R;

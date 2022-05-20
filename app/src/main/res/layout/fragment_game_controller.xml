@@ -179,6 +179,7 @@
         android:layout_height="wrap_content">
         <itacademy.snowadv.fightinggamep2p.UI.FlatButton
             android:id="@+id/light_kick_button"
+            android:enabled="false"
             android:fontFamily="@font/gouranga_pixel_font"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -203,7 +204,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-
+            android:enabled="false"
             android:gravity="center"
 
             android:layout_marginVertical="15dp"
@@ -225,7 +226,7 @@
             android:layout_gravity="center"
 
             android:gravity="center"
-
+            android:enabled="false"
             android:layout_marginVertical="15dp"
             livebutton:shadowEnabled="true"
             android:text= " Способность "

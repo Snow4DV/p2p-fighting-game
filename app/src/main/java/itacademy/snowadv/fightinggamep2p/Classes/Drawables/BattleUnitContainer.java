@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import java.util.ArrayList;
 import java.util.List;

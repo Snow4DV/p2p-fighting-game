@@ -25,7 +25,7 @@ import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentServerListBinding;
 

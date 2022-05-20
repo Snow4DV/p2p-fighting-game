@@ -1,12 +1,10 @@
-package itacademy.snowadv.fightinggamep2p.Classes;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.graphics.RectF;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class Field extends Sprite {
     /* multiplier sets height of field corresponding to the view height (1.0 means field's  height

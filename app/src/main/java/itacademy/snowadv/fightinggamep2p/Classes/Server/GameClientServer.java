@@ -6,11 +6,11 @@ import com.esotericsoftware.kryo.Kryo;
 
 import java.net.Inet4Address;
 
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableBattleUnit;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableCriminal;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableCriminalBoss;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawablePoliceman;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableSchoolboy;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableBattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminal;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminalBoss;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablePoliceman;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableSchoolboy;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameActionRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
@@ -18,9 +18,8 @@ import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRe
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnectionRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
-import itacademy.snowadv.fightinggamep2p.Classes.Sprite;
-import itacademy.snowadv.fightinggamep2p.Classes.SpritePainter;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Sprite;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpritePainter;
 
 public interface GameClientServer {
     static void registerClasses(Kryo kryo) {
@@ -39,7 +38,7 @@ public interface GameClientServer {
         kryo.register(DrawableBattleUnit.class);
         kryo.register(GameActionRequest.class);
         kryo.register(BattlePlayer.BattlePlayerAction.class);
-        kryo.register(GameStatsPacket.GamePhase.class);
+        kryo.register(GameStatsPacket.GameSide.class);
         kryo.register(DrawableCriminal.class);
         kryo.register(DrawableCriminalBoss.class);
         kryo.register(DrawablePoliceman.class);

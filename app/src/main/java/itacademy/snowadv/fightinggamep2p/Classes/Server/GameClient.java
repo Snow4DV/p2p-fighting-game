@@ -21,7 +21,6 @@ import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRe
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnectionRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
 import itacademy.snowadv.fightinggamep2p.MainActivity;
 

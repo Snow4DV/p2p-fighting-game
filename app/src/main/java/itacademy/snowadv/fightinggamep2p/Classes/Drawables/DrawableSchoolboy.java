@@ -1,21 +1,24 @@
-package itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.content.Context;
 import android.graphics.Point;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.Field;
-import itacademy.snowadv.fightinggamep2p.Classes.SpriteAnimation;
-import itacademy.snowadv.fightinggamep2p.Classes.SpritePainter;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
 public class DrawableSchoolboy extends DrawableBattleUnit {
 
     private static final String ABILITY = "Накричать на противников";
-    private static final String LIGHT_KICK = "Бросать бумажки с оскорблениями";
+    private static final String LIGHT_KICK = "Бросать бумажку с оскорблениями";
     private static final String HARD_KICK = "Взлом";
+    private static final String ABILITY_DESC = "Накричите на противников, повысив боевой дух" +
+            " команды и повысив очки силы каждого на 10 пунктов";
+    private static final String LIGHT_KICK_DESC = "Бросьте бумажку с оскорблениями и снесите противнику 3 очка здоровья," +
+            "потратив 10 очков силы.";
+    private static final String HARD_KICK_DESC = "Взломайте коммуникации противника, уменьшив их" +
+            "очки силы на 25 (ваши очки силы уменьшатся на 35) .";
 
     public DrawableSchoolboy(SpritePainter spritePainter, Point location, SnapLocation snapLocation, int width) {
         super(spritePainter, location, snapLocation, width);
@@ -33,18 +36,21 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
 
     @Override
     public void ability(BattlePlayer myBattlePlayer, Context context, List<BattlePlayer> playersList) {
+        isIdle = false;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_TALKING, context, null,
                 null, 6, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
-                        idle(context);
+                        isIdle = true;
+                        if(myBattlePlayer.isAlive()) idle(context);
+                        else dead(context);
                     }
                 }));
 
         for (BattlePlayer player :
                 playersList) {
-            if (player.getPlayer().isKind()) {
+            if (player.getPlayerName().isKind()) {
                 player.increaseStamina(10);
             }
         }
@@ -64,9 +70,35 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
     public String getHardKickName() {
         return HARD_KICK;
     }
+    @Override
+    public String getAbilityDescription() {
+        return ABILITY_DESC;
+    }
 
     @Override
+    public String getLightKickDescription() {
+        return LIGHT_KICK_DESC;
+    }
+
+    @Override
+    public String getHardKickDescription() {
+        return HARD_KICK_DESC;
+    }
+
+    @Override
+    public void updateIdleAnimation(Context context, BattlePlayer myBattlePlayer) {
+        if(myBattlePlayer.isAlive()) idle(context);
+        else dead(context);
+    }
+    @Override
+    public void dead(Context context) {
+        if(!isIdle) return;
+        setSpritePainter(SpriteAnimation.getAnimation(
+                SpriteAnimation.CharacterAnimation.SCHOOLBOY_DEAD, context));
+    }
+    @Override
     public void idle(Context context) {
+        if(!isIdle) return;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_IDLE, context));
     }
@@ -74,12 +106,15 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
 
     @Override
     public void lightKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
+        isIdle = false;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_THROWING_PAPER, context, null,
                 null, 2, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
-                        idle(context);
+                        isIdle = true;
+                        if(myBattlePlayer.isAlive()) idle(context);
+                        else dead(context);
                     }
                 }));
 
@@ -90,16 +125,19 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
 
     @Override
     public void hardKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
+        isIdle = false;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_HACKING, context, null,
                 null, 1, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
-                        idle(context);
+                        isIdle = true;
+                        if(myBattlePlayer.isAlive()) idle(context);
+                        else dead(context);
                     }
                 }));
 
-        myBattlePlayer.decreaseStamina(20);
-        attackedPlayer.decreaseStamina(30);
+        myBattlePlayer.decreaseStamina(15);
+        attackedPlayer.decreaseStamina(25);
     }
 }

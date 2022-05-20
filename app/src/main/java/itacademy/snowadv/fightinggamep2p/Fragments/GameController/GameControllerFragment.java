@@ -1,25 +1,29 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.GameController;
 
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableBattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableBattleUnit;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.PlayerSelectDialogFragment;
-import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
+import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentGameControllerBinding;
 
 public class GameControllerFragment extends Fragment {
@@ -37,20 +41,54 @@ public class GameControllerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBinding = FragmentGameControllerBinding.inflate(inflater, container, false);
+        Toast.makeText(getActivity(),
+                "Удерживайте кнопку действия, чтобы узнать, что она делает.",
+                Toast.LENGTH_SHORT).show();
         viewBinding.lightKickButton.setOnClickListener(v -> {
             sendPlayerActionWithPlayerSelected(BattlePlayer.BattlePlayerAction.LIGHT_KICK);
         });
         viewBinding.hardKickButton.setOnClickListener(v -> {
             sendPlayerActionWithPlayerSelected(BattlePlayer.BattlePlayerAction.HARD_KICK);
         });
-        viewBinding.hardKickButton.setOnClickListener(v -> {
+        viewBinding.abilityButton.setOnClickListener(v -> {
             client.sendPlayerActionToServer(BattlePlayer.BattlePlayerAction.ABILITY, null);
+            updateButtonsActiveness(false);
         });
+        viewBinding.lightKickButton.setOnLongClickListener(v -> {
+            String desc = DrawableBattleUnit.getLightAttackDescByBattlePlayerName(
+                    client.getMyBattlePlayer().getPlayerName());
+            showAlertDialogWithText(desc);
+            return false;
+        });
+        viewBinding.hardKickButton.setOnLongClickListener(v -> {
+            String desc = DrawableBattleUnit.getHardAttackDescByBattlePlayerName(
+                    client.getMyBattlePlayer().getPlayerName());
+            showAlertDialogWithText(desc);
+            return false;
+        });
+        viewBinding.abilityButton.setOnLongClickListener(v -> {
+            String desc = DrawableBattleUnit.getAbilityDescByBattlePlayerName(
+                    client.getMyBattlePlayer().getPlayerName());
+            showAlertDialogWithText(desc);
+            return false;
+        });
+        // TODO: describe action on long click listener
         setPreviewPicture(client.getMyBattlePlayer());
         setPlayerName(client.getMyBattlePlayer());
         updateBars();
         setButtonsText();
         return viewBinding.getRoot();
+    }
+
+    private void showAlertDialogWithText(String text) {
+        if(getActivity() == null) return;
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                .setMessage(text).show();
+
+        TextView titleView = alertDialog.findViewById(android.R.id.message);
+        Typeface typeface = ResourcesCompat.getFont(getActivity(), R.font.gouranga_pixel);
+        titleView.setTypeface(typeface);
+        alertDialog.show();
     }
 
     public void sendPlayerActionWithPlayerSelected(BattlePlayer.BattlePlayerAction action) {
@@ -61,11 +99,14 @@ public class GameControllerFragment extends Fragment {
                 gameStatsPacket.getPlayersList(), selectedPlayer -> {
             Log.d(TAG, "sendPlayerActionWithPlayerSelected: " + selectedPlayer);
                     client.sendPlayerActionToServer(action, selectedPlayer);
-            updateButtonsActiveness(false);
+                    updateButtonsActiveness();
         });
         dialog.show(getActivity().getSupportFragmentManager(), "SelectPlayerDialogTag");
     }
 
+    /**
+     * Updates health/stamina bars of controller
+     */
     private void updateBars() {
         int hpBarWidth = (int) ((130.0/100.0)*(client.getMyBattlePlayer()
                         .getHealth()));
@@ -83,13 +124,18 @@ public class GameControllerFragment extends Fragment {
                 staminaBarWidth,
                 r.getDisplayMetrics()
         );
-        viewBinding.hpBar.getLayoutParams().width = hpBarWidthPx;
-        viewBinding.staminaBar.getLayoutParams().width = staminaBarWidthPx;
+        if(getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
+                viewBinding.hpBar.setLayoutParams(new FrameLayout.LayoutParams(hpBarWidthPx, viewBinding.hpBar.getLayoutParams().height));
+                viewBinding.staminaBar.setLayoutParams(new FrameLayout.LayoutParams(staminaBarWidthPx, viewBinding.staminaBar.getLayoutParams().height));
+            });
+        }
+        Log.d(TAG, "updateBars: " + "staminabarwidthPx:" + staminaBarWidthPx + ",staminabarwidth:" + staminaBarWidth);
     }
 
     private void setPreviewPicture(BattlePlayer player) {
         viewBinding.playerPreview.setImageDrawable(ResourcesCompat.getDrawable(
-                getActivity().getResources(), player.getPlayer().drawableId, null));
+                getActivity().getResources(), player.getPlayerName().drawableId, null));
     }
 
     private void setPlayerName(BattlePlayer player) {
@@ -97,27 +143,37 @@ public class GameControllerFragment extends Fragment {
     }
 
     private void updateButtonsActiveness() {
-        boolean areButtonsActive = (gameStatsPacket.getPhase()
-                == GameStatsPacket.GamePhase.KIND_MOVE) == client.getMyBattlePlayer().getPlayer()
-                .isKind();
-        viewBinding.lightKickButton.setEnabled(areButtonsActive);
-        viewBinding.hardKickButton.setEnabled(areButtonsActive);
-        viewBinding.abilityButton.setEnabled(areButtonsActive);
+        boolean areButtonsActive = client.getMyBattlePlayer().getAbilityToStep();
+        if (getActivity() == null) return;
+        getActivity().runOnUiThread(() -> {
+            viewBinding.lightKickButton.setEnabled(areButtonsActive);
+            viewBinding.hardKickButton.setEnabled(areButtonsActive);
+            viewBinding.abilityButton.setEnabled(areButtonsActive);
+        });
     }
 
+
     private void updateButtonsActiveness(boolean areButtonsActive) {
-        viewBinding.lightKickButton.setEnabled(areButtonsActive);
-        viewBinding.hardKickButton.setEnabled(areButtonsActive);
-        viewBinding.abilityButton.setEnabled(areButtonsActive);
+        areButtonsActive = areButtonsActive && client.getMyBattlePlayer().isAlive();
+        if(getActivity() == null) return;
+        boolean finalAreButtonsActive = areButtonsActive;
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                viewBinding.lightKickButton.setEnabled(finalAreButtonsActive);
+                viewBinding.hardKickButton.setEnabled(finalAreButtonsActive);
+                viewBinding.abilityButton.setEnabled(finalAreButtonsActive);
+            }
+        });
     }
 
     private void setButtonsText() {
         viewBinding.lightKickButton.setText(DrawableBattleUnit.getLightAttackNameByBattlePlayerName(
-                client.getMyBattlePlayer().getPlayer()));
+                client.getMyBattlePlayer().getPlayerName()));
         viewBinding.hardKickButton.setText(DrawableBattleUnit.getHardAttackNameByBattlePlayerName(
-                client.getMyBattlePlayer().getPlayer()));
+                client.getMyBattlePlayer().getPlayerName()));
         viewBinding.abilityButton.setText(DrawableBattleUnit.getAbilityNameByBattlePlayerName(
-                client.getMyBattlePlayer().getPlayer()));
+                client.getMyBattlePlayer().getPlayerName()));
     }
 
 
@@ -128,6 +184,7 @@ public class GameControllerFragment extends Fragment {
     public void updateGameStatsPacket(GameStatsPacket gameStatsPacket) {
         this.gameStatsPacket = gameStatsPacket;
         updateBars();
+        Log.d(TAG, "updateGameStatsPacket: " + gameStatsPacket.toString());
         updateButtonsActiveness();
     }
 

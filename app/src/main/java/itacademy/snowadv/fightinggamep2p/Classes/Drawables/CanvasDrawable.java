@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.graphics.Canvas;
 

@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,7 +21,8 @@ public class SpriteAnimation implements SpritePainter {
         SCHOOLBOY_HACKING, POLICEMAN_REPORTING, POLICEMAN_THROWING_GRENADE,
         POLICEMAN_SHOOTING, CRIMINAL_THROWING_MOLOTOV, CRIMINAL_SHOOTING,
         CRIMINAL_HEALING, CRIMINAL_BOSS_THROWING_GRENADE, CRIMINAL_BOSS_SHOOTING,
-        CRIMINAL_BOSS_COORDINATING, POLICEMAN_IDLE, CRIMINAL_IDLE, CRIMINAL_BOSS_IDLE
+        CRIMINAL_BOSS_COORDINATING, POLICEMAN_IDLE, CRIMINAL_IDLE, CRIMINAL_BOSS_IDLE,
+        POLICEMAN_DEAD, CRIMINAL_DEAD, SCHOOLBOY_DEAD, CRIMINAL_BOSS_DEAD
     }
 
 
@@ -58,7 +59,7 @@ public class SpriteAnimation implements SpritePainter {
                                 R.drawable.schoolboy), animationRangeStart,
                         animationRangeEnd);
             case SCHOOLBOY_THROWING_PAPER:
-                return new SpriteAnimation(5, 1,
+                return new SpriteAnimation(6, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_schoolboy_throwing_paper), animationRangeStart,
                         animationRangeEnd);
@@ -89,7 +90,7 @@ public class SpriteAnimation implements SpritePainter {
             case POLICEMAN_THROWING_GRENADE:
                 return new SpriteAnimation(13, 1,
                         BitmapFactory.decodeResource(context.getResources(),
-                                R.drawable.animation_policeman_reporting), animationRangeStart,
+                                R.drawable.animation_policeman_grenade), animationRangeStart,
                         animationRangeEnd);
             case CRIMINAL_HEALING:
                 return new SpriteAnimation(10, 1,
@@ -130,6 +131,26 @@ public class SpriteAnimation implements SpritePainter {
                 return new SpriteAnimation(13, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_criminal_boss_coordinate), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_BOSS_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_dead), animationRangeStart,
+                        animationRangeEnd);
+            case CRIMINAL_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_dead), animationRangeStart,
+                        animationRangeEnd);
+            case POLICEMAN_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_dead), animationRangeStart,
+                        animationRangeEnd);
+            case SCHOOLBOY_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_schoolboy_dead), animationRangeStart,
                         animationRangeEnd);
 
 
@@ -163,7 +184,7 @@ public class SpriteAnimation implements SpritePainter {
                                 R.drawable.schoolboy), animationRangeStart,
                         animationRangeEnd, playCounts, onFinish);
             case SCHOOLBOY_THROWING_PAPER:
-                return new SpriteAnimation(5, 1,
+                return new SpriteAnimation(6, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_schoolboy_throwing_paper), animationRangeStart,
                         animationRangeEnd, playCounts, onFinish);
@@ -194,7 +215,7 @@ public class SpriteAnimation implements SpritePainter {
             case POLICEMAN_THROWING_GRENADE:
                 return new SpriteAnimation(13, 1,
                         BitmapFactory.decodeResource(context.getResources(),
-                                R.drawable.animation_policeman_reporting), animationRangeStart,
+                                R.drawable.animation_policeman_grenade), animationRangeStart,
                         animationRangeEnd, playCounts, onFinish);
             case CRIMINAL_HEALING:
                 return new SpriteAnimation(10, 1,
@@ -235,6 +256,26 @@ public class SpriteAnimation implements SpritePainter {
                 return new SpriteAnimation(13, 1,
                         BitmapFactory.decodeResource(context.getResources(),
                                 R.drawable.animation_criminal_boss_coordinate), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_BOSS_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_boss_dead), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case CRIMINAL_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_criminal_dead), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case POLICEMAN_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_policeman_dead), animationRangeStart,
+                        animationRangeEnd, playCounts, onFinish);
+            case SCHOOLBOY_DEAD:
+                return new SpriteAnimation(1, 1,
+                        BitmapFactory.decodeResource(context.getResources(),
+                                R.drawable.animation_schoolboy_dead), animationRangeStart,
                         animationRangeEnd, playCounts, onFinish);
         }
 

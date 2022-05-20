@@ -1,14 +1,11 @@
-package itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.content.Context;
 import android.graphics.Point;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.Field;
-import itacademy.snowadv.fightinggamep2p.Classes.SpriteAnimation;
-import itacademy.snowadv.fightinggamep2p.Classes.SpritePainter;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
 public class DrawableCriminalBoss extends DrawableBattleUnit {
@@ -16,6 +13,11 @@ public class DrawableCriminalBoss extends DrawableBattleUnit {
     private static final String ABILITY = "Скоординировать бойцов";
     private static final String LIGHT_KICK = "Выстрелить";
     private static final String HARD_KICK = "Выстрелить подствольную гранату";
+    private static final String ABILITY_DESC = "Прибавляет бойцам вашей банды 30 очков силы";
+    private static final String LIGHT_KICK_DESC = "Выстрелите в противника, уменьшив очки его з" +
+            "доровья на 15, потратив 15 очков силы.";
+    private static final String HARD_KICK_DESC = "Выстрелите подствольной гранатой в противника, " +
+            "сняв ему 20 очков здоровья и потратив 25 очков силы.";
 
     public DrawableCriminalBoss(SpritePainter spritePainter, Point location, SnapLocation snapLocation, int width) {
         super(spritePainter, location, snapLocation, width);
@@ -33,22 +35,30 @@ public class DrawableCriminalBoss extends DrawableBattleUnit {
 
     @Override
     public void ability(BattlePlayer myBattlePlayer, Context context, List<BattlePlayer> playersList) {
+        isIdle = false;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_COORDINATING, context, null,
                 null, 1, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
-                        idle(context);
+                        isIdle = true;
+                        if(myBattlePlayer.isAlive()) idle(context);
+                        else dead(context);
                     }
                 }));
         for (BattlePlayer player :
                 playersList) {
-            if (!player.getPlayer().isKind()) {
+            if (!player.getPlayerName().isKind()) {
                 player.increaseStamina(30);
             }
         }
     }
 
+    @Override
+    public void updateIdleAnimation(Context context, BattlePlayer myBattlePlayer) {
+        if(myBattlePlayer.isAlive()) idle(context);
+        else dead(context);
+    }
     @Override
     public String getAbilityName() {
         return ABILITY;
@@ -65,7 +75,28 @@ public class DrawableCriminalBoss extends DrawableBattleUnit {
     }
 
     @Override
+    public String getAbilityDescription() {
+        return ABILITY_DESC;
+    }
+
+    @Override
+    public String getLightKickDescription() {
+        return LIGHT_KICK_DESC;
+    }
+
+    @Override
+    public String getHardKickDescription() {
+        return HARD_KICK_DESC;
+    }
+    @Override
+    public void dead(Context context) {
+        if(!isIdle) return;
+        setSpritePainter(SpriteAnimation.getAnimation(
+                SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_DEAD, context));
+    }
+    @Override
     public void idle(Context context) {
+        if(!isIdle) return;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_IDLE, context));
     }
@@ -73,27 +104,33 @@ public class DrawableCriminalBoss extends DrawableBattleUnit {
 
     @Override
     public void lightKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
+        isIdle = false;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_SHOOTING, context, null,
                 null, 1, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
-                        idle(context);
+                        isIdle = true;
+                        if(myBattlePlayer.isAlive()) idle(context);
+                        else dead(context);
                     }
                 }));
-        attackedPlayer.decreaseHp(5);
+        attackedPlayer.decreaseHp(15);
         myBattlePlayer.decreaseStamina(15);
     }
 
 
     @Override
     public void hardKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
+        isIdle = false;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_THROWING_GRENADE, context, null,
                 null, 1, new Callback<String>() {
                     @Override
                     public void evaluate(String object) {
-                        idle(context);
+                        isIdle = true;
+                        if(myBattlePlayer.isAlive()) idle(context);
+                        else dead(context);
                     }
                 }));
         attackedPlayer.decreaseHp(20);

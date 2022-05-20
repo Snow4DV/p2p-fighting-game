@@ -1,27 +1,26 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.BattleField;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
-import itacademy.snowadv.fightinggamep2p.R;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentBattlefieldBinding;
 
 import static android.view.View.VISIBLE;
@@ -29,6 +28,7 @@ import static android.view.View.VISIBLE;
 public class ServerBattleFragment extends Fragment {
     private BattleFieldSurfaceView battleFieldSurfaceView;
     private FragmentBattlefieldBinding viewBinding;
+    private static final String TAG = "ServerBattleFragment";
 
 
     private GameServer gameServer;
@@ -88,32 +88,30 @@ public class ServerBattleFragment extends Fragment {
         });
     }
 
+    /**
+     * Shows message in a box on battle fragment [can be ran from any thread]
+     * @param message
+     * @param millis
+     */
     public void showMessageOnDisplay(String message, int millis) {
         if(getActivity() == null) {
             return;
         }
 
-        getActivity().runOnUiThread(new Runnable() { // Сроки горят :(((
-            @Override
-            public void run() {
-                viewBinding.messageBox.setVisibility(VISIBLE);
-                viewBinding.messageBoxText.setText(message);
-            }
+        getActivity().runOnUiThread(() -> {
+            viewBinding.messageBox.setVisibility(VISIBLE);
+            viewBinding.messageBoxText.setText(message);
         });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Thread.sleep(millis);
-                } catch(InterruptedException ex) {/*ignored*/}
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        viewBinding.messageBox.setVisibility(VISIBLE);
-                    }
-                });
+        // Thread to close the message box in given time
+        new Thread(() -> {
+            try{
+                Thread.sleep(millis);
+                getActivity().runOnUiThread(() -> viewBinding.messageBox.setVisibility(View.GONE));
+            } catch(InterruptedException | NullPointerException ex) {
+                Log.d(TAG, "showMessageOnDisplay: thrown ex " + ex.getClass().toString() );
             }
-        });
+
+        }).start();
 
     }
 
@@ -127,7 +125,29 @@ public class ServerBattleFragment extends Fragment {
 
 
     public void setBalanceHpBar(int evilHP, int kindHP) {
+        int kindHpPercent = ((evilHP + kindHP)/100) * evilHP;
+        int evilHpPercent = ((evilHP + kindHP)/100) * evilHP;
+        int redBarWidth = (int) ((150/100.0)*evilHpPercent);
+        int greenBarWidth = (int) (((150/100.0)*(kindHpPercent)));
+        // convert dp to px
+        Resources r = getResources();
+        int redBarWidthPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                redBarWidth,
+                r.getDisplayMetrics()
+        );
+        int greenBarWidthPx = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                greenBarWidth,
+                r.getDisplayMetrics()
+        );
+        if(getActivity() != null) {
+            getActivity().runOnUiThread(() -> {
 
+                viewBinding.evilBar.setLayoutParams(new FrameLayout.LayoutParams(redBarWidthPx, viewBinding.evilBar.getLayoutParams().height));
+                viewBinding.kindBar.setLayoutParams(new FrameLayout.LayoutParams(greenBarWidthPx, viewBinding.kindBar.getLayoutParams().height));
+            });
+        }
     }
 
 

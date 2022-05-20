@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
@@ -75,6 +76,7 @@ public class LobbyFragment extends Fragment {
                     viewBinding.chatEditText.getText().toString()));
         });
         viewBinding.lobbyStartServerButton.setOnClickListener(v -> {
+            // TODO: check if there are enough players
            getServer().startGame();
         });
         // Lock orientation
@@ -97,15 +99,16 @@ public class LobbyFragment extends Fragment {
         if(getActivity() == null){
             return;
         }
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
         StringBuilder roomText = new StringBuilder("Хост: <u>" + response.getHostIP() +
                 "</u><br>Игроки (" + response.players.size() + "/6):");
         for(int i = 0; i < response.players.size(); i++) {
             roomText.append((i == 0) ? "" : ", ").append("<u>")
                     .append(response.players.get(i).getName()).append("</u>");
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+
                 viewBinding.playersText.setText(Html.fromHtml(String.valueOf(roomText), 0));
             }
         });

@@ -1,9 +1,10 @@
-package itacademy.snowadv.fightinggamep2p.Classes;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 import java.util.ArrayList;
+
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.CanvasDrawable;
 
 public class DrawablesContainer extends ArrayList<CanvasDrawable> {
     @Override

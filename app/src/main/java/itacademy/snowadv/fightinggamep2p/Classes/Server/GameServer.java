@@ -24,7 +24,6 @@ import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRe
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnectionRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
@@ -42,6 +41,7 @@ public class GameServer implements GameClientServer{
     private GameStatsPacket gameStatsPacket;
     private final Server server = new Server();
     private final GameServerListener listener = new GameServerListener();
+    private static final String TAG = "GameServer";
 
     private Callback<Object> callbackForBattleSurfaceView;
 
@@ -90,9 +90,9 @@ public class GameServer implements GameClientServer{
     private void connectPlayer(BattlePlayer player) {
         players.add(player);
         // If there are already enough player on kind/evil side
-        if(checkIfKindOrEvilPlayersAreTooMuch(player.getPlayer().isKind())) {
+        if(checkIfKindOrEvilPlayersAreTooMuch(player.getPlayerName().isKind())) {
             disconnectPlayerAndCloseConnection(player, "Достаточно игроков на сторооне " +
-                    (player.getPlayer().isKind() ? "добра!" : "зла!") + " Выберите другую сторону.");
+                    (player.getPlayerName().isKind() ? "добра!" : "зла!") + " Выберите другую сторону.");
         }
         sendLobbyUpdateToEveryone();
     }
@@ -117,7 +117,7 @@ public class GameServer implements GameClientServer{
         int count = 0;
         for (BattlePlayer player :
                 players) {
-            if(player.getPlayer().isKind() == isKind) count++;
+            if(player.getPlayerName().isKind() == isKind) count++;
         }
         if(count > EACH_SIDE_MAX_PLAYERS_COUNT) {
             return true;
@@ -143,7 +143,12 @@ public class GameServer implements GameClientServer{
 
 
     public void sendUpdatedGameStatsToEveryone() {
+        if(gameStatsPacket == null) {
+            return;
+        }
         sendObjectToEveryone(gameStatsPacket);
+        Log.d(TAG, "sendUpdatedGameStatsToEveryone - game stats object: "
+                + gameStatsPacket.toString());
     }
 
 
@@ -185,7 +190,7 @@ public class GameServer implements GameClientServer{
     }
 
     public void startGame() {
-        gameStatsPacket = new GameStatsPacket(players, GameStatsPacket.GamePhase.KIND_MOVE);
+        gameStatsPacket = new GameStatsPacket(players, GameStatsPacket.GameSide.KIND);
         if(activity instanceof Notifiable) {
             ((Notifiable)activity).notifyWithObject(new GameStartedEvent());
         }
@@ -248,8 +253,18 @@ public class GameServer implements GameClientServer{
                     callbackForBattleSurfaceView.evaluate(object);
                 }
             }
+            sendUpdatedGameStatsToEveryone();
         }
 
 
+    }
+
+    public String getPlayersStatsAsString() {
+        String result = "";
+        for (BattlePlayer player :
+                players) {
+            result += '\n' + player.getHealth() + "/" + player.getStamina();
+        }
+        return result;
     }
 }

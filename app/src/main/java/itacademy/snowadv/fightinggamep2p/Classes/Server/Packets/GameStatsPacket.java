@@ -1,21 +1,32 @@
 package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 
 public class GameStatsPacket {
 
-    public enum GamePhase {
-        KIND_MOVE, EVIL_MOVE
+    public enum GameSide {
+        KIND, EVIL
     }
 
     private List<BattlePlayer> playersList;
-    private GamePhase phase;
+    private GameSide phase;
+    private GameSide wonSide = null;
 
+    public GameSide getWonSide() {
+        return wonSide;
+    }
 
-    public GameStatsPacket(List<BattlePlayer> playersList, GamePhase phase) {
+    public void setWonSide(GameSide wonSide) {
+        this.wonSide = wonSide;
+    }
+
+    private int phaseNo = 0;
+
+    public GameStatsPacket(List<BattlePlayer> playersList, GameSide phase) {
         this.playersList = playersList;
         this.phase = phase;
     }
@@ -29,7 +40,7 @@ public class GameStatsPacket {
     }
 
 
-    public GamePhase getPhase() {
+    public GameSide getPhase() {
         return phase;
     }
 
@@ -38,7 +49,7 @@ public class GameStatsPacket {
         int count = 0;
         for (BattlePlayer player :
                 playersList) {
-            if (player.getPlayer().isKind()) {
+            if (player.getPlayerName().isKind()) {
                 count++;
             }
         }
@@ -49,11 +60,85 @@ public class GameStatsPacket {
         int count = 0;
         for (BattlePlayer player :
                 playersList) {
-            if (!player.getPlayer().isKind()) {
+            if (!player.getPlayerName().isKind()) {
                 count++;
             }
         }
         return count;
     }
 
+
+    public int getKindPlayersHP() {
+        int hp = 0;
+        for (BattlePlayer player :
+                playersList) {
+            if (player.getPlayerName().isKind()) {
+                hp+=player.getHealth();
+            }
+        }
+        return hp;
+    }
+
+    public int getEvilPlayersHP() {
+        int hp = 0;
+        for (BattlePlayer player :
+                playersList) {
+            if (!player.getPlayerName().isKind()) {
+                hp+=player.getHealth();
+            }
+        }
+        return hp;
+    }
+    public void setPlayersList(List<BattlePlayer> playersList) {
+        this.playersList = playersList;
+    }
+
+    public BattlePlayer getBattlePlayerByConnectionID(int connectionID) {
+        for (BattlePlayer player :
+                playersList) {
+            if (player.getConnectionID() == connectionID) {
+                return player;
+            }
+            }
+        return null;
+    }
+
+    public void setPhase(GameSide phase) {
+        this.phase = phase;
+        // Give all players ability to step according to the phase
+        boolean kindStep = (phase == GameSide.KIND);
+        for (BattlePlayer player :
+                playersList) {
+            player.setAbilityToStep(player.getPlayerName().isKind() == kindStep && player.isAlive());
+        }
+        phaseNo++;
+        // Increase stamina on phase change
+        for (BattlePlayer player :
+                playersList) {
+            player.increaseStamina(12);
+        }
+    }
+
+    /**
+     * Returns won side if someone won or null
+     * @return won side
+     */
+    public @Nullable GameSide checkIfSomeoneWon() {
+        if(getKindPlayersAmount() < 1) {
+            setWonSide(GameSide.EVIL);
+            return getWonSide();
+        } else if(getEvilPlayersAmount() < 1) {
+            setWonSide(GameSide.KIND);
+            return getWonSide();
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "GameStatsPacket{" +
+                "playersList=" + playersList.toString() +
+                ", phase=" + phase +
+                '}';
+    }
 }

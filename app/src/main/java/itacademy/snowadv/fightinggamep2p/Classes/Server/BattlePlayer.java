@@ -1,18 +1,18 @@
-package itacademy.snowadv.fightinggamep2p.Fragments.Lobby;
+package itacademy.snowadv.fightinggamep2p.Classes.Server;
 
 import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableBattleUnit;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.BattleUnitContainer;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableCriminal;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableCriminalBoss;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawablePoliceman;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawableBattleUnits.DrawableSchoolboy;
-import itacademy.snowadv.fightinggamep2p.Classes.DrawablesContainer;
-import itacademy.snowadv.fightinggamep2p.Classes.Field;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableBattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.BattleUnitContainer;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminal;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminalBoss;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablePoliceman;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableSchoolboy;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablesContainer;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Field;
 import itacademy.snowadv.fightinggamep2p.R;
 
 public class BattlePlayer {
@@ -72,6 +72,14 @@ public class BattlePlayer {
 
     private int health = 100;
     private int stamina = 100;
+    private boolean abilityToStep = false;
+
+    public void setAbilityToStep(boolean isAbleToStep) {
+        abilityToStep = isAbleToStep;
+    }
+    public boolean getAbilityToStep() {
+        return this.abilityToStep;
+    }
     public int getHealth() {
         return health;
     }
@@ -89,7 +97,7 @@ public class BattlePlayer {
     }
 
 
-    public BattlePlayerName getPlayer() {
+    public BattlePlayerName getPlayerName() {
         return player;
     }
 
@@ -113,7 +121,7 @@ public class BattlePlayer {
         this.ipAddress = ipAddress;
     }
     public boolean isAlive() {
-        return health > 0;
+        return health > 0 && stamina > 0;
     }
 
     public void decreaseHp(int health) {
@@ -140,6 +148,8 @@ public class BattlePlayer {
             this.stamina = 100;
         }
     }
+
+
 
 
     public int getConnectionID() {
@@ -177,7 +187,7 @@ public class BattlePlayer {
             } else {
                 field = Field.getTopField(assignedEvils++);
             }
-            switch (player.getPlayer()) {
+            switch (player.getPlayerName()) {
                 case SCHOOLBOY:
                     player.assignBattleUnit(DrawableSchoolboy.getAttachedToField(field, context));
                     break;
@@ -201,5 +211,13 @@ public class BattlePlayer {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "BattlePlayer{" +
+                "name='" + name + '\'' +
+                ", connectionID=" + connectionID +
+                ", health=" + health +
+                ", stamina=" + stamina +
+                '}';
+    }
 }

@@ -1,6 +1,6 @@
 package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
 
-import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 
 public class ServerConnectionRequest {
     public BattlePlayer player;

@@ -1,9 +1,8 @@
-package itacademy.snowadv.fightinggamep2p.Classes;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.location.Location;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -90,7 +89,8 @@ public class Sprite implements CanvasDrawable {
      * Method that returns the animation if sprite has it
      * @return Sprite's animation
      */
-    public @Nullable SpriteAnimation getSpriteAnimation() {
+    public @Nullable
+    SpriteAnimation getSpriteAnimation() {
         if(spritePainter instanceof SpriteAnimation) {
             return (SpriteAnimation) spritePainter;
         }

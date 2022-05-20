@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gouranga_pixel_font"
-        android:text="Fighting Game"
+        android:text="Civil Fight"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:shadowRadius="5"
