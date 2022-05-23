@@ -36,30 +36,26 @@ public class GameClient implements GameClientServer {
     private Context activity;
     private Toast toast;
     private GameStatsPacket gameStatsPacket;
+    private boolean isInterrupted = false;
 
     private GameClient(String ip, BattlePlayer player, LobbyFragment lobbyFragment, Context activity) {
         this.player = player; // TODO: redurant. remove
         this.lobbyFragment = lobbyFragment;
-        // this.activity = lobbyFragment.getActivity();
         this.activity = activity;
         listener = new GameClientListener();
         client = new Client();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
 
-                    GameClientServer.registerClasses(client.getKryo());
-                    client.addListener(listener);
-
-                    client.start();
-                    client.connect(1000, ip, FIXED_PORT_TCP, FIXED_PORT_UDP);
-                } catch(IOException ex) {
-                    Log.e(TAG, "GameClient failed to connect  to " + ip, ex);
-                    if(activity instanceof Notifiable) {
-                        ((Notifiable)activity).notifyWithObject(new DisconnectedEvent(true));
-                    }
+        new Thread(() -> {
+                GameClientServer.registerClasses(client.getKryo());
+                client.addListener(listener);
+                client.start();
+            try {
+                client.connect(2000, ip, FIXED_PORT_TCP, FIXED_PORT_UDP);
+            } catch (IOException e) {
+                Log.e(TAG, "GameClient failed to connect  to " + ip, e);
+                if (activity instanceof Notifiable) {
+                    ((Notifiable) activity).notifyWithObject(new DisconnectedEvent(true));
                 }
             }
         }).start();
@@ -68,7 +64,9 @@ public class GameClient implements GameClientServer {
     }
 
     public void disconnect() {
-        client.stop();
+        // Should be ran in a separate thread. Kryonet is a mess.
+        new Thread(client::stop).start();
+        isInterrupted = true;
     }
 
 
@@ -79,7 +77,7 @@ public class GameClient implements GameClientServer {
 
     private void disconnected(Connection connection) {
         // TODO: do something when player disconnects
-        if(activity instanceof Notifiable) {
+        if(activity instanceof Notifiable && !isInterrupted) {
             ((Notifiable) activity).notifyWithObject(new DisconnectedEvent(
                     toast != null && toast.getView().isShown()));
         }

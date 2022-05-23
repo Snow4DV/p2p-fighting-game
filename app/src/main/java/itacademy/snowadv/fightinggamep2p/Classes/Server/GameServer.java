@@ -59,19 +59,23 @@ public class GameServer implements GameClientServer{
     public static GameServer startServer(LobbyFragment lobbyFragment) {
         GameServer gameServer = new GameServer(lobbyFragment);
         GameClientServer.registerClasses(gameServer.server.getKryo());
-        try {
-            gameServer.server.start();
-            gameServer.server.bind(FIXED_PORT_TCP, FIXED_PORT_UDP);
-            gameServer.server.addListener(gameServer.listener);
-        } catch(IOException ex) {
-            Toast.makeText(gameServer.activity, "Ошибка при запуске сервера." +
-                            " Скорее всего, нужные порты заняты. Перезагрузите устройство."
-                    , Toast.LENGTH_SHORT).show();
-            if(lobbyFragment.getActivity() instanceof Notifiable) {
-                ((Notifiable) lobbyFragment.getActivity())
-                        .notifyFragmentIsDone(lobbyFragment);
-            }
+        // It should be ran in another thread because some functionality is not async and may do
+        // network job in main thread. hell!
+        new Thread(() -> {
+            try {
+                gameServer.server.start();
+                gameServer.server.bind(FIXED_PORT_TCP, FIXED_PORT_UDP);
+                gameServer.server.addListener(gameServer.listener);
+            } catch(IOException ex) {
+                Toast.makeText(gameServer.activity, "Ошибка при запуске сервера." +
+                                " Скорее всего, нужные порты заняты. Перезагрузите устройство."
+                        , Toast.LENGTH_SHORT).show();
+                if(lobbyFragment.getActivity() instanceof Notifiable) {
+                    ((Notifiable) lobbyFragment.getActivity())
+                            .notifyFragmentIsDone(lobbyFragment);
+                }
         }
+        }).start();
         gameServer.updateLobbyInFragment();
 
         return gameServer;
