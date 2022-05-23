@@ -91,8 +91,11 @@ public class GameClient implements GameClientServer {
 
 
     public void askForLobbyUpdate() {
-        client.sendTCP(new GetLobbyStatusRequest());
+        new Thread(() -> client.sendTCP(new GetLobbyStatusRequest())).start();
+
     }
+
+
 
     @Override
     public void sendChatMessage(ChatMessage chatMessage) {
@@ -112,7 +115,8 @@ public class GameClient implements GameClientServer {
 
             Log.d(TAG, "connected: " + connection.toString());
             player.setConnectionID(connection.getID());
-            connection.sendTCP(new ServerConnectionRequest(player));
+            GameClientServer.sendTCPToConnectionAsync(connection,
+                    new ServerConnectionRequest(player));
             askForLobbyUpdate();
         }
 
@@ -174,12 +178,7 @@ public class GameClient implements GameClientServer {
     }
 
     private void sendObjectAsync(Object object) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                client.sendTCP(object);
-            }
-        }).start();
+        new Thread(() -> client.sendTCP(object)).start();
     }
 
     public void sendPlayerActionToServer(BattlePlayer.BattlePlayerAction action, BattlePlayer

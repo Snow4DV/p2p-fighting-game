@@ -60,7 +60,7 @@ public class GameServer implements GameClientServer{
         GameServer gameServer = new GameServer(lobbyFragment);
         GameClientServer.registerClasses(gameServer.server.getKryo());
         // It should be ran in another thread because some functionality is not async and may do
-        // network job in main thread. hell!
+        // network job in main thread.
         new Thread(() -> {
             try {
                 gameServer.server.start();
@@ -109,7 +109,8 @@ public class GameServer implements GameClientServer{
     private void disconnectPlayerAndCloseConnection(BattlePlayer player, String reason) {
         players.remove(player);
         if(getConnectionByID(player.getConnectionID()) != null) {
-            getConnectionByID(player.getConnectionID()).sendTCP(new ErrorMessagePacket(reason, true));
+            GameClientServer.sendTCPToConnectionAsync(getConnectionByID(player.getConnectionID()),
+                    new ErrorMessagePacket(reason, true));
         }
         if(getConnectionByID(player.getConnectionID()) != null) {
             getConnectionByID(player.getConnectionID()).close();
@@ -166,19 +167,16 @@ public class GameServer implements GameClientServer{
     }
 
     private void sendObjectToEveryone(Object object) {
+        // Bad practice
+        new Thread(() -> {
         for (BattlePlayer player :
                 players) {
-
-
-            new Thread(new Runnable() { // Bad practice
-                @Override
-                public void run() {
                     getConnectionByID(player.getConnectionID())
                             .sendTCP(object);
                 }
-            }).start();
 
-        }
+
+        }).start();
     }
 
 
@@ -211,6 +209,7 @@ public class GameServer implements GameClientServer{
     }
 
 
+
     private boolean isInGame() {
         return gameStatsPacket != null;
     }
@@ -241,7 +240,8 @@ public class GameServer implements GameClientServer{
                 ServerConnectionRequest request = (ServerConnectionRequest) object;
                 connectPlayer(request.player);
             } else if(object instanceof GetLobbyStatusRequest) {
-                connection.sendTCP(new LobbyStatusUpdateResponse(players, getIpAddress()));
+                GameClientServer.sendTCPToConnectionAsync(connection,
+                        new LobbyStatusUpdateResponse(players, getIpAddress()));
             } else if(object instanceof ChatMessage) {
                 if(lobbyFragment.isVisible()) {
                     lobbyFragment.addChatMessage((ChatMessage) object);

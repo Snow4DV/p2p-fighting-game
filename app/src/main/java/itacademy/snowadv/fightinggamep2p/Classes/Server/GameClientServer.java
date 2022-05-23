@@ -3,6 +3,7 @@ package itacademy.snowadv.fightinggamep2p.Classes.Server;
 import android.graphics.Canvas;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryonet.Connection;
 
 import java.net.Inet4Address;
 
@@ -22,6 +23,10 @@ import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Sprite;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpritePainter;
 
 public interface GameClientServer {
+    /**
+     * Registers classes that will be serialized
+     * @param kryo Kryo instance for class registration
+     */
     static void registerClasses(Kryo kryo) {
         kryo.register(GetLobbyStatusRequest.class);
         kryo.register(LobbyStatusUpdateResponse.class);
@@ -47,6 +52,15 @@ public interface GameClientServer {
         kryo.register(SpritePainter.class);
         kryo.register(Canvas.class);
         kryo.register(Sprite.class);
+    }
+
+    /**
+     * Starts a new thread and sends TCP object to given connection
+     * @param connection Object receiver
+     * @param object Object that will be sent
+     */
+    static void sendTCPToConnectionAsync(Connection connection, Object object) {
+        new Thread(() -> connection.sendTCP(object)).start();
     }
     void sendChatMessage(ChatMessage chatMessage);
 }
