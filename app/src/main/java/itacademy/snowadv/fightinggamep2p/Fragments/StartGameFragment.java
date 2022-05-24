@@ -1,13 +1,16 @@
 package itacademy.snowadv.fightinggamep2p.Fragments;
 
 
+import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +36,14 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.start_server_button:
+                if(getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+                    if(getActivity() != null) {
+                        showAlertDialogWithText("Переверните устройство для того, чтобы" +
+                                " запустить сервер. Игровой сервер должен быть запущен на устройстве с " +
+                                "ландшафтной ориентацией (лучше всего - на телевизоре или планшете)");
+                    }
+                    return;
+                }
                 // Notify the activity about starting a server
                 if(getActivity() instanceof Notifiable) {
                     ((Notifiable) getActivity())
@@ -86,6 +97,9 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
                 showAlertDialogWithText(getString(R.string.sound_creds_to));
             }
         });
+        viewBinding.logo.setImageResource(R.drawable.animation_logo);
+        AnimationDrawable frameAnimation = (AnimationDrawable) viewBinding.logo.getDrawable();
+        frameAnimation.start();
         return viewBinding.getRoot();
     }
 

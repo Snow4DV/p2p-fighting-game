@@ -1,5 +1,6 @@
 package itacademy.snowadv.fightinggamep2p.Classes.Server;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
@@ -61,15 +62,21 @@ public class GameServer implements GameClientServer{
         GameClientServer.registerClasses(gameServer.server.getKryo());
         // It should be ran in another thread because some functionality is not async and may do
         // network job in main thread.
+        final Activity activityContext = lobbyFragment.getActivity();
         new Thread(() -> {
             try {
                 gameServer.server.start();
                 gameServer.server.bind(FIXED_PORT_TCP, FIXED_PORT_UDP);
                 gameServer.server.addListener(gameServer.listener);
             } catch(IOException ex) {
-                Toast.makeText(gameServer.activity, "Ошибка при запуске сервера." +
-                                " Скорее всего, нужные порты заняты. Перезагрузите устройство."
-                        , Toast.LENGTH_SHORT).show();
+                if(activityContext != null) {
+                    activityContext.runOnUiThread(() -> {
+                        Toast.makeText(gameServer.activity, "Ошибка при запуске сервера." +
+                                        " Скорее всего, нужные порты заняты. Перезагрузите устройство."
+                                , Toast.LENGTH_LONG).show();
+                    });
+
+                }
                 if(lobbyFragment.getActivity() instanceof Notifiable) {
                     ((Notifiable) lobbyFragment.getActivity())
                             .notifyFragmentIsDone(lobbyFragment);

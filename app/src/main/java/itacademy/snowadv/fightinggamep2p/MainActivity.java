@@ -1,11 +1,15 @@
 package itacademy.snowadv.fightinggamep2p;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -95,6 +99,8 @@ public class MainActivity extends FragmentActivity implements Notifiable {
         fragmentTransaction.commit();
         playBackgroundMusic(fragment);
     }
+
+
 
     private void playBackgroundMusic(Fragment fragment) {
         if(fragment instanceof ServerBattleFragment) {

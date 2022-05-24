@@ -8,18 +8,12 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <TextView
-        android:paddingTop="50dp"
+    <ImageView
+        android:id="@+id/logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/gouranga_pixel_font"
-        android:text="Civil Fight"
-        android:textAlignment="center"
-        android:textColor="@color/red"
-        android:shadowRadius="5"
-        android:shadowDx="3"
-        android:textSize="50sp"
-        livebutton:layout_constraintBaseline_toTopOf="parent"
+        android:layout_height="0dp"
+        livebutton:layout_constraintHeight_percent="0.6"
+        livebutton:layout_constraintTop_toTopOf="parent"
         livebutton:layout_constraintEnd_toEndOf="parent"
         livebutton:layout_constraintHorizontal_bias="1.0"
         livebutton:layout_constraintStart_toStartOf="parent"/>
