@@ -3,8 +3,12 @@ package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BattleUnits can't and shouldn't be serialized because it contains graphics logic. That's
+ * why there's a container which stores the battle units and battlePlayer only has id for it.
+ */
 public class BattleUnitContainer {
-    private static final List<DrawableBattleUnit> DRAWABLE_BATTLE_UNITS = new ArrayList<>();
+    private final List<DrawableBattleUnit> drawableBattleUnits = new ArrayList<>();
 
 
     /**
@@ -12,20 +16,20 @@ public class BattleUnitContainer {
      * @param drawableBattleUnit BattleUnit to store
      * @return ID of battle unit
      */
-    public static int storeBattleUnitAndGetID(DrawableBattleUnit drawableBattleUnit) {
-        DRAWABLE_BATTLE_UNITS.add(drawableBattleUnit);
-        return DRAWABLE_BATTLE_UNITS.size() - 1;
+    public int storeBattleUnitAndGetID(DrawableBattleUnit drawableBattleUnit) {
+        drawableBattleUnits.add(drawableBattleUnit);
+        return drawableBattleUnits.size() - 1;
     }
 
-    public static DrawableBattleUnit getBattleUnitByID(int id) {
-        return DRAWABLE_BATTLE_UNITS.get(id);
+    public DrawableBattleUnit getBattleUnitByID(int id) {
+        return drawableBattleUnits.get(id);
     }
 
     /**
      * For debug purposes
      * @return string with data of array
      */
-    public static String getListAsString() {
-        return DRAWABLE_BATTLE_UNITS.toString();
+    public String getListAsString() {
+        return drawableBattleUnits.toString();
     }
 }

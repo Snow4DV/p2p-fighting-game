@@ -81,6 +81,12 @@ public class GameServer implements GameClientServer{
         return gameServer;
     }
 
+
+    public void stopServerAndStreamString(String text) {
+        sendObjectToEveryone(new ErrorMessagePacket(
+                text, true));
+        server.stop();
+    }
     public void stopServer() {
         server.stop();
     }
@@ -117,6 +123,7 @@ public class GameServer implements GameClientServer{
         }
         sendLobbyUpdateToEveryone();
     }
+
     
     private boolean checkIfKindOrEvilPlayersAreTooMuch(boolean isKind){
         int count = 0;
@@ -167,7 +174,6 @@ public class GameServer implements GameClientServer{
     }
 
     private void sendObjectToEveryone(Object object) {
-        // Bad practice
         new Thread(() -> {
         for (BattlePlayer player :
                 players) {

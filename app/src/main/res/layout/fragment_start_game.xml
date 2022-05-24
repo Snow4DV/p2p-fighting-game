@@ -76,5 +76,30 @@
         livebutton:layout_constraintTop_toBottomOf="@+id/search_for_a_game_button"
         />
 
+    <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+        android:id="@+id/sound_creds_to_button"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+
+        android:layout_marginTop="30dp"
+        android:paddingTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        livebutton:shadowEnabled="true"
+        android:text=" копирайты "
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+
+        livebutton:buttonColor="@color/fbutton_color_peter_river"
+        livebutton:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"
+        livebutton:layout_constraintBottom_toBottomOf="parent"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 
 public class GameStatsPacket {
+    private static final String TAG = "GameStatsPacket";
 
     public enum GameSide {
         KIND, EVIL
@@ -124,14 +127,14 @@ public class GameStatsPacket {
      * @return won side
      */
     public @Nullable GameSide checkIfSomeoneWon() {
-        if(getKindPlayersAmount() < 1) {
+        if(getKindPlayersHP() <= 0) {
             setWonSide(GameSide.EVIL);
-            return getWonSide();
-        } else if(getEvilPlayersAmount() < 1) {
+            Log.d(TAG, "checkIfSomeoneWon: returning evil side. | " + this.toString());
+        } else if(getEvilPlayersHP() <= 0) {
             setWonSide(GameSide.KIND);
-            return getWonSide();
+            Log.d(TAG, "checkIfSomeoneWon: returning kind side. | " + this.toString());
         }
-        return null;
+        return getWonSide();
     }
 
     @Override

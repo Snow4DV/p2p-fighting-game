@@ -1,13 +1,17 @@
 package itacademy.snowadv.fightinggamep2p.Fragments;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
@@ -53,7 +57,25 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
         viewBinding = FragmentStartGameBinding.inflate(inflater, container, false);
         viewBinding.searchForAGameButton.setOnClickListener(this);
         viewBinding.startServerButton.setOnClickListener(this);
+        viewBinding.soundCredsToButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlertDialogWithText(getString(R.string.sound_creds_to));
+            }
+        });
         return viewBinding.getRoot();
+    }
+
+
+    private void showAlertDialogWithText(String text) {
+        if(getActivity() == null) return;
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                .setMessage(text).show();
+
+        TextView titleView = alertDialog.findViewById(android.R.id.message);
+        Typeface typeface = ResourcesCompat.getFont(getActivity(), R.font.gouranga_pixel);
+        titleView.setTypeface(typeface);
+        alertDialog.show();
     }
 
 

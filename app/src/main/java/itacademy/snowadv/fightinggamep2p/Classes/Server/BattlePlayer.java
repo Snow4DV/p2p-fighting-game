@@ -160,23 +160,26 @@ public class BattlePlayer {
         this.connectionID = connectionID;
     }
 
-    public DrawableBattleUnit getAssignedBattleUnit() {
+    public DrawableBattleUnit getAssignedBattleUnit(BattleUnitContainer container) {
         if(battleUnitID == null) {
             return null;
         }
         Log.d(TAG, "Trying to receive: " + battleUnitID + ". data now:\n"
-                + BattleUnitContainer.getListAsString());
-        return BattleUnitContainer.getBattleUnitByID(battleUnitID);
+                + container.getListAsString());
+        return container.getBattleUnitByID(battleUnitID);
     }
 
 
 
-    public void assignBattleUnit(DrawableBattleUnit assignedDrawableBattleUnit) {
-        battleUnitID = BattleUnitContainer.storeBattleUnitAndGetID(assignedDrawableBattleUnit);
-        Log.d(TAG, "assignBattleUnit stored: " + battleUnitID + ". data now:\n" + BattleUnitContainer.getListAsString());
+    public void assignBattleUnit(DrawableBattleUnit assignedDrawableBattleUnit,
+                                 BattleUnitContainer container) {
+        battleUnitID = container.storeBattleUnitAndGetID(assignedDrawableBattleUnit);
+        Log.d(TAG, "assignBattleUnit stored: " + battleUnitID + ". data now:\n" +
+                container.getListAsString());
     }
 
-    public static void assignAllBattleUnitsToFields(List<BattlePlayer> playersList, Context context) {
+    public static void assignAllBattleUnitsToFields(List<BattlePlayer> playersList, Context context,
+                                                    BattleUnitContainer container) {
         int assignedKinds = 0;
         int assignedEvils = 0;
         for (BattlePlayer player :
@@ -189,25 +192,31 @@ public class BattlePlayer {
             }
             switch (player.getPlayerName()) {
                 case SCHOOLBOY:
-                    player.assignBattleUnit(DrawableSchoolboy.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawableSchoolboy.getAttachedToField(field, context),
+                            container);
                     break;
                 case POLICEMAN:
-                    player.assignBattleUnit(DrawablePoliceman.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawablePoliceman.getAttachedToField(field, context),
+                            container);
                     break;
                 case CRIMINAL:
-                    player.assignBattleUnit(DrawableCriminal.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawableCriminal.getAttachedToField(field, context),
+                            container);
                     break;
                 case CRIMINAL_BOSS:
-                    player.assignBattleUnit(DrawableCriminalBoss.getAttachedToField(field, context));
+                    player.assignBattleUnit(DrawableCriminalBoss.getAttachedToField(field, context),
+                            container);
                     break;
             }
         }
     }
 
-    public static void addAllBattleUnitsToDrawables(List<BattlePlayer> playersList, DrawablesContainer drawables) {
+    public static void addAllBattleUnitsToDrawables(List<BattlePlayer> playersList,
+                                                    DrawablesContainer drawables,
+                                                    BattleUnitContainer container) {
         for (BattlePlayer player :
                 playersList) {
-            drawables.add(player.getAssignedBattleUnit());
+            drawables.add(player.getAssignedBattleUnit(container));
         }
     }
 
@@ -218,6 +227,8 @@ public class BattlePlayer {
                 ", connectionID=" + connectionID +
                 ", health=" + health +
                 ", stamina=" + stamina +
+                ", isAlive=" + isAlive() +
+                ", isKind=" + player.isKind +
                 '}';
     }
 }

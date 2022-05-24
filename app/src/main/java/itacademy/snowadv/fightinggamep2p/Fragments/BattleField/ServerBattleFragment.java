@@ -1,6 +1,10 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.BattleField;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
@@ -18,9 +22,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.BattleUnitContainer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentBattlefieldBinding;
 
 import static android.view.View.VISIBLE;
@@ -29,7 +35,7 @@ public class ServerBattleFragment extends Fragment {
     private BattleFieldSurfaceView battleFieldSurfaceView;
     private FragmentBattlefieldBinding viewBinding;
     private static final String TAG = "ServerBattleFragment";
-
+    private BattleUnitContainer battleUnitContainer = new BattleUnitContainer();
 
     private GameServer gameServer;
 
@@ -44,13 +50,17 @@ public class ServerBattleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        battleFieldSurfaceView = new BattleFieldSurfaceView(getContext(), gameServer, this);
+        battleFieldSurfaceView = new BattleFieldSurfaceView(getContext(), gameServer,
+                this, battleUnitContainer);
         viewBinding = FragmentBattlefieldBinding.inflate(inflater, container, false);
         viewBinding.battlefieldConstraintLayout.addView(battleFieldSurfaceView);
         battleFieldSurfaceView.setElevation(-1f);
         viewBinding.gameLogText.setMovementMethod(new ScrollingMovementMethod());
+
         return viewBinding.getRoot();
     }
+
+
 
 
     /**
@@ -124,7 +134,8 @@ public class ServerBattleFragment extends Fragment {
     }
 
 
-    public void setBalanceHpBar(int evilHP, int kindHP) {
+    public void setBalanceHpBar(int evilHP, int kindHP) { // FIXME: doesnt work!
+        if(getActivity() == null) return;
         int kindHpPercent = ((evilHP + kindHP)/100) * evilHP;
         int evilHpPercent = ((evilHP + kindHP)/100) * evilHP;
         int redBarWidth = (int) ((150/100.0)*evilHpPercent);
@@ -150,8 +161,5 @@ public class ServerBattleFragment extends Fragment {
         }
     }
 
-
-
-
-
+    
 }
