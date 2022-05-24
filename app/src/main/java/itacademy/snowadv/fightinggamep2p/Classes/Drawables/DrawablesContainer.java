@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.CanvasDrawable;
 
+/**
+ * Drawables container stores the canvas-drawable objects and draws all of them on a canvas
+ */
 public class DrawablesContainer extends ArrayList<CanvasDrawable> {
     @Override
     public void clear() {

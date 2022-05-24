@@ -2,6 +2,7 @@ package itacademy.snowadv.fightinggamep2p.Fragments;
 
 
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,13 +70,15 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
 
     private void showAlertDialogWithText(String text) {
         if(getActivity() == null) return;
-        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
-                .setMessage(text).show();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(),
+                R.style.TransparentDialog);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View customDialog = inflater.inflate(R.layout.alert_dialog_text, null);
+        alertDialogBuilder.setView(customDialog);
+        AlertDialog alertDialog = alertDialogBuilder.show();
+        TextView titleView = alertDialog.findViewById(R.id.message);
+        titleView.setText(text);
 
-        TextView titleView = alertDialog.findViewById(android.R.id.message);
-        Typeface typeface = ResourcesCompat.getFont(getActivity(), R.font.gouranga_pixel);
-        titleView.setTypeface(typeface);
-        alertDialog.show();
     }
 
 

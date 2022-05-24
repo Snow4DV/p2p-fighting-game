@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
+    style="@style/TransparentDialog"
+    android:background="@drawable/textbox_nine_patch"
     tools:context=".MainActivity">
 
     <TextView

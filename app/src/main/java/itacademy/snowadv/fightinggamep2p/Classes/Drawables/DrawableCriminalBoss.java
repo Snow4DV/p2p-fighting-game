@@ -2,12 +2,17 @@ package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.util.Log;
 
+import java.util.Arrays;
 import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
+/**
+ * CriminalBoss server class
+ */
 public class DrawableCriminalBoss extends DrawableBattleUnit {
 
     private static final String ABILITY = "Скоординировать бойцов";
@@ -38,13 +43,10 @@ public class DrawableCriminalBoss extends DrawableBattleUnit {
         isIdle = false;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_COORDINATING, context, null,
-                null, 1, new Callback<String>() {
-                    @Override
-                    public void evaluate(String object) {
-                        isIdle = true;
-                        if(myBattlePlayer.isAlive()) idle(context);
-                        else dead(context);
-                    }
+                null, 1, object -> {
+                    isIdle = true;
+                    if(myBattlePlayer.isAlive()) idle(context);
+                    else dead(context);
                 }));
         for (BattlePlayer player :
                 playersList) {
@@ -90,12 +92,14 @@ public class DrawableCriminalBoss extends DrawableBattleUnit {
     }
     @Override
     public void dead(Context context) {
+        Log.d(TAG, "dead: " + Arrays.toString(Thread.currentThread().getStackTrace()));
         if(!isIdle) return;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_DEAD, context));
     }
     @Override
     public void idle(Context context) {
+        Log.d(TAG, "idle: " + Arrays.toString(Thread.currentThread().getStackTrace()));
         if(!isIdle) return;
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.CRIMINAL_BOSS_IDLE, context));

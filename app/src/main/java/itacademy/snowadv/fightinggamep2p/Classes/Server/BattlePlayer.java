@@ -15,6 +15,9 @@ import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablesContainer;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Field;
 import itacademy.snowadv.fightinggamep2p.R;
 
+/**
+ * Server-client class that represents the player's state
+ */
 public class BattlePlayer {
     private static final String TAG = "BattlePlayer";
     public enum BattlePlayerName {

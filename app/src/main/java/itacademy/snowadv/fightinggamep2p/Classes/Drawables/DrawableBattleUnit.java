@@ -7,8 +7,12 @@ import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 
+/**
+ * This class represents the Sprite's server logic
+ */
 public abstract class DrawableBattleUnit extends Sprite {
 
+    protected static final String TAG = "BattleUnit";
     protected boolean isIdle = true;
 
     protected DrawableBattleUnit(SpritePainter spritePainter, Point location, SnapLocation snapLocation,

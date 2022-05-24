@@ -8,6 +8,9 @@ import java.util.List;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
+/**
+ * Hacker-Schoolboy server class
+ */
 public class DrawableSchoolboy extends DrawableBattleUnit {
 
     private static final String ABILITY = "Накричать на противников";

@@ -1,5 +1,7 @@
 package itacademy.snowadv.fightinggamep2p.Fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ public class PlayerSelectDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return inflater.inflate(R.layout.fragment_player_select_dialog, container, false);
     }
 
@@ -50,12 +53,9 @@ public class PlayerSelectDialogFragment extends DialogFragment {
         ArrayAdapter<String> arrayAdapter
                 = new ArrayAdapter<>(getContext(), R.layout.player_list_item, playersNames);
         DialogFragment thisDialogFragment = this;
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                onBattlePlayerSelectedCallback.evaluate(players.get(position));
-                thisDialogFragment.dismiss();
-            }
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            onBattlePlayerSelectedCallback.evaluate(players.get(position));
+            thisDialogFragment.dismiss();
         });
         listView.setAdapter(arrayAdapter);
     }

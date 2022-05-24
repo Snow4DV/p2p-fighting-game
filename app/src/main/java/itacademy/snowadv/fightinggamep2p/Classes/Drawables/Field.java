@@ -6,6 +6,9 @@ import android.graphics.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the container for Field sprites
+ */
 public class Field extends Sprite {
     /* multiplier sets height of field corresponding to the view height (1.0 means field's  height
     * will equal view's height */

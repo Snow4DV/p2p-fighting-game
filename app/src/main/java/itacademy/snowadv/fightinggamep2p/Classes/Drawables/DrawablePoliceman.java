@@ -8,6 +8,9 @@ import java.util.List;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 
+/**
+ * Policeman server class
+ */
 public class DrawablePoliceman extends DrawableBattleUnit {
 
     private static final String ABILITY = "Позвать подкрепление";
