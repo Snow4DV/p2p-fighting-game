@@ -73,7 +73,6 @@ public class GameControllerFragment extends Fragment {
             showAlertDialogWithText(desc);
             return false;
         });
-        // TODO: describe action on long click listener
         setPreviewPicture(client.getMyBattlePlayer());
         setPlayerName(client.getMyBattlePlayer());
         updateBars();

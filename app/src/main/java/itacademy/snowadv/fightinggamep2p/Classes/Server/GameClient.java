@@ -76,7 +76,6 @@ public class GameClient implements GameClientServer {
     }
 
     private void disconnected(Connection connection) {
-        // TODO: do something when player disconnects
         if(activity instanceof Notifiable && !isInterrupted) {
             ((Notifiable) activity).notifyWithObject(new DisconnectedEvent(
                     toast != null && toast.getView().isShown()));

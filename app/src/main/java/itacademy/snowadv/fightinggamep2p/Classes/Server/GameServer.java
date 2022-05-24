@@ -204,6 +204,10 @@ public class GameServer implements GameClientServer{
         return gameStatsPacket;
     }
 
+    public int getPlayersCount() {
+        return players.size();
+    }
+
     @Override
     public void sendChatMessage(ChatMessage chatMessage) {
         sendObjectToEveryone(chatMessage);
@@ -225,6 +229,28 @@ public class GameServer implements GameClientServer{
         // FIX: Get host address is broken (keeps getting 127.0.0.1). Using IPv4-only method
         WifiManager wm = (WifiManager) activity.getSystemService(WIFI_SERVICE);
         return Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+    }
+
+    public int getKindPlayersAmount() {
+        int count = 0;
+        for (BattlePlayer player :
+                players) {
+            if (player.getPlayerName().isKind()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int getEvilPlayersAmount() {
+        int count = 0;
+        for (BattlePlayer player :
+                players) {
+            if (!player.getPlayerName().isKind()) {
+                count++;
+            }
+        }
+        return count;
     }
 
 

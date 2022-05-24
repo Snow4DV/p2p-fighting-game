@@ -66,29 +66,32 @@
         app:layout_constraintTop_toBottomOf="@id/room_text"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
+        android:gravity="bottom"
         app:layout_constraintWidth_percent="0.45"
         android:orientation="vertical"
         android:layout_margin="20dp"
         app:layout_constraintHeight_percent="0.5"
         android:layout_height="0dp">
         <ScrollView
+            android:visibility="gone"
             android:id="@+id/chat_scroll_view"
             android:layout_margin="15dp"
             android:layout_weight="80"
             android:layout_width="match_parent"
             android:layout_height="0dp">
-            <TextView
-                android:id="@+id/chat_text"
-                android:layout_width="match_parent"
-
-                android:textSize="25sp"
-                android:fontFamily="@font/gouranga_pixel_font"
-                android:text="СЕРВЕР: Добро пожаловать в чат!"
-
-                android:layout_height="wrap_content" />
         </ScrollView>
+        <TextView
+            android:id="@+id/chat_text"
+            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_margin="15dp"
+            android:textSize="25sp"
+            android:fontFamily="@font/gouranga_pixel_font"
+            android:text="СЕРВЕР: Добро пожаловать в чат!"
 
+            android:layout_height="match_parent" />
         <LinearLayout
+            android:visibility="gone"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:paddingHorizontal="20dp"
@@ -117,10 +120,6 @@
                 />
         </LinearLayout>
 
-        <Space
-            app:layout_constraintTop_toBottomOf="@id/chat_edit_text"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
     </LinearLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/server_box"

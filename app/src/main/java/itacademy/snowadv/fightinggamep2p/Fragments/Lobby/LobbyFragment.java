@@ -5,12 +5,16 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.format.Formatter;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
@@ -21,6 +25,7 @@ import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
 import itacademy.snowadv.fightinggamep2p.Fragments.PlayerChoiceFragment;
+import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentLobbyBinding;
 
 import static android.content.Context.WIFI_SERVICE;
@@ -64,6 +69,7 @@ public class LobbyFragment extends Fragment {
         viewBinding = FragmentLobbyBinding.inflate(inflater, container, false);
         if(isServer) {
             doServerJob();
+            viewBinding.chatText.setMovementMethod(new ScrollingMovementMethod());
         } else {
             doClientJob();
         }
@@ -76,7 +82,11 @@ public class LobbyFragment extends Fragment {
                     viewBinding.chatEditText.getText().toString()));
         });
         viewBinding.lobbyStartServerButton.setOnClickListener(v -> {
-            // TODO: check if there are enough players
+            if(getServer().getEvilPlayersAmount() <= 0 || getServer().getKindPlayersAmount() <= 0) {
+                showAlertDialogWithText("Не хватает игроков. На каждой стороне должно быть минимум " +
+                        "по одному игроку.");
+                return;
+            }
            getServer().startGame();
         });
         // Lock orientation
@@ -88,6 +98,18 @@ public class LobbyFragment extends Fragment {
         return viewBinding.getRoot();
     }
 
+    private void showAlertDialogWithText(String text) {
+        if(getActivity() == null) return;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(),
+                R.style.TransparentDialog);
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        View customDialog = inflater.inflate(R.layout.alert_dialog_text, null);
+        alertDialogBuilder.setView(customDialog);
+        AlertDialog alertDialog = alertDialogBuilder.show();
+        TextView titleView = alertDialog.findViewById(R.id.message);
+        titleView.setText(text);
+
+    }
 
     @Override
     public void onDestroyView() {

@@ -208,7 +208,6 @@ public class MainActivity extends FragmentActivity implements Notifiable {
         transitToNewFragment(new PlayerChoiceFragment((battlePlayer,
                                                        roleChoiceCallbackResult) ->
                 transitToNewFragment(new ServerListFragment(battlePlayer))));
-        // TODO: Get rid of role cb
     }
 
     private @Nullable
