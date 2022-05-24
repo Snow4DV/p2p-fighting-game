@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
@@ -58,6 +60,10 @@ public class MainActivity extends FragmentActivity implements Notifiable {
             }
         });
         viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        // Force fullscreen
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(viewBinding.getRoot());
         transitToNewFragment(new StartGameFragment());
     }
@@ -170,13 +176,10 @@ public class MainActivity extends FragmentActivity implements Notifiable {
             clientServer = (GameClientServer) object;
         } else if(object instanceof DisconnectedEvent) { // Fallback if disconnected
             final Context context = this;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if(((DisconnectedEvent) object).showToast) {
-                        Toast.makeText(context, "Отключен от сервера",
-                                Toast.LENGTH_SHORT).show();
-                    }
+            runOnUiThread(() -> {
+                if(((DisconnectedEvent) object).showToast) {
+                    Toast.makeText(context, "Отключен от сервера",
+                            Toast.LENGTH_SHORT).show();
                 }
             });
 

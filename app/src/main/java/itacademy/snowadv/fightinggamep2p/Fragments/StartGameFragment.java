@@ -87,6 +87,7 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewBinding = FragmentStartGameBinding.inflate(inflater, container, false);
+        viewBinding.backgroundVolume.setText(changeVolume(0.0f) + "%");
         viewBinding.searchForAGameButton.setOnClickListener(this);
         viewBinding.startServerButton.setOnClickListener(this);
         viewBinding.addBackgroundVolume.setOnClickListener(this);

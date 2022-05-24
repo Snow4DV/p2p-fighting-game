@@ -27,6 +27,7 @@ import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.R;
+import itacademy.snowadv.fightinggamep2p.UI.FlatButton;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentServerListBinding;
 
 public class ServerListFragment extends Fragment {
@@ -62,35 +63,31 @@ public class ServerListFragment extends Fragment {
         viewBinding.joinServerByIpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editText = new EditText(getActivity());
-                AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                        .setMessage("Введите IP-адрес сервера:")
-                        .setView(editText)
-                        .setPositiveButton("Войти", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                String editTextInput = editText.getText().toString();
-                                Log.d("onclick","Entered manual ip: "+ editTextInput);
-                                if(!editTextInput.matches(IPv4_REGEX)) {
-                                    Toast.makeText(getActivity(),
-                                            "Неверный IP-адрес",
-                                            Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                connectToServer(editTextInput);
-                            }
-                        })
-                        .setNegativeButton("Отмена", null)
-                        .create();
-                dialog.show();
-                TextView textView = dialog.findViewById(android.R.id.message);
-                Typeface face= ResourcesCompat.getFont(getActivity(), R.font.gouranga_pixel_font);
-                Button btn1 = dialog.findViewById(android.R.id.button1);
-                Button btn2 = dialog.findViewById(android.R.id.button2);
-                btn1.setTypeface(face);
-                btn2.setTypeface(face);
-                editText.setTypeface(face);
-                textView.setTypeface(face);
+                if(getActivity() == null) return;
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity(),
+                        R.style.TransparentDialog);
+                LayoutInflater inflater = LayoutInflater.from(getActivity());
+                View customDialog = inflater.inflate(R.layout.alert_dialog_manual_connection, null);
+                alertDialogBuilder.setView(customDialog);
+                AlertDialog alertDialog = alertDialogBuilder.show();
+                EditText editText = alertDialog.findViewById(R.id.server_ip_edit_text);
+                FlatButton button = alertDialog.findViewById(R.id.manual_join_button);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String editTextInput = editText.getText().toString();
+                        Log.d("onclick","Entered manual ip: "+ editTextInput);
+                        if(!editTextInput.matches(IPv4_REGEX)) {
+                            Toast.makeText(getActivity(),
+                                    "Неверный IP-адрес",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        connectToServer(editTextInput);
+                        alertDialog.hide();
+                    }
+                });
             }
         });
         return viewBinding.getRoot();

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:livebutton="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/message_box"
+    android:background="@drawable/textbox_nine_patch"
+    android:layout_width="match_parent"
+    android:elevation="20dp"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_margin="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:text="@string/ip"
+        android:textColor="@color/black"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:autofillHints="@null"
+        android:inputType="text"
+        android:id="@+id/server_ip_edit_text"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_marginHorizontal="30dp"
+        android:outlineAmbientShadowColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+        android:id="@+id/manual_join_button"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginBottom="30dp"
+        livebutton:shadowEnabled="true"
+        android:text=" Войти "
+        android:textColor="#ffffff"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        livebutton:buttonColor="@color/fbutton_color_peter_river"
+        />
+</LinearLayout>

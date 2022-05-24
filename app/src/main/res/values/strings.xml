@@ -3,4 +3,5 @@
     <string name="no_servers">Сервера не найдены. Попробуйте подключиться вручную с использованием IP-адреса с помощью соответствующей кнопки.</string>
     <string name="discovering_servers">Поиск серверов...</string>
     <string name="sound_creds_to">Фоновая музыка с PlayOnLoop.com\nLicensed under Creative Commons by Attribution 4.0\nЗвуки: все права принадлежает "phoenix1291" или "SwissArcadeGameEntertainment"\nОстальные ресурсы принадлежат создателю приложения.</string>
+    <string name="ip">Введите IP-адрес сервера:</string>
 </resources>
