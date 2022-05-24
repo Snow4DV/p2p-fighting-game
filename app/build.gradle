@@ -4,6 +4,11 @@ plugins {
 
 android {
     compileSdkVersion 31
+    lintOptions {
+
+        checkReleaseBuilds false
+
+    }
 
     viewBinding{
         enabled = true
