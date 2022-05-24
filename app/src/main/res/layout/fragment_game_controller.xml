@@ -175,7 +175,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:padding="10dp"
         android:layout_width="match_parent"
-
+        android:id="@+id/action_box"
         android:layout_height="wrap_content">
         <itacademy.snowadv.fightinggamep2p.UI.FlatButton
             android:id="@+id/light_kick_button"
