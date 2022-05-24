@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -15,12 +18,13 @@ public class SoundPlayer {
     private AudioManager audioManager;
     private SoundPool mSoundPool;
     private final Context context;
+    private MediaPlayer mediaPlayer;
 
 
 
     public enum SfxName {
         COORDINATING, BACKGROUND_MUSIC, BLOWN_GRENADE, DEATH, HACKING, HEAVY_BLOWN_GRENADE,
-        MENU_MUSIC, PISTOL, REPORTING, SHOTGUN, THROW_PAPER, WIN
+        MENU_MUSIC, PISTOL, REPORTING, SHOTGUN, THROW_PAPER, WIN, HEAL, CLICK, SCREAM
     }
     public static SoundPlayer build(Context context) {
         SoundPlayer soundPlayer = new SoundPlayer(context);
@@ -31,7 +35,6 @@ public class SoundPlayer {
     private SoundPlayer(Context context) {
         this.context = context;
     }
-
 
     HashMap<SfxName, Integer> loadedSounds = new HashMap<>();
     HashMap<SfxName, Integer> streamedSounds = new HashMap<>();
@@ -63,6 +66,9 @@ public class SoundPlayer {
         loadedSounds.put(SfxName.SHOTGUN, load(R.raw.shotgun));
         loadedSounds.put(SfxName.THROW_PAPER, load(R.raw.throw_paper));
         loadedSounds.put(SfxName.WIN, load(R.raw.win));
+        loadedSounds.put(SfxName.HEAL, load(R.raw.heal));
+        loadedSounds.put(SfxName.CLICK, load(R.raw.click));
+        loadedSounds.put(SfxName.SCREAM, load(R.raw.scream));
     }
 
     /**
@@ -73,11 +79,11 @@ public class SoundPlayer {
         return mSoundPool.load(context, resource, 1);
     }
 
-    public void play(SfxName soundName) {
+    public void play(SfxName soundName, float volumeMultiplier) {
         if(!(loadedSounds.containsKey(soundName)))
             throw new Resources.NotFoundException("There's no \"" + soundName +
                     "\" in registered resources");
-        float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * volumeMultiplier;
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         float leftVolume = curVolume / maxVolume;
         float rightVolume = curVolume / maxVolume;
@@ -93,6 +99,37 @@ public class SoundPlayer {
         float rightVolume = curVolume / maxVolume;
         streamedSounds.put(soundName, mSoundPool.play(loadedSounds.get(soundName), leftVolume, rightVolume,
                 1, 0, 1));
+    }
+
+    public void playOnceWithDelay(SfxName soundName, int delay) {
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            playOnce(soundName);
+        }, delay);
+    }
+
+    public void stopLong() {
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+    public void playLong(SfxName soundName, float volumeMultiplier) {
+        stopLong();
+        float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * volumeMultiplier;
+        float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        float leftVolume = curVolume / maxVolume;
+        float rightVolume = curVolume / maxVolume;
+        switch(soundName) {
+            default:
+            case BACKGROUND_MUSIC:
+                mediaPlayer = MediaPlayer.create(context, R.raw.background_music);
+                break;
+            case MENU_MUSIC:
+                mediaPlayer = MediaPlayer.create(context, R.raw.menu_music);
+        }
+        mediaPlayer.setLooping(true);
+        mediaPlayer.setVolume(leftVolume, rightVolume);
+        mediaPlayer.start();
+
     }
 
     public void stop(String soundName) {

@@ -15,10 +15,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import itacademy.snowadv.fightinggamep2p.R;
+import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
 
 public class FlatButton extends androidx.appcompat.widget.AppCompatButton implements View.OnTouchListener {
-
-    /*FIXME: problems with paddings*/
 
     //Native view values
     private int mPaddingLeft;
@@ -37,11 +36,22 @@ public class FlatButton extends androidx.appcompat.widget.AppCompatButton implem
 
     boolean isShadowColorDefined = false;
 
+    private static Runnable actionOnEveryClick;
+
+    public static void setActionOnEveryClick(Runnable actionOnEveryClick) {
+        FlatButton.actionOnEveryClick = actionOnEveryClick;
+    }
+
+    public static void removeActionOnEveryClick() {
+        FlatButton.actionOnEveryClick = null;
+    }
+
     public FlatButton(Context context) {
         super(context);
         init();
         this.setOnTouchListener(this);
     }
+
 
     public FlatButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -72,6 +82,9 @@ public class FlatButton extends androidx.appcompat.widget.AppCompatButton implem
                 this.setPadding(mPaddingLeft, mPaddingTop + mShadowHeight, mPaddingRight, mPaddingBottom);
                 break;
             case MotionEvent.ACTION_UP:
+                if(actionOnEveryClick != null) {
+                    actionOnEveryClick.run();
+                }
                 updateBackground(unpressedDrawable);
                 this.setPadding(mPaddingLeft, mPaddingTop + mShadowHeight, mPaddingRight, mPaddingBottom + mShadowHeight);
                 break;
@@ -266,4 +279,5 @@ public class FlatButton extends androidx.appcompat.widget.AppCompatButton implem
     public int getCornerRadius() {
         return mCornerRadius;
     }
+
 }

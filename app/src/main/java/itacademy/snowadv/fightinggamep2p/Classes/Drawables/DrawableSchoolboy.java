@@ -7,6 +7,7 @@ import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
+import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
 
 /**
  * Hacker-Schoolboy server class
@@ -40,6 +41,7 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
     @Override
     public void ability(BattlePlayer myBattlePlayer, Context context, List<BattlePlayer> playersList) {
         isIdle = false;
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.SCREAM, 1500);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_TALKING, context, null,
                 null, 6, new Callback<String>() {
@@ -110,6 +112,7 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
     @Override
     public void lightKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         isIdle = false;
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.THROW_PAPER, 1500);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_THROWING_PAPER, context, null,
                 null, 2, new Callback<String>() {
@@ -129,6 +132,7 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
     @Override
     public void hardKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         isIdle = false;
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.HACKING, 1500);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_HACKING, context, null,
                 null, 1, new Callback<String>() {

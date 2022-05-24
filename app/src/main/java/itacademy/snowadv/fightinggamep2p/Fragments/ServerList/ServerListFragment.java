@@ -115,6 +115,7 @@ public class ServerListFragment extends Fragment {
                     Log.d("debug", "evaluate: bug"); // TODO: REMOVE
                 }
                 adapter.setDevicesList(devices);
+                if(getActivity() == null) return;
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

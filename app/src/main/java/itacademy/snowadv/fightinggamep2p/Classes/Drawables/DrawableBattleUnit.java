@@ -6,6 +6,7 @@ import android.graphics.Point;
 import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
 
 /**
  * This class represents the Sprite's server logic
@@ -14,6 +15,11 @@ public abstract class DrawableBattleUnit extends Sprite {
 
     protected static final String TAG = "BattleUnit";
     protected boolean isIdle = true;
+    protected SoundPlayer soundPlayer;
+
+    public void assignSoundPlayer(SoundPlayer soundPlayer) {
+        this.soundPlayer = soundPlayer;
+    }
 
     protected DrawableBattleUnit(SpritePainter spritePainter, Point location, SnapLocation snapLocation,
                                  int width) {

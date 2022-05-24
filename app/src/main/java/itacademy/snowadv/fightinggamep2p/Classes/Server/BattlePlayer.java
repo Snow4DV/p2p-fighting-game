@@ -14,6 +14,7 @@ import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableSchoolboy;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablesContainer;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Field;
 import itacademy.snowadv.fightinggamep2p.R;
+import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
 
 /**
  * Server-client class that represents the player's state
@@ -175,14 +176,16 @@ public class BattlePlayer {
 
 
     public void assignBattleUnit(DrawableBattleUnit assignedDrawableBattleUnit,
-                                 BattleUnitContainer container) {
+                                 BattleUnitContainer container, SoundPlayer soundPlayer) {
+        assignedDrawableBattleUnit.assignSoundPlayer(soundPlayer);
         battleUnitID = container.storeBattleUnitAndGetID(assignedDrawableBattleUnit);
         Log.d(TAG, "assignBattleUnit stored: " + battleUnitID + ". data now:\n" +
                 container.getListAsString());
     }
 
     public static void assignAllBattleUnitsToFields(List<BattlePlayer> playersList, Context context,
-                                                    BattleUnitContainer container) {
+                                                    BattleUnitContainer container,
+                                                    SoundPlayer soundPlayer) {
         int assignedKinds = 0;
         int assignedEvils = 0;
         for (BattlePlayer player :
@@ -196,19 +199,19 @@ public class BattlePlayer {
             switch (player.getPlayerName()) {
                 case SCHOOLBOY:
                     player.assignBattleUnit(DrawableSchoolboy.getAttachedToField(field, context),
-                            container);
+                            container, soundPlayer);
                     break;
                 case POLICEMAN:
                     player.assignBattleUnit(DrawablePoliceman.getAttachedToField(field, context),
-                            container);
+                            container, soundPlayer);
                     break;
                 case CRIMINAL:
                     player.assignBattleUnit(DrawableCriminal.getAttachedToField(field, context),
-                            container);
+                            container, soundPlayer);
                     break;
                 case CRIMINAL_BOSS:
                     player.assignBattleUnit(DrawableCriminalBoss.getAttachedToField(field, context),
-                            container);
+                            container, soundPlayer);
                     break;
             }
         }

@@ -33,6 +33,8 @@ import itacademy.snowadv.fightinggamep2p.Fragments.PlayerSelectDialogFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.ServerListFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.StartGameFragment;
+import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
+import itacademy.snowadv.fightinggamep2p.UI.FlatButton;
 import itacademy.snowadv.fightinggamep2p.databinding.ActivityMainBinding;
 
 public class MainActivity extends FragmentActivity implements Notifiable {
@@ -44,11 +46,19 @@ public class MainActivity extends FragmentActivity implements Notifiable {
     private ActivityMainBinding viewBinding;
     private Fragment currentFragment;
     private GameClientServer clientServer;
+    private SoundPlayer backgroundSoundPlayer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        backgroundSoundPlayer = SoundPlayer.build(this);
+        FlatButton.setActionOnEveryClick(new Runnable() {
+            @Override
+            public void run() {
+                backgroundSoundPlayer.playOnce(SoundPlayer.SfxName.CLICK);
+            }
+        });
         viewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(viewBinding.getRoot());
         transitToNewFragment(new StartGameFragment());
@@ -67,14 +77,6 @@ public class MainActivity extends FragmentActivity implements Notifiable {
         });
     }*/
 
-    private void createTheServer() {
-        // TODO: if server is selected - create the server after choosing the player
-    }
-
-    private void startTransitionToServerListFragment() {
-        // TODO: if client is sele cted - go to the
-    }
-
     private void fallbackToTheStartGameScreen() {
             transitToNewFragment(new StartGameFragment());
             doTheClientServerStopJob();
@@ -86,6 +88,23 @@ public class MainActivity extends FragmentActivity implements Notifiable {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container_view_main, fragment, null);
         fragmentTransaction.commit();
+        playBackgroundMusic(fragment);
+    }
+
+    private void playBackgroundMusic(Fragment fragment) {
+        if(fragment instanceof ServerBattleFragment) {
+            backgroundSoundPlayer.playLong(SoundPlayer.SfxName.BACKGROUND_MUSIC, 0.3f);
+        } else if(fragment instanceof  StartGameFragment){
+            backgroundSoundPlayer.playLong(SoundPlayer.SfxName.MENU_MUSIC, 0.4f);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(backgroundSoundPlayer != null) {
+            backgroundSoundPlayer.stopLong();
+        }
     }
 
     @Override

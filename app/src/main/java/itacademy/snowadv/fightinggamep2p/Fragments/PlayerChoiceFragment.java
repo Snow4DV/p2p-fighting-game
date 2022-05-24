@@ -1,6 +1,7 @@
 package itacademy.snowadv.fightinggamep2p.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class PlayerChoiceFragment extends Fragment {
 
 
     public enum RoleChoiceCallbackResult {CLIENT, SERVER}
+    private static final String TAG = "PlayerChoiceFragment";
 
     private FragmentPlayerChoiceBinding viewBinding;
     private static BattlePlayer.BattlePlayerName playerName = BattlePlayer.BattlePlayerName.SCHOOLBOY;
@@ -69,10 +71,12 @@ public class PlayerChoiceFragment extends Fragment {
 
     private int getNextPlayerAndGetDrawableId() {
         playerName = playerName.next();
+        Log.d(TAG, "getNextPlayerAndGetDrawableId: returned next " + playerName.toString());
         return playerName.drawableId;
     }
     private int getPrevPlayerAndGetDrawableId() {
         playerName = playerName.prev();
+        Log.d(TAG, "getNextPlayerAndGetDrawableId: returned next " + playerName.toString());
         return playerName.drawableId;
     }
 }

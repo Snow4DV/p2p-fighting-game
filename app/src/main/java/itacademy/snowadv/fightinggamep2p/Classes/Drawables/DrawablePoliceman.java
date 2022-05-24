@@ -7,6 +7,7 @@ import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
+import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
 
 /**
  * Policeman server class
@@ -40,6 +41,7 @@ public class DrawablePoliceman extends DrawableBattleUnit {
     @Override
     public void ability(BattlePlayer myBattlePlayer, Context context, List<BattlePlayer> playersList) {
         isIdle = false;
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.REPORTING, 1500);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.POLICEMAN_REPORTING, context, null,
                 null, 1, new Callback<String>() {
@@ -105,6 +107,7 @@ public class DrawablePoliceman extends DrawableBattleUnit {
     @Override
     public void lightKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         isIdle = false;
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.PISTOL, 1500);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.POLICEMAN_SHOOTING, context, null,
                 null, 1, new Callback<String>() {
@@ -128,6 +131,7 @@ public class DrawablePoliceman extends DrawableBattleUnit {
     @Override
     public void hardKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         isIdle = false;
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.BLOWN_GRENADE, 1500);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.POLICEMAN_THROWING_GRENADE, context, null,
                 null, 1, new Callback<String>() {

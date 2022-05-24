@@ -174,15 +174,21 @@ public class GameServer implements GameClientServer{
     }
 
     private void sendObjectToEveryone(Object object) {
-        new Thread(() -> {
-        for (BattlePlayer player :
-                players) {
-                    getConnectionByID(player.getConnectionID())
-                            .sendTCP(object);
+        ArrayList<BattlePlayer> receiverPlayers = new ArrayList<>(players);
+            new Thread(() -> {
+                for (BattlePlayer player :
+                        receiverPlayers) {
+                    try {
+                        getConnectionByID(player.getConnectionID())
+                                .sendTCP(object);
+                    } catch(NullPointerException ex) {
+                        Log.e(TAG, "sendObjectToEveryone: Tried to send message, but " +
+                                "BattlePlayer died", ex);
+                    }
                 }
 
 
-        }).start();
+            }).start();
     }
 
 
