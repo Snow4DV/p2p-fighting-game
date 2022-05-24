@@ -7,7 +7,7 @@ import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Sprite;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpritePainter;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
 
 /**

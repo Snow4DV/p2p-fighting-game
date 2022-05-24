@@ -18,9 +18,9 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableBattleUnit;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.GameClient;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameStatsPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.PlayerSelectDialogFragment;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentGameControllerBinding;

@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Server;
+package itacademy.snowadv.fightinggamep2p.Classes.ClientServer;
 
 import android.graphics.Canvas;
 
@@ -7,18 +7,19 @@ import com.esotericsoftware.kryonet.Connection;
 
 import java.net.Inet4Address;
 
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableBattleUnit;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableCriminal;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableCriminalBoss;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawablePoliceman;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableSchoolboy;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameActionRequest;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRequest;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnectionRequest;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.ChatMessage;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameActionRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameStatsPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GetLobbyStatusRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.LobbyStatusUpdateResponse;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.ServerConnectionRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.StartTheGameRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Sprite;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpritePainter;
 
@@ -37,7 +38,7 @@ public interface GameClientServer {
         kryo.register(com.esotericsoftware.kryonet.Client.class);
         kryo.register(Inet4Address.class);
         kryo.register(ChatMessage.class);
-        kryo.register(itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ErrorMessagePacket.class);
+        kryo.register(itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.ErrorMessagePacket.class);
         kryo.register(GameStatsPacket.class);
         kryo.register(StartTheGameRequest.class);
         kryo.register(DrawableBattleUnit.class);

@@ -124,6 +124,10 @@ public class SoundPlayer {
                 1, -1, 1));
     }
 
+    /**
+     * Plays sfx one time
+     * @param soundName SFX name
+     */
     public void playOnce(SfxName soundName) {
         if(!(loadedSounds.containsKey(soundName))) return;
         float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);

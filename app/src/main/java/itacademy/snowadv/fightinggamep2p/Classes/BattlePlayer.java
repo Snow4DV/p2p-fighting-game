@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Server;
+package itacademy.snowadv.fightinggamep2p.Classes;
 
 import android.content.Context;
 import android.util.Log;

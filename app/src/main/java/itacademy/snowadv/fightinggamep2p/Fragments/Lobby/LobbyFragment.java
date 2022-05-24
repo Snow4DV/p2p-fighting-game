@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,12 +18,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.GameClient;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.GameClientServer;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.GameServer;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.ChatMessage;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.LobbyStatusUpdateResponse;
 import itacademy.snowadv.fightinggamep2p.Fragments.PlayerChoiceFragment;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentLobbyBinding;

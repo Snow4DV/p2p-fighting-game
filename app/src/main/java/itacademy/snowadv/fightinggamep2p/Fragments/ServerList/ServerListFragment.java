@@ -1,21 +1,16 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.ServerList;
 
-import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import com.esotericsoftware.kryonet.Client;
@@ -24,8 +19,8 @@ import java.net.InetAddress;
 import java.util.List;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameConnectionPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.UI.FlatButton;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentServerListBinding;
@@ -106,11 +101,6 @@ public class ServerListFragment extends Fragment {
         ServerListThread.discoverPeers(client, FIXED_PORT, new Callback<List<InetAddress>>() {
             @Override
             public void evaluate(List<InetAddress> devices) {
-                try {
-                    devices.add(InetAddress.getByName("192.168.0.150"));
-                } catch(Exception ex) {
-                    Log.d("debug", "evaluate: bug"); // TODO: REMOVE
-                }
                 adapter.setDevicesList(devices);
                 if(getActivity() == null) return;
                 getActivity().runOnUiThread(new Runnable() {

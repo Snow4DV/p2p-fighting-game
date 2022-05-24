@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Server;
+package itacademy.snowadv.fightinggamep2p.Classes.ClientServer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,16 +11,17 @@ import com.esotericsoftware.kryonet.Listener;
 
 import java.io.IOException;
 
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ErrorMessagePacket;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameActionRequest;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GetLobbyStatusRequest;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.LobbyStatusUpdateResponse;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ServerConnectionRequest;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.ChatMessage;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.ErrorMessagePacket;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameActionRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameStatsPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GetLobbyStatusRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.LobbyStatusUpdateResponse;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.ServerConnectionRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.StartTheGameRequest;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
 import itacademy.snowadv.fightinggamep2p.MainActivity;
 

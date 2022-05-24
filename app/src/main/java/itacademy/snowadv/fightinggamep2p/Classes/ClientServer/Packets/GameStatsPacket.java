@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
+package itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets;
 
 import android.util.Log;
 
@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
 
 public class GameStatsPacket {
     private static final String TAG = "GameStatsPacket";

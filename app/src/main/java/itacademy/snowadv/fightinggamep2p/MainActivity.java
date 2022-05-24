@@ -1,15 +1,11 @@
 package itacademy.snowadv.fightinggamep2p;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,12 +17,12 @@ import android.widget.Toast;
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.Events.GameStartedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.GameClient;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.GameClientServer;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.GameServer;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameConnectionPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.GameStatsPacket;
+import itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets.StartTheGameRequest;
 import itacademy.snowadv.fightinggamep2p.Fragments.BattleField.ServerBattleFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.GameController.GameControllerFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;

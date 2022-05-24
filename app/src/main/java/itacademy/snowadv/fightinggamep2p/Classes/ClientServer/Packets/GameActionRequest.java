@@ -1,8 +1,8 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
+package itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
+import itacademy.snowadv.fightinggamep2p.Classes.BattlePlayer;
 
 public class GameActionRequest {
     public BattlePlayer player;

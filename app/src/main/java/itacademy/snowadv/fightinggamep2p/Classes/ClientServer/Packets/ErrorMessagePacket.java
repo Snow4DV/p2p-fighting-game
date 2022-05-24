@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Server.Packets;
+package itacademy.snowadv.fightinggamep2p.Classes.ClientServer.Packets;
 
 public class ErrorMessagePacket {
     public String errorText;
