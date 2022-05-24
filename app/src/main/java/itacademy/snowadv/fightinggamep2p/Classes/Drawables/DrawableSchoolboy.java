@@ -41,7 +41,7 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
     @Override
     public void ability(BattlePlayer myBattlePlayer, Context context, List<BattlePlayer> playersList) {
         isIdle = false;
-        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.SCREAM, 1500);
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.SCREAM, 100);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_TALKING, context, null,
                 null, 6, new Callback<String>() {
@@ -112,6 +112,7 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
     @Override
     public void lightKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         isIdle = false;
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.THROW_PAPER, 100);
         soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.THROW_PAPER, 1500);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_THROWING_PAPER, context, null,
@@ -132,7 +133,7 @@ public class DrawableSchoolboy extends DrawableBattleUnit {
     @Override
     public void hardKick(BattlePlayer myBattlePlayer, Context context, BattlePlayer attackedPlayer) {
         isIdle = false;
-        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.HACKING, 1500);
+        soundPlayer.playOnceWithDelay(SoundPlayer.SfxName.HACKING, 1900);
         setSpritePainter(SpriteAnimation.getAnimation(
                 SpriteAnimation.CharacterAnimation.SCHOOLBOY_HACKING, context, null,
                 null, 1, new Callback<String>() {

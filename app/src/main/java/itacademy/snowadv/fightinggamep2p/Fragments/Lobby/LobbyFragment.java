@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.format.Formatter;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class LobbyFragment extends Fragment {
 
     private GameClientServer clientServer;
     private boolean isServer = false;
+    private static final String TAG = "LobbyFragment";
 
     private String ip;
     private BattlePlayer player;
@@ -85,6 +87,8 @@ public class LobbyFragment extends Fragment {
             if(getServer().getEvilPlayersAmount() <= 0 || getServer().getKindPlayersAmount() <= 0) {
                 showAlertDialogWithText("Не хватает игроков. На каждой стороне должно быть минимум " +
                         "по одному игроку.");
+                Log.d(TAG, "onCreateViewFailedToStartServer: " +
+                        getServer().getPlayersAsString());
                 return;
             }
            getServer().startGame();
@@ -187,6 +191,9 @@ public class LobbyFragment extends Fragment {
         }
         return null;
     }
+
+
+
 
 
 

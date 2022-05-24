@@ -61,8 +61,7 @@
             android:layout_height="match_parent"/>
     </FrameLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
+    <LinearLayout
         android:id="@+id/hp_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,26 +73,8 @@
         app:layout_constraintWidth_percent=".2 "
         app:layout_constraintHeight_percent=".05"
         android:layout_height="0dp">
-        <FrameLayout
-            android:id="@+id/evil_bar"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:layout_width="75dp"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/red"
-            app:layout_constraintEnd_toStartOf="@+id/kind_bar" />
-        <FrameLayout
-            android:id="@+id/kind_bar"
-            android:layout_width="75dp"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:paddingEnd="3dp"
-            android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/green"
-            app:layout_constraintBottom_toBottomOf="parent" />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -107,8 +88,18 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textColor="@color/white"
-
-            android:paddingStart="7dp"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+android:layout_weight="10"
+            android:paddingStart="1dp"/>
+        <ImageView
+            android:id="@+id/bar"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="80"
+            android:layout_height="match_parent"
+            android:src="@drawable/bar_th"
+            android:scaleType="fitXY"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

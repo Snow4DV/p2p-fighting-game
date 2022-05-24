@@ -235,6 +235,7 @@ public class BattlePlayer {
                 ", stamina=" + stamina +
                 ", isAlive=" + isAlive() +
                 ", isKind=" + player.isKind +
+                ", type=" + player.toString() +
                 '}';
     }
 }

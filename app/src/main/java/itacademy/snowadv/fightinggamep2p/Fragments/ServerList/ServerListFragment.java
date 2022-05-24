@@ -106,6 +106,11 @@ public class ServerListFragment extends Fragment {
         ServerListThread.discoverPeers(client, FIXED_PORT, new Callback<List<InetAddress>>() {
             @Override
             public void evaluate(List<InetAddress> devices) {
+                try {
+                    devices.add(InetAddress.getByName("192.168.0.150"));
+                } catch(Exception ex) {
+                    Log.d("debug", "evaluate: bug"); // TODO: REMOVE
+                }
                 adapter.setDevicesList(devices);
                 if(getActivity() == null) return;
                 getActivity().runOnUiThread(new Runnable() {

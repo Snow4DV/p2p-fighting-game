@@ -242,6 +242,9 @@ public class GameServer implements GameClientServer{
         return count;
     }
 
+    public String getPlayersAsString() {
+        return players.toString();
+    }
     public int getEvilPlayersAmount() {
         int count = 0;
         for (BattlePlayer player :

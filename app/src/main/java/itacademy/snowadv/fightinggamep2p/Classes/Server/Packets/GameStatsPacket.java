@@ -118,7 +118,7 @@ public class GameStatsPacket {
         // Increase stamina on phase change
         for (BattlePlayer player :
                 playersList) {
-            player.increaseStamina(12);
+            player.increaseStamina(10);
         }
     }
 

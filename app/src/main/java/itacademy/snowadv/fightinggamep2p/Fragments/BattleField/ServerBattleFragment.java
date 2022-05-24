@@ -2,6 +2,11 @@ package itacademy.snowadv.fightinggamep2p.Fragments.BattleField;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -134,31 +139,24 @@ public class ServerBattleFragment extends Fragment {
     }
 
 
-    public void setBalanceHpBar(int evilHP, int kindHP) { // FIXME: doesnt work!
-        if(getActivity() == null) return;
-        int kindHpPercent = ((evilHP + kindHP)/100) * evilHP;
-        int evilHpPercent = ((evilHP + kindHP)/100) * evilHP;
-        int redBarWidth = (int) ((150/100.0)*evilHpPercent);
-        int greenBarWidth = (int) (((150/100.0)*(kindHpPercent)));
-        // convert dp to px
-        Resources r = getResources();
-        int redBarWidthPx = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                redBarWidth,
-                r.getDisplayMetrics()
-        );
-        int greenBarWidthPx = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                greenBarWidth,
-                r.getDisplayMetrics()
-        );
-        if(getActivity() != null) {
-            getActivity().runOnUiThread(() -> {
+    public void setBalanceHpBar(int evilHP, int kindHP) {
+        int width = viewBinding.bar.getWidth(), height = viewBinding.bar.getHeight();
+        if(width <= 0 || height <= 0 || getActivity() == null) return;
 
-                viewBinding.evilBar.setLayoutParams(new FrameLayout.LayoutParams(redBarWidthPx, viewBinding.evilBar.getLayoutParams().height));
-                viewBinding.kindBar.setLayoutParams(new FrameLayout.LayoutParams(greenBarWidthPx, viewBinding.kindBar.getLayoutParams().height));
-            });
-        }
+        Bitmap imageBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(imageBitmap);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+
+        float kindHpPercent =  kindHP/(kindHP + evilHP + 0.0f);
+
+        paint.setColor(getResources().getColor(R.color.green, null));
+        Log.d(TAG, "setBalanceHpBar: kind hp percent is " + kindHpPercent );
+        canvas.drawRect(0,0, width*kindHpPercent, height, paint);
+        paint.setColor(getResources().getColor(R.color.red, null));
+        canvas.drawRect(width*kindHpPercent, 0, width, height, paint);
+        viewBinding.bar.setImageBitmap(imageBitmap);
     }
 
 
