@@ -1,4 +1,4 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -7,6 +7,8 @@ import android.util.Log;
 import java.util.Arrays;
 import java.util.List;
 
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpriteAnimation;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpritePainter;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;

@@ -7,11 +7,11 @@ import com.esotericsoftware.kryonet.Connection;
 
 import java.net.Inet4Address;
 
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableBattleUnit;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminal;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminalBoss;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablePoliceman;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableSchoolboy;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableBattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableCriminal;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableCriminalBoss;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawablePoliceman;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableSchoolboy;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameActionRequest;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;

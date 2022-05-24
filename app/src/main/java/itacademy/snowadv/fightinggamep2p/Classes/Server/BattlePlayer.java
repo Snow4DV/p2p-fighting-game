@@ -5,14 +5,14 @@ import android.util.Log;
 
 import java.util.List;
 
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableBattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableBattleUnit;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.BattleUnitContainer;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminal;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableCriminalBoss;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablePoliceman;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableSchoolboy;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableCriminal;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableCriminalBoss;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawablePoliceman;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableSchoolboy;
 import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawablesContainer;
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Field;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.Field;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
 

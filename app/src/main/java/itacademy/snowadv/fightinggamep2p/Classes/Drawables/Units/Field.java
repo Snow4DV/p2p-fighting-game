@@ -1,10 +1,15 @@
-package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
+package itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units;
 
 import android.content.Context;
 import android.graphics.Point;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.CanvasDrawable;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Sprite;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpriteAnimation;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.SpritePainter;
 
 /**
  * This class represents the container for Field sprites

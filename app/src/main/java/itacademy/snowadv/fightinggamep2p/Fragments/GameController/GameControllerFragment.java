@@ -1,8 +1,6 @@
 package itacademy.snowadv.fightinggamep2p.Fragments.GameController;
 
 import android.content.res.Resources;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,7 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
-import itacademy.snowadv.fightinggamep2p.Classes.Drawables.DrawableBattleUnit;
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableBattleUnit;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;

@@ -3,6 +3,8 @@ package itacademy.snowadv.fightinggamep2p.Classes.Drawables;
 import java.util.ArrayList;
 import java.util.List;
 
+import itacademy.snowadv.fightinggamep2p.Classes.Drawables.Units.DrawableBattleUnit;
+
 /**
  * BattleUnits can't and shouldn't be serialized because it contains graphics logic. That's
  * why there's a container which stores the battle units and battlePlayer only has id for it.
