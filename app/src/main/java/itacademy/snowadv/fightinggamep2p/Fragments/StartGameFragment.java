@@ -16,6 +16,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
+import itacademy.snowadv.fightinggamep2p.MainActivity;
 import itacademy.snowadv.fightinggamep2p.R;
 import itacademy.snowadv.fightinggamep2p.databinding.FragmentStartGameBinding;
 
@@ -46,7 +47,26 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
                             PlayerChoiceFragment.RoleChoiceCallbackResult.CLIENT);
                 }
                 break;
+            case R.id.add_background_volume:
+                viewBinding.backgroundVolume.setText(changeVolume(0.1f) + "%");
+                break;
+            case R.id.reduce_background_volume:
+                viewBinding.backgroundVolume.setText(changeVolume(-0.1f) + "%");
+                break;
         }
+    }
+
+    /**
+     * Changes volume in main activity's SoundPlayer. Will do nothing if instantiated from
+     * another class.
+     * @param offset Value on which volume multiplier will be changed.
+     * @return current volume percent
+     */
+    private int changeVolume(float offset) {
+        if(getActivity() instanceof MainActivity) {
+            return ((MainActivity) getActivity()).changeVolume(offset);
+        }
+        return 0;
     }
 
 
@@ -58,6 +78,8 @@ public class StartGameFragment extends Fragment implements View.OnClickListener{
         viewBinding = FragmentStartGameBinding.inflate(inflater, container, false);
         viewBinding.searchForAGameButton.setOnClickListener(this);
         viewBinding.startServerButton.setOnClickListener(this);
+        viewBinding.addBackgroundVolume.setOnClickListener(this);
+        viewBinding.reduceBackgroundVolume.setOnClickListener(this);
         viewBinding.soundCredsToButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

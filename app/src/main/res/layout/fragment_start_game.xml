@@ -15,7 +15,7 @@
         android:fontFamily="@font/gouranga_pixel_font"
         android:text="Civil Fight"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/red"
         android:shadowRadius="5"
         android:shadowDx="3"
         android:textSize="50sp"
@@ -125,10 +125,34 @@
         android:layout_margin="10dp"
         livebutton:layout_constraintBottom_toBottomOf="parent"
         />
+    <itacademy.snowadv.fightinggamep2p.UI.FlatButton
+        android:id="@+id/reduce_background_volume"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+
+        android:layout_marginTop="30dp"
+        android:paddingTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        livebutton:shadowEnabled="true"
+        android:text="-"
+        android:textColor="#ffffff"
+        android:textSize="30sp"
+        android:textStyle="bold"
+
+        livebutton:buttonColor="@color/fbutton_color_peter_river"
+        livebutton:layout_constraintStart_toEndOf="@+id/add_background_volume"
+        android:layout_margin="10dp"
+        livebutton:layout_constraintBottom_toBottomOf="parent"
+        />
 
     <TextView
         android:id="@+id/background_volume"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/gouranga_pixel_font"
         android:text="40%"
@@ -136,11 +160,25 @@
         android:textColor="@color/black"
         android:shadowRadius="5"
         android:shadowDx="3"
-        android:textSize="50sp"
-        livebutton:layout_constraintBaseline_toTopOf="parent"
-        livebutton:layout_constraintEnd_toEndOf="parent"
-        livebutton:layout_constraintHorizontal_bias="1.0"
-        livebutton:layout_constraintStart_toStartOf="parent"/>
+        android:textSize="30sp"
+        livebutton:layout_constraintStart_toStartOf="@+id/add_background_volume"
+        livebutton:layout_constraintEnd_toEndOf="@+id/reduce_background_volume"
+        livebutton:layout_constraintBottom_toTopOf="@+id/add_background_volume"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gouranga_pixel_font"
+        android:text="Фоновая\nмузыка:"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:shadowRadius="5"
+        android:shadowDx="3"
+        android:textSize="25sp"
+        android:layout_marginStart="10dp"
+        livebutton:layout_constraintStart_toStartOf="parent"
+        livebutton:layout_constraintBottom_toTopOf="@+id/background_volume"/>
+
 
 
 

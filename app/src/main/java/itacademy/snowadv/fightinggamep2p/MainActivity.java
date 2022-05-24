@@ -12,16 +12,12 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import itacademy.snowadv.fightinggamep2p.Classes.Events.DisconnectedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.Events.GameStartedEvent;
 import itacademy.snowadv.fightinggamep2p.Classes.Notifiable;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.BattlePlayer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClient;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameClientServer;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.GameServer;
-import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.ChatMessage;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameConnectionPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.GameStatsPacket;
 import itacademy.snowadv.fightinggamep2p.Classes.Server.Packets.StartTheGameRequest;
@@ -29,8 +25,6 @@ import itacademy.snowadv.fightinggamep2p.Fragments.BattleField.ServerBattleFragm
 import itacademy.snowadv.fightinggamep2p.Fragments.GameController.GameControllerFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.Lobby.LobbyFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.PlayerChoiceFragment;
-import itacademy.snowadv.fightinggamep2p.Fragments.PlayerSelectDialogFragment;
-import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.Callback;
 import itacademy.snowadv.fightinggamep2p.Fragments.ServerList.ServerListFragment;
 import itacademy.snowadv.fightinggamep2p.Fragments.StartGameFragment;
 import itacademy.snowadv.fightinggamep2p.Sound.SoundPlayer;
@@ -52,7 +46,7 @@ public class MainActivity extends FragmentActivity implements Notifiable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        backgroundSoundPlayer = SoundPlayer.build(this);
+        backgroundSoundPlayer = SoundPlayer.build(this, 0.4f);
         FlatButton.setActionOnEveryClick(new Runnable() {
             @Override
             public void run() {
@@ -82,6 +76,17 @@ public class MainActivity extends FragmentActivity implements Notifiable {
             doTheClientServerStopJob();
     }
 
+    /**
+     * Changes volume in main activity's SoundPlayer
+     * another class.
+     * @param offset Value on which volume multiplier will be changed.
+     * @return current volume percent
+     */
+    public int changeVolume(float offset) {
+        backgroundSoundPlayer.offsetVolumeMultiplier(offset);
+        return backgroundSoundPlayer.getVolumePercent();
+    }
+
 
     private void transitToNewFragment(Fragment fragment) {
         currentFragment = fragment;
@@ -93,9 +98,9 @@ public class MainActivity extends FragmentActivity implements Notifiable {
 
     private void playBackgroundMusic(Fragment fragment) {
         if(fragment instanceof ServerBattleFragment) {
-            backgroundSoundPlayer.playLong(SoundPlayer.SfxName.BACKGROUND_MUSIC, 0.3f);
+            backgroundSoundPlayer.playLong(SoundPlayer.SfxName.BACKGROUND_MUSIC);
         } else if(fragment instanceof  StartGameFragment){
-            backgroundSoundPlayer.playLong(SoundPlayer.SfxName.MENU_MUSIC, 0.4f);
+            backgroundSoundPlayer.playLong(SoundPlayer.SfxName.MENU_MUSIC);
         }
     }
 
@@ -103,7 +108,15 @@ public class MainActivity extends FragmentActivity implements Notifiable {
     protected void onPause() {
         super.onPause();
         if(backgroundSoundPlayer != null) {
-            backgroundSoundPlayer.stopLong();
+            backgroundSoundPlayer.pauseLong();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(backgroundSoundPlayer != null) {
+            backgroundSoundPlayer.resumeLong();
         }
     }
 

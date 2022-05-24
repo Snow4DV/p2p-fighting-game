@@ -19,17 +19,50 @@ public class SoundPlayer {
     private SoundPool mSoundPool;
     private final Context context;
     private MediaPlayer mediaPlayer;
+    private SfxName longContent;
+    private float volumeMultiplier = 1f;
 
+    public void setVolumeMultiplier(float volumeMultiplier) {
+        if(volumeMultiplier > 1f) {
+            volumeMultiplier = 1f;
+        } else if(volumeMultiplier < 0f) {
+            volumeMultiplier = 0f;
+        }
+        this.volumeMultiplier = volumeMultiplier;
+        float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * volumeMultiplier;
+        float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        float leftVolume = curVolume / maxVolume;
+        float rightVolume = curVolume / maxVolume;
+        if(mediaPlayer != null) {
+            mediaPlayer.setVolume(leftVolume,rightVolume);
+        }
+    }
 
+    public void offsetVolumeMultiplier(float volumeMultiplierOffset) {
+        setVolumeMultiplier(volumeMultiplierOffset + volumeMultiplier);
+    }
+
+    public int getVolumePercent() {
+        return (int) (volumeMultiplier * 100);
+    }
 
     public enum SfxName {
         COORDINATING, BACKGROUND_MUSIC, BLOWN_GRENADE, DEATH, HACKING, HEAVY_BLOWN_GRENADE,
         MENU_MUSIC, PISTOL, REPORTING, SHOTGUN, THROW_PAPER, WIN, HEAL, CLICK, SCREAM
     }
+
     public static SoundPlayer build(Context context) {
         SoundPlayer soundPlayer = new SoundPlayer(context);
         soundPlayer.getAudioManagerByContext();
         soundPlayer.loadSoundPool();
+        return soundPlayer;
+    }
+
+    public static SoundPlayer build(Context context, float volumeMultiplier) {
+        SoundPlayer soundPlayer = new SoundPlayer(context);
+        soundPlayer.getAudioManagerByContext();
+        soundPlayer.loadSoundPool();
+        soundPlayer.setVolumeMultiplier(volumeMultiplier);
         return soundPlayer;
     }
     private SoundPlayer(Context context) {
@@ -110,9 +143,22 @@ public class SoundPlayer {
     public void stopLong() {
         if(mediaPlayer != null) {
             mediaPlayer.stop();
+            longContent = null;
         }
     }
-    public void playLong(SfxName soundName, float volumeMultiplier) {
+
+    public void pauseLong() {
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
+    }
+
+    public void resumeLong() {
+        if(mediaPlayer != null && longContent != null) {
+            playLong(longContent);
+        }
+    }
+    public void playLong(SfxName soundName) {
         stopLong();
         float curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC) * volumeMultiplier;
         float maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -122,9 +168,11 @@ public class SoundPlayer {
             default:
             case BACKGROUND_MUSIC:
                 mediaPlayer = MediaPlayer.create(context, R.raw.background_music);
+                longContent = soundName;
                 break;
             case MENU_MUSIC:
                 mediaPlayer = MediaPlayer.create(context, R.raw.menu_music);
+                longContent = soundName;
         }
         mediaPlayer.setLooping(true);
         mediaPlayer.setVolume(leftVolume, rightVolume);
