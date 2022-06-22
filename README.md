@@ -38,3 +38,5 @@
 * Звуковые эффекты, фоновая музыка
 * Лог битвы
 * Чат
+# Демо-ролик
+[<img src="https://img001.prntscr.com/file/img001/tcltKv7NSTmjTgegn6jxwQ.png">](https://youtu.be/g18oscVNwlg)
